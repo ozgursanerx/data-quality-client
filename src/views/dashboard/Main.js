@@ -8,29 +8,41 @@ import {
   CFormInput,
   CRow,
   CFormLabel,
+  CToaster,
+  CToast,
+  CToastBody,
+  CToastHeader,
 } from '@coreui/react';
 import CustomerForm from './components/CustomerForm';
 import ProcLogTable from './components/ProcLogTable';
 import SqlFullTextModal from './components/SqlFullTextModal';
 
 const Main = () => {
-  const [textInput, setTextInput] = useState('');
+  const [progId, setProgId] = useState('');
   const [startTime, setStartTime] = useState('');
   const [procLogData, setProcLogData] = useState([]);
   const [selectedSqlText, setSelectedSqlText] = useState('');
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
+  const [toasts, setToasts] = useState([]);
   const itemsPerPage = 10;
 
+  const showToast = (message) => {
+    setToasts((prevToasts) => [
+      ...prevToasts,
+      { id: Date.now(), message },
+    ]);
+  };
+
   const handleSubmit = async () => {
-    if (!textInput || !startTime) {
-      alert('Lütfen tüm alanları doldurun!');
+    if (!progId || !startTime) {
+      showToast('Lütfen tüm alanları doldurun!');
       return;
     }
 
     const formattedStartTime = startTime.replace(/-/g, '');
     const requestData = {
-      progId: parseInt(textInput, 10),
+      progId: parseInt(progId, 10),
       startTm: formattedStartTime,
     };
 
@@ -45,19 +57,34 @@ const Main = () => {
 
       if (response.ok) {
         const rawData = await response.json();
+
+        if (!rawData || rawData.length === 0 || !rawData[0]) {
+          setProcLogData([]);
+          console.log('API Response:', rawData);
+          showToast('Girilen parametrelere uygun bir sonuç bulunamadı.');
+          return;
+        }
+
         const parsedData = JSON.parse(rawData[0]);
-        setProcLogData(parsedData);
-        setCurrentPage(1); // Reset to the first page when new data is fetched
+
+        if (!parsedData || parsedData.length === 0) {
+          setProcLogData([]);
+          console.log('Parsed Data:', parsedData);
+          showToast('Girilen parametrelere uygun bir sonuç bulunamadı.');
+        } else {
+          setProcLogData(parsedData);
+          setCurrentPage(1);
+        }
       } else {
-        console.error('Error:', response.statusText);
+        setProcLogData([]);
+        console.log('API Error Response:', response.statusText);
+        showToast('Sunucudan bir hata döndü: ' + response.statusText);
       }
     } catch (error) {
-      console.error('Error:', error);
+      setProcLogData([]);
+      console.log('Fetch Error:', error.message);
+      showToast('Bir hata oluştu: ' + error.message);
     }
-  };
-
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
   };
 
   return (
@@ -74,13 +101,13 @@ const Main = () => {
           <h5>İşlem Logları</h5>
           <CRow className="align-items-center">
             <CCol xs={12} md={5}>
-              <CFormLabel htmlFor="textInput">Prog ID</CFormLabel>
+              <CFormLabel htmlFor="progId">Prog ID</CFormLabel>
               <CFormInput
-                id="textInput"
+                id="progId"
                 type="number"
                 placeholder="Prog ID girin"
-                value={textInput}
-                onChange={(e) => setTextInput(e.target.value)}
+                value={progId}
+                onChange={(e) => setProgId(e.target.value)}
               />
             </CCol>
 
@@ -105,7 +132,7 @@ const Main = () => {
             data={procLogData}
             currentPage={currentPage}
             itemsPerPage={itemsPerPage}
-            onPageChange={handlePageChange}
+            onPageChange={(pageNumber) => setCurrentPage(pageNumber)}
             onShowFullText={(sqlText) => {
               setSelectedSqlText(sqlText);
               setIsModalVisible(true);
@@ -119,6 +146,23 @@ const Main = () => {
         sqlText={selectedSqlText}
         onClose={() => setIsModalVisible(false)}
       />
+
+      <CToaster placement="top-end">
+        {toasts.map((toast) => (
+          <CToast
+            key={toast.id}
+            autohide={true}
+            visible={true}
+            color="danger"
+            onClose={() => setToasts((prevToasts) => prevToasts.filter((t) => t.id !== toast.id))}
+          >
+            <CToastHeader closeButton>
+              <strong className="me-auto">Hata</strong>
+            </CToastHeader>
+            <CToastBody>{toast.message}</CToastBody>
+          </CToast>
+        ))}
+      </CToaster>
     </>
   );
 };

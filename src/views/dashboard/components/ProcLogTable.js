@@ -55,7 +55,7 @@ const ProcLogTable = ({ data, currentPage, itemsPerPage, onPageChange, onShowFul
           disabled={currentPage === 1}
           onClick={() => onPageChange(currentPage - 1)}
         >
-          Previous
+          Önceki Sayfa
         </CPaginationItem>
         {Array.from({ length: totalPages }, (_, index) => (
           <CPaginationItem
@@ -70,7 +70,7 @@ const ProcLogTable = ({ data, currentPage, itemsPerPage, onPageChange, onShowFul
           disabled={currentPage === totalPages}
           onClick={() => onPageChange(currentPage + 1)}
         >
-          Next
+          Sonraki Sayfa
         </CPaginationItem>
       </CPagination>
     </>
