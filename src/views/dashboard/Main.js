@@ -4,40 +4,47 @@ import './Main.css'
 
 import {
   CButton,
-  CButtonGroup,
   CCard,
   CCardBody,
-  CCardFooter,
-  CCardHeader,
   CCol,
   CFormInput,
-  CFormSelect,
   CRow,
   CFormLabel,
-  CProgress,
+  CTable,
+  CTableHead,
+  CTableRow,
+  CTableHeaderCell,
+  CTableBody,
+  CTableDataCell,
+  CModal,
+  CModalHeader,
+  CModalBody,
+  CModalFooter,
+  CPagination,
+  CPaginationItem,
 } from '@coreui/react'
-import CIcon from '@coreui/icons-react'
-import { cilCloudDownload, cilUser, cilUserFemale } from '@coreui/icons'
 
-import WidgetsBrand from '../widgets/WidgetsBrand'
 import WidgetsDropdown from '../widgets/WidgetsDropdown'
-import MainChart from './MainChart'
 
 const Main = () => {
-  const [textInput, setTextInput] = useState('');
-  const [startTime, setStartTime] = useState(''); // Start Time için state
-  const [customerNumber, setCustomerNumber] = useState('');
-  const [customerOid, setCustomerOid] = useState(null);
-  const [procLogData, setProcLogData] = useState([]);
+  const [textInput, setTextInput] = useState('')
+  const [startTime, setStartTime] = useState('') // Start Time için state
+  const [customerNumber, setCustomerNumber] = useState('')
+  const [customerOid, setCustomerOid] = useState(null)
+  const [procLogData, setProcLogData] = useState([])
+  const [selectedSqlText, setSelectedSqlText] = useState('') // Modal için seçilen SQL metni
+  const [isModalVisible, setIsModalVisible] = useState(false)
+  const [currentPage, setCurrentPage] = useState(1)
+  const itemsPerPage = 10
 
   const handleSubmit = async () => {
-    const formattedStartTime = startTime.replace(/-/g, '');
+    const formattedStartTime = startTime.replace(/-/g, '')
     const requestData = {
       progId: parseInt(textInput, 10),
       startTm: formattedStartTime, // Start Time string olarak gönderiliyor
-    };
+    }
 
-    console.log('Gönderilen Değer:', requestData);
+    console.log('Gönderilen Değer:', requestData)
 
     try {
       const response = await fetch('/edwapi/getEdwProcLog', {
@@ -49,28 +56,28 @@ const Main = () => {
         credentials: 'include',
         body: JSON.stringify(requestData),
         mode: 'cors',
-      });
+      })
 
       if (response.ok) {
-        const rawData = await response.json();
-        const parsedData = JSON.parse(rawData[0]); // Dizinin içindeki JSON stringini parse et
-        console.log('Response:', parsedData);
-        setProcLogData(parsedData);
+        const rawData = await response.json()
+        const parsedData = JSON.parse(rawData[0]) // Dizinin içindeki JSON stringini parse et
+        console.log('Response:', parsedData)
+        setProcLogData(parsedData)
       } else {
-        console.error('Hata:', response.statusText);
+        console.error('Hata:', response.statusText)
       }
     } catch (error) {
-      console.error('Hata:', error);
-      alert('Sunucuya bağlanırken bir hata oluştu.');
+      console.error('Hata:', error)
+      alert('Sunucuya bağlanırken bir hata oluştu.')
     }
-  };
+  }
 
   const handleCustomerSubmit = async () => {
     const requestData = {
       customerNumber: parseInt(customerNumber, 10),
-    };
+    }
 
-    console.log('Gönderilen Değer (Customer):', requestData);
+    console.log('Gönderilen Değer (Customer):', requestData)
 
     try {
       const response = await fetch('/edwapi/getCustomer', {
@@ -82,19 +89,33 @@ const Main = () => {
         credentials: 'include',
         body: JSON.stringify(requestData),
         mode: 'cors',
-      });
+      })
 
       if (response.ok) {
-        const data = await response.json();
-        console.log('Response (Customer):', data);
-        setCustomerOid(data.customerOid);
+        const data = await response.json()
+        console.log('Response (Customer):', data)
+        setCustomerOid(data.customerOid)
       } else {
-        console.error('Hata:', response.statusText);
+        console.error('Hata:', response.statusText)
       }
     } catch (error) {
-      console.error('Hata:', error);
+      console.error('Hata:', error)
     }
-  };
+  }
+  const handleShowFullText = (sqlText) => {
+    setSelectedSqlText(sqlText)
+    setIsModalVisible(true)
+  }
+
+  const indexOfLastItem = currentPage * itemsPerPage
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage
+  const currentItems = procLogData.slice(indexOfFirstItem, indexOfLastItem)
+
+  const totalPages = Math.ceil(procLogData.length / itemsPerPage)
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber)
+  }
 
   return (
     <>
@@ -131,31 +152,98 @@ const Main = () => {
             </CCol>
           </CRow>
 
-          <CRow className="mt-4">
-            
-          </CRow>
+          <CRow className="mt-4"></CRow>
 
           {/* Proclog Verileri */}
-          {procLogData.length > 0 && (
-            <CRow className="mt-4">
+          <CRow className="mt-4">
+            {procLogData.length > 0 && (
               <CCol>
                 <h5>Proclog Verileri:</h5>
-                <ul>
-                  {procLogData.map((item, index) => (
-                    <li key={index}>
-                      <strong>Step ID:</strong> {item.stepId} <br/>
-                      <strong>Prog ID:</strong> {item.progId} <br/>
-                      <strong>SQL Full Text:</strong> {item.sqlFullText} <br/>
-                      <strong>Start Time:</strong> {item.startTm} <br/>
-                      <strong>Duration:</strong> {item.duration}
-                    </li>
+                <CTable striped hover responsive>
+                  <CTableHead>
+                    <CTableRow>
+                      <CTableHeaderCell>Step ID</CTableHeaderCell>
+                      <CTableHeaderCell>Prog ID</CTableHeaderCell>
+                      <CTableHeaderCell>SQL Full Text</CTableHeaderCell>
+                      <CTableHeaderCell>Start Time</CTableHeaderCell>
+                      <CTableHeaderCell>Duration</CTableHeaderCell>
+                    </CTableRow>
+                  </CTableHead>
+                  <CTableBody>
+                    {currentItems.map((item, index) => (
+                      <CTableRow key={index}>
+                        <CTableDataCell>{item.stepId}</CTableDataCell>
+                        <CTableDataCell>{item.progId}</CTableDataCell>
+                        <CTableDataCell>
+                          {item.sqlFullText.length > 100
+                            ? `${item.sqlFullText.substring(0, 100)}... `
+                            : item.sqlFullText}
+                          {item.sqlFullText.length > 100 && (
+                            <CButton
+                              color="link"
+                              onClick={() => handleShowFullText(item.sqlFullText)}
+                            >
+                              Devamını Göster
+                            </CButton>
+                          )}
+                        </CTableDataCell>
+                        <CTableDataCell>{item.startTm}</CTableDataCell>
+                        <CTableDataCell>{item.duration}</CTableDataCell>
+                      </CTableRow>
+                    ))}
+                  </CTableBody>
+                </CTable>
+                <CPagination className="justify-content-center">
+                  <CPaginationItem
+                    disabled={currentPage === 1}
+                    onClick={() => handlePageChange(currentPage - 1)}
+                  >
+                    Previous
+                  </CPaginationItem>
+                  {Array.from({ length: totalPages }, (_, index) => (
+                    <CPaginationItem
+                      key={index}
+                      active={currentPage === index + 1}
+                      onClick={() => handlePageChange(index + 1)}
+                    >
+                      {index + 1}
+                    </CPaginationItem>
                   ))}
-                </ul>
+                  <CPaginationItem
+                    disabled={currentPage === totalPages}
+                    onClick={() => handlePageChange(currentPage + 1)}
+                  >
+                    Next
+                  </CPaginationItem>
+                </CPagination>
               </CCol>
-            </CRow>
-          )}
+            )}
+          </CRow>
         </CCardBody>
       </CCard>
+
+      <CModal visible={isModalVisible} onClose={() => setIsModalVisible(false)}>
+        <CModalHeader>SQL Full Text</CModalHeader>
+        <CModalBody>
+          <pre>{selectedSqlText}</pre>
+        </CModalBody>
+        <CModalFooter>
+          {/* Kopyala Butonu */}
+          <CButton
+            color="primary"
+            onClick={() => {
+              navigator.clipboard.writeText(selectedSqlText)
+              alert('SQL Full Text kopyalandı!')
+            }}
+          >
+            Kopyala
+          </CButton>
+          {/* Kapat Butonu */}
+          <CButton color="secondary" onClick={() => setIsModalVisible(false)}>
+            Kapat
+          </CButton>
+        </CModalFooter>
+      </CModal>
 
       <CCard className="mb-4">
         <CCardBody>
@@ -188,7 +276,7 @@ const Main = () => {
 
       <WidgetsDropdown className="mb-4" />
     </>
-  );
-};
+  )
+}
 
-export default Main;
+export default Main
