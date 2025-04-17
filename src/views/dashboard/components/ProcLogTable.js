@@ -1,25 +1,12 @@
 import React, { useState } from 'react';
 import {
-  CTable,
-  CTableHead,
-  CTableRow,
-  CTableHeaderCell,
-  CTableBody,
-  CTableDataCell,
-  CPagination,
-  CPaginationItem,
-  CButton,
   CRow,
   CCol,
   CFormLabel,
   CFormInput,
-  CModal,
-  CModalHeader,
-  CModalBody,
-  CModalFooter,
 } from '@coreui/react';
 import LoadingButton from '../../../components/LoadingButton';
-import './ProcLogTable.css';
+import CustomTable from './CustomTable';
 
 const ProcLogTable = () => {
   const [procLogData, setProcLogData] = useState([]);
@@ -86,9 +73,12 @@ const ProcLogTable = () => {
       return (
         <>
           {text.substring(0, maxLength)}...
-          <CButton color="link" onClick={() => handleShowFullText(text)}>
+          <button
+            style={{ background: 'none', border: 'none', color: 'blue', cursor: 'pointer' }}
+            onClick={() => handleShowFullText(text)}
+          >
             Devamını Göster
-          </CButton>
+          </button>
         </>
       );
     }
@@ -100,44 +90,22 @@ const ProcLogTable = () => {
     setIsModalVisible(true);
   };
 
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = procLogData.slice(indexOfFirstItem, indexOfLastItem);
   const totalPages = Math.ceil(procLogData.length / itemsPerPage);
 
-  const renderPagination = () => {
-    const maxPagesToShow = 5; // Maksimum gösterilecek sayfa numarası
-    const startPage = Math.max(1, currentPage - Math.floor(maxPagesToShow / 2));
-    const endPage = Math.min(totalPages, startPage + maxPagesToShow - 1);
-
-    const pages = [];
-    for (let i = startPage; i <= endPage; i++) {
-      pages.push(
-        <CPaginationItem
-          key={i}
-          active={currentPage === i}
-          onClick={() => setCurrentPage(i)}
-        >
-          {i}
-        </CPaginationItem>
-      );
-    }
-
-    return (
-      <>
-        {startPage > 1 && (
-          <CPaginationItem onClick={() => setCurrentPage(startPage - 1)}>...</CPaginationItem>
-        )}
-        {pages}
-        {endPage < totalPages && (
-          <CPaginationItem onClick={() => setCurrentPage(endPage + 1)}>...</CPaginationItem>
-        )}
-      </>
-    );
-  };
+  const columns = [
+    { header: '#', accessor: 'index', truncate: false },
+    { header: 'Step ID', accessor: 'stepId', truncate: true, maxLength: 30 },
+    { header: 'Prog ID', accessor: 'progId', truncate: false },
+    { header: 'SQL Full Text', accessor: 'sqlFullText', truncate: true, maxLength: 100 },
+    { header: 'Start Time', accessor: 'startTm', truncate: false },
+    { header: 'Duration', accessor: 'duration', truncate: false },
+    { header: 'Mean Duration', accessor: 'meanDuration', truncate: false },
+    { header: 'Std Dev Duration', accessor: 'stdDevDuration', truncate: false },
+    { header: 'Anomaly Flag', accessor: 'anomaly_flag', truncate: false },
+  ];
 
   return (
-    <div className="table-container">
+    <>
       <CRow className="align-items-center mb-4">
         <CCol xs={12} md={3}>
           <CFormLabel htmlFor="progId">Prog ID</CFormLabel>
@@ -201,65 +169,20 @@ const ProcLogTable = () => {
         </CCol>
       </CRow>
 
-      <div className="table-scroll-wrapper">
-        <CTable striped hover responsive className="small-font-table">
-          <CTableHead>
-            <CTableRow>
-              <CTableHeaderCell>#</CTableHeaderCell>
-              <CTableHeaderCell>Step ID</CTableHeaderCell>
-              <CTableHeaderCell>Prog ID</CTableHeaderCell>
-              <CTableHeaderCell>SQL Full Text</CTableHeaderCell>
-              <CTableHeaderCell>Start Time</CTableHeaderCell>
-              <CTableHeaderCell>Duration</CTableHeaderCell>
-              <CTableHeaderCell>Mean Duration</CTableHeaderCell>
-              <CTableHeaderCell>Std Dev Duration</CTableHeaderCell>
-              <CTableHeaderCell>Anomaly Flag</CTableHeaderCell>
-            </CTableRow>
-          </CTableHead>
-          <CTableBody>
-            {currentItems.map((item, index) => (
-              <CTableRow key={index}>
-                <CTableDataCell>{indexOfFirstItem + index + 1}</CTableDataCell>
-                <CTableDataCell>{truncateText(item.stepId)}</CTableDataCell>
-                <CTableDataCell>{item.progId}</CTableDataCell>
-                <CTableDataCell>{truncateText(item.sqlFullText, 100)}</CTableDataCell>
-                <CTableDataCell>{item.startTm}</CTableDataCell>
-                <CTableDataCell>{item.duration}</CTableDataCell>
-                <CTableDataCell>{item.meanDuration}</CTableDataCell>
-                <CTableDataCell>{item.stdDevDuration}</CTableDataCell>
-                <CTableDataCell>{item.anomaly_flag}</CTableDataCell>
-              </CTableRow>
-            ))}
-          </CTableBody>
-        </CTable>
-      </div>
-
-      <CModal visible={isModalVisible} onClose={() => setIsModalVisible(false)}>
-        <CModalHeader>Detay</CModalHeader>
-        <CModalBody>{modalContent}</CModalBody>
-        <CModalFooter>
-          <CButton color="secondary" onClick={() => setIsModalVisible(false)}>
-            Kapat
-          </CButton>
-        </CModalFooter>
-      </CModal>
-
-      <CPagination className="justify-content-center">
-        <CPaginationItem
-          disabled={currentPage === 1}
-          onClick={() => setCurrentPage(currentPage - 1)}
-        >
-          Previous
-        </CPaginationItem>
-        {renderPagination()}
-        <CPaginationItem
-          disabled={currentPage === totalPages}
-          onClick={() => setCurrentPage(currentPage + 1)}
-        >
-          Next
-        </CPaginationItem>
-      </CPagination>
-    </div>
+      <CustomTable
+        data={procLogData}
+        columns={columns}
+        currentPage={currentPage}
+        itemsPerPage={itemsPerPage}
+        totalPages={totalPages}
+        onPageChange={setCurrentPage}
+        truncateText={truncateText}
+        modalContent={modalContent}
+        isModalVisible={isModalVisible}
+        onShowFullText={handleShowFullText}
+        onCloseModal={() => setIsModalVisible(false)}
+      />
+    </>
   );
 };
 
