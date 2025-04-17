@@ -1,0 +1,24 @@
+/* ProcLogTable.css */
+
+/* Reduce font size for better fit */
+.small-font-table {
+  font-size: 0.85rem;
+}
+
+/* Ensure table is fully responsive */
+.small-font-table {
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+/* Adjust pagination alignment and spacing */
+.pagination {
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+/* Ellipsis style for pagination */
+.pagination-item {
+  cursor: pointer;
+  user-select: none;
+}

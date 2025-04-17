@@ -3,7 +3,6 @@ import {
   CCard,
   CCardHeader,
   CCardBody,
-  CButton,
   CRow,
   CCol,
   CToast,
@@ -13,6 +12,7 @@ import {
   CToaster,
 } from '@coreui/react'
 import { DocsComponents, DocsExample } from 'src/components'
+import LoadingButton from '../../components/LoadingButton'
 
 const ExampleToast = () => {
   const [toast, addToast] = useState(0)
@@ -39,9 +39,9 @@ const ExampleToast = () => {
   )
   return (
     <>
-      <CButton color="primary" onClick={() => addToast(exampleToast)}>
-        Send a toast
-      </CButton>
+      <LoadingButton onClick={() => addToast(exampleToast)}>
+        Add Toast
+      </LoadingButton>
       <CToaster ref={toaster} push={toast} placement="top-end" />
     </>
   )

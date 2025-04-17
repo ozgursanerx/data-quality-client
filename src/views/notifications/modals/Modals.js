@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import {
-  CButton,
   CCard,
   CCardBody,
   CCardHeader,
@@ -16,24 +15,25 @@ import {
   CTooltip,
 } from '@coreui/react'
 import { DocsComponents, DocsExample } from 'src/components'
+import LoadingButton from '../../components/LoadingButton'
 
 const LiveDemo = () => {
   const [visible, setVisible] = useState(false)
   return (
     <>
-      <CButton color="primary" onClick={() => setVisible(!visible)}>
+      <LoadingButton onClick={() => setVisible(!visible)}>
         Launch demo modal
-      </CButton>
+      </LoadingButton>
       <CModal visible={visible} onClose={() => setVisible(false)}>
         <CModalHeader>
           <CModalTitle>Modal title</CModalTitle>
         </CModalHeader>
         <CModalBody>Woohoo, you&#39;re reading this text in a modal!</CModalBody>
         <CModalFooter>
-          <CButton color="secondary" onClick={() => setVisible(false)}>
+          <LoadingButton onClick={() => setVisible(false)}>
             Close
-          </CButton>
-          <CButton color="primary">Save changes</CButton>
+          </LoadingButton>
+          <LoadingButton>Save changes</LoadingButton>
         </CModalFooter>
       </CModal>
     </>
@@ -44,9 +44,9 @@ const StaticBackdrop = () => {
   const [visible, setVisible] = useState(false)
   return (
     <>
-      <CButton color="primary" onClick={() => setVisible(!visible)}>
+      <LoadingButton onClick={() => setVisible(!visible)}>
         Launch static backdrop modal
-      </CButton>
+      </LoadingButton>
       <CModal backdrop="static" visible={visible} onClose={() => setVisible(false)}>
         <CModalHeader>
           <CModalTitle>Modal title</CModalTitle>
@@ -55,10 +55,10 @@ const StaticBackdrop = () => {
           I will not close if you click outside me. Don&#39;teven try to press escape key.
         </CModalBody>
         <CModalFooter>
-          <CButton color="secondary" onClick={() => setVisible(false)}>
+          <LoadingButton onClick={() => setVisible(false)}>
             Close
-          </CButton>
-          <CButton color="primary">Save changes</CButton>
+          </LoadingButton>
+          <LoadingButton>Save changes</LoadingButton>
         </CModalFooter>
       </CModal>
     </>
@@ -69,9 +69,9 @@ const ScrollingLongContent = () => {
   const [visible, setVisible] = useState(false)
   return (
     <>
-      <CButton color="primary" onClick={() => setVisible(!visible)}>
+      <LoadingButton onClick={() => setVisible(!visible)}>
         Launch demo modal
-      </CButton>
+      </LoadingButton>
       <CModal visible={visible} onClose={() => setVisible(false)}>
         <CModalHeader>
           <CModalTitle>Modal title</CModalTitle>
@@ -157,10 +157,10 @@ const ScrollingLongContent = () => {
           </p>
         </CModalBody>
         <CModalFooter>
-          <CButton color="secondary" onClick={() => setVisible(false)}>
+          <LoadingButton onClick={() => setVisible(false)}>
             Close
-          </CButton>
-          <CButton color="primary">Save changes</CButton>
+          </LoadingButton>
+          <LoadingButton>Save changes</LoadingButton>
         </CModalFooter>
       </CModal>
     </>
@@ -171,9 +171,9 @@ const ScrollingLongContent2 = () => {
   const [visible, setVisible] = useState(false)
   return (
     <>
-      <CButton color="primary" onClick={() => setVisible(!visible)}>
+      <LoadingButton onClick={() => setVisible(!visible)}>
         Launch demo modal
-      </CButton>
+      </LoadingButton>
       <CModal scrollable visible={visible} onClose={() => setVisible(false)}>
         <CModalHeader>
           <CModalTitle>Modal title</CModalTitle>
@@ -259,10 +259,10 @@ const ScrollingLongContent2 = () => {
           </p>
         </CModalBody>
         <CModalFooter>
-          <CButton color="secondary" onClick={() => setVisible(false)}>
+          <LoadingButton onClick={() => setVisible(false)}>
             Close
-          </CButton>
-          <CButton color="primary">Save changes</CButton>
+          </LoadingButton>
+          <LoadingButton>Save changes</LoadingButton>
         </CModalFooter>
       </CModal>
     </>
@@ -273,9 +273,9 @@ const VerticallyCentered = () => {
   const [visible, setVisible] = useState(false)
   return (
     <>
-      <CButton color="primary" onClick={() => setVisible(!visible)}>
+      <LoadingButton onClick={() => setVisible(!visible)}>
         Vertically centered modal
-      </CButton>
+      </LoadingButton>
       <CModal alignment="center" visible={visible} onClose={() => setVisible(false)}>
         <CModalHeader>
           <CModalTitle>Modal title</CModalTitle>
@@ -285,10 +285,10 @@ const VerticallyCentered = () => {
           in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
         </CModalBody>
         <CModalFooter>
-          <CButton color="secondary" onClick={() => setVisible(false)}>
+          <LoadingButton onClick={() => setVisible(false)}>
             Close
-          </CButton>
-          <CButton color="primary">Save changes</CButton>
+          </LoadingButton>
+          <LoadingButton>Save changes</LoadingButton>
         </CModalFooter>
       </CModal>
     </>
@@ -299,9 +299,9 @@ const VerticallyCentered2 = () => {
   const [visible, setVisible] = useState(false)
   return (
     <>
-      <CButton color="primary" onClick={() => setVisible(!visible)}>
+      <LoadingButton onClick={() => setVisible(!visible)}>
         Vertically centered scrollable modal
-      </CButton>
+      </LoadingButton>
       <CModal alignment="center" scrollable visible={visible} onClose={() => setVisible(false)}>
         <CModalHeader>
           <CModalTitle>Modal title</CModalTitle>
@@ -330,10 +330,10 @@ const VerticallyCentered2 = () => {
           </p>
         </CModalBody>
         <CModalFooter>
-          <CButton color="secondary" onClick={() => setVisible(false)}>
+          <LoadingButton onClick={() => setVisible(false)}>
             Close
-          </CButton>
-          <CButton color="primary">Save changes</CButton>
+          </LoadingButton>
+          <LoadingButton>Save changes</LoadingButton>
         </CModalFooter>
       </CModal>
     </>
@@ -344,9 +344,9 @@ const TooltipsPopovers = () => {
   const [visible, setVisible] = useState(false)
   return (
     <>
-      <CButton color="primary" onClick={() => setVisible(!visible)}>
+      <LoadingButton onClick={() => setVisible(!visible)}>
         Launch demo modal
-      </CButton>
+      </LoadingButton>
       <CModal alignment="center" visible={visible} onClose={() => setVisible(false)}>
         <CModalHeader>
           <CModalTitle>Modal title</CModalTitle>
@@ -356,7 +356,7 @@ const TooltipsPopovers = () => {
           <p>
             This
             <CPopover title="Popover title" content="Popover body content is set in this property.">
-              <CButton color="primary">button</CButton>
+              <LoadingButton>button</LoadingButton>
             </CPopover>{' '}
             triggers a popover on click.
           </p>
@@ -374,10 +374,10 @@ const TooltipsPopovers = () => {
           </p>
         </CModalBody>
         <CModalFooter>
-          <CButton color="secondary" onClick={() => setVisible(false)}>
+          <LoadingButton onClick={() => setVisible(false)}>
             Close
-          </CButton>
-          <CButton color="primary">Save changes</CButton>
+          </LoadingButton>
+          <LoadingButton>Save changes</LoadingButton>
         </CModalFooter>
       </CModal>
     </>
@@ -390,15 +390,15 @@ const OptionalSizes = () => {
   const [visibleSm, setVisibleSm] = useState(false)
   return (
     <>
-      <CButton color="primary" onClick={() => setVisibleXL(!visibleXL)}>
+      <LoadingButton onClick={() => setVisibleXL(!visibleXL)}>
         Extra large modal
-      </CButton>
-      <CButton color="primary" onClick={() => setVisibleLg(!visibleLg)}>
+      </LoadingButton>
+      <LoadingButton onClick={() => setVisibleLg(!visibleLg)}>
         Large modal
-      </CButton>
-      <CButton color="primary" onClick={() => setVisibleSm(!visibleSm)}>
+      </LoadingButton>
+      <LoadingButton onClick={() => setVisibleSm(!visibleSm)}>
         Small large modal
-      </CButton>
+      </LoadingButton>
       <CModal size="xl" visible={visibleXL} onClose={() => setVisibleXL(false)}>
         <CModalHeader>
           <CModalTitle>Extra large modal</CModalTitle>
@@ -431,24 +431,24 @@ const FullscreenModal = () => {
 
   return (
     <>
-      <CButton color="primary" onClick={() => setVisible(!visible)}>
+      <LoadingButton onClick={() => setVisible(!visible)}>
         Full screen
-      </CButton>
-      <CButton color="primary" onClick={() => setVisibleSm(!visibleSm)}>
+      </LoadingButton>
+      <LoadingButton onClick={() => setVisibleSm(!visibleSm)}>
         Full screen below sm
-      </CButton>
-      <CButton color="primary" onClick={() => setVisibleMd(!visibleMd)}>
+      </LoadingButton>
+      <LoadingButton onClick={() => setVisibleMd(!visibleMd)}>
         Full screen below md
-      </CButton>
-      <CButton color="primary" onClick={() => setVisibleLg(!visibleLg)}>
+      </LoadingButton>
+      <LoadingButton onClick={() => setVisibleLg(!visibleLg)}>
         Full screen below lg
-      </CButton>
-      <CButton color="primary" onClick={() => setVisibleXL(!visibleXL)}>
+      </LoadingButton>
+      <LoadingButton onClick={() => setVisibleXL(!visibleXL)}>
         Full screen below xl
-      </CButton>
-      <CButton color="primary" onClick={() => setVisibleXXL(!visibleXXL)}>
+      </LoadingButton>
+      <LoadingButton onClick={() => setVisibleXXL(!visibleXXL)}>
         Full screen below xxl
-      </CButton>
+      </LoadingButton>
       <CModal fullscreen visible={visible} onClose={() => setVisible(false)}>
         <CModalHeader>
           <CModalTitle>Full screen</CModalTitle>
@@ -519,8 +519,8 @@ const Modals = () => {
                 </CModalHeader>
                 <CModalBody>Modal body text goes here.</CModalBody>
                 <CModalFooter>
-                  <CButton color="secondary">Close</CButton>
-                  <CButton color="primary">Save changes</CButton>
+                  <LoadingButton>Close</LoadingButton>
+                  <LoadingButton>Save changes</LoadingButton>
                 </CModalFooter>
               </CModal>
             </DocsExample>
