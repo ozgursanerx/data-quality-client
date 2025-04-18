@@ -9,6 +9,7 @@ import {
 } from '@coreui/react';
 import MonitoringForm from './components/MonitoringForm';
 import ProcLogTable from './components/ProcLogTable';
+import MonitoringSummary from './components/MonitoringSummary'; 
 import SqlFullTextModal from './components/SqlFullTextModal';
 
 const Main = () => {
@@ -42,6 +43,13 @@ const Main = () => {
             }}
             showToast={showToast}
           />
+        </CCardBody>
+      </CCard>
+
+      <CCard className="mb-4">
+        <CCardBody>
+          <h5>Monitoring Summary</h5>
+          <MonitoringSummary />
         </CCardBody>
       </CCard>
 

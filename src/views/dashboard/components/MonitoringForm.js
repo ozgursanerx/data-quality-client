@@ -33,7 +33,7 @@ const MonitoringForm = () => {
     };
 
     try {
-      const response = await fetch('/edwapi/getMonitoringService', {
+      const response = await fetch('/edwapi/getMonitoringRulesService', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

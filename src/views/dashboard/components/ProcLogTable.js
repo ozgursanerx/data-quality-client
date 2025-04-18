@@ -101,7 +101,7 @@ const ProcLogTable = () => {
     { header: 'Duration', accessor: 'duration', truncate: false },
     { header: 'Mean Duration', accessor: 'meanDuration', truncate: false },
     { header: 'Std Dev Duration', accessor: 'stdDevDuration', truncate: false },
-    { header: 'Anomaly Flag', accessor: 'anomaly_flag', truncate: false },
+    { header: 'Anomaly Flag', accessor: 'anomalyflag', truncate: false },
   ];
 
   return (
