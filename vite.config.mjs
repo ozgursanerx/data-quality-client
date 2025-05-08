@@ -43,11 +43,18 @@ export default defineConfig(() => {
       port: 3000,
       proxy: {
         '/edwapi': {
-          target: 'http://localhost:8080', // Spring Boot API adresi
+          target: 'http://localhost:8080',
           changeOrigin: true,
           secure: false,
+          rewrite: (path) => path.replace(/^\/edwapi/, '/edwapi'),
+          headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
+            'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept, Authorization'
+          },
         },
       },
+      cors: true
     },
   }
 })

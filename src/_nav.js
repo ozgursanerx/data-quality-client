@@ -14,6 +14,7 @@ import {
   cilPuzzle,
   cilSpeedometer,
   cilStar,
+  cilChart,
 } from '@coreui/icons'
 import { CNavGroup, CNavItem, CNavTitle } from '@coreui/react'
 
@@ -30,15 +31,20 @@ const _nav = [
   },
   {
     component: CNavItem,
-    name: 'Ana Sayfa',
-    to: '/main',
-    icon: <CIcon icon={cilCat} customClassName="nav-icon" />,
+    name: 'Monitoring',
+    to: '/monitoring',
+    icon: <CIcon icon={cilChart} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavItem,
+    name: 'Proc Log',
+    to: '/proclog',
+    icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
   },
   {
     component: CNavTitle,
     name: 'Theme',
   },
- 
   {
     component: CNavItem,
     name: 'Colors',
@@ -356,7 +362,7 @@ const _nav = [
     component: CNavItem,
     name: 'Charts',
     to: '/charts',
-    icon: <CIcon icon={cilChartPie} customClassName="nav-icon" />,
+    icon: <CIcon icon={cilChart} customClassName="nav-icon" />,
   },
   {
     component: CNavGroup,

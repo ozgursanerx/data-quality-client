@@ -27,13 +27,14 @@ const CustomTable = ({
   isModalVisible,
   onShowFullText,
   onCloseModal,
+  customRowRender,
 }) => {
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
 
   const renderPagination = () => {
-    const maxPagesToShow = 5; // Maksimum gösterilecek sayfa numarası
+    const maxPagesToShow = 5;
     const startPage = Math.max(1, currentPage - Math.floor(maxPagesToShow / 2));
     const endPage = Math.min(totalPages, startPage + maxPagesToShow - 1);
 
@@ -64,31 +65,42 @@ const CustomTable = ({
   };
 
   return (
-    <>
-      <div style={{ overflowX: 'auto', whiteSpace: 'nowrap', width: '100%' }}>
-        <CTable striped hover responsive className="mt-4" style={{ minWidth: '1200px' }}>
-          <CTableHead>
-            <CTableRow>
-              {columns.map((column, index) => (
-                <CTableHeaderCell key={index}>{column.header}</CTableHeaderCell>
-              ))}
-            </CTableRow>
-          </CTableHead>
-          <CTableBody>
-            {currentItems.map((item, rowIndex) => (
-              <CTableRow key={rowIndex}>
-                {columns.map((column, colIndex) => (
+    <div className="table-responsive" style={{ maxHeight: '400px', overflowY: 'auto' }}>
+      <CTable striped hover className="mb-0">
+        <CTableHead>
+          <CTableRow>
+            {columns.map((column, index) => (
+              <CTableHeaderCell 
+                key={index}
+                className="bg-body-tertiary"
+                style={{
+                  position: 'sticky',
+                  top: 0,
+                  zIndex: 1
+                }}
+              >
+                {column.header}
+              </CTableHeaderCell>
+            ))}
+          </CTableRow>
+        </CTableHead>
+        <CTableBody>
+          {currentItems.map((item, rowIndex) => (
+            <CTableRow key={rowIndex}>
+              {columns.map((column, colIndex) => {
+                const processedItem = customRowRender ? customRowRender(item) : item;
+                return (
                   <CTableDataCell key={colIndex}>
                     {column.truncate
-                      ? truncateText(item[column.accessor], column.maxLength)
-                      : item[column.accessor]}
+                      ? truncateText(processedItem[column.accessor], column.maxLength)
+                      : processedItem[column.accessor]}
                   </CTableDataCell>
-                ))}
-              </CTableRow>
-            ))}
-          </CTableBody>
-        </CTable>
-      </div>
+                );
+              })}
+            </CTableRow>
+          ))}
+        </CTableBody>
+      </CTable>
 
       <CModal visible={isModalVisible} onClose={onCloseModal}>
         <CModalHeader>Detay</CModalHeader>
@@ -100,22 +112,24 @@ const CustomTable = ({
         </CModalFooter>
       </CModal>
 
-      <CPagination className="justify-content-center">
-        <CPaginationItem
-          disabled={currentPage === 1}
-          onClick={() => onPageChange(1)} // Go to the first page
-        >
-          First
-        </CPaginationItem>
-        {renderPagination()}
-        <CPaginationItem
-          disabled={currentPage === totalPages}
-          onClick={() => onPageChange(totalPages)} // Go to the last page
-        >
-          Last
-        </CPaginationItem>
-      </CPagination>
-    </>
+      <div className="mt-3">
+        <CPagination className="justify-content-center">
+          <CPaginationItem
+            disabled={currentPage === 1}
+            onClick={() => onPageChange(1)}
+          >
+            First
+          </CPaginationItem>
+          {renderPagination()}
+          <CPaginationItem
+            disabled={currentPage === totalPages}
+            onClick={() => onPageChange(totalPages)}
+          >
+            Last
+          </CPaginationItem>
+        </CPagination>
+      </div>
+    </div>
   );
 };
 

@@ -98,9 +98,9 @@ const ProcLogTable = () => {
     { header: 'Prog ID', accessor: 'progId', truncate: false },
     { header: 'SQL Full Text', accessor: 'sqlFullText', truncate: true, maxLength: 100 },
     { header: 'Start Time', accessor: 'startTm', truncate: false },
-    { header: 'Duration', accessor: 'duration', truncate: false },
-    { header: 'Mean Duration', accessor: 'meanDuration', truncate: false },
-    { header: 'Std Dev Duration', accessor: 'stdDevDuration', truncate: false },
+    { header: 'Duration (sec)', accessor: 'duration', truncate: false },
+    { header: 'Mean Duration (sec)', accessor: 'meanDuration', truncate: false },
+    { header: 'Std Dev Duration (sec)', accessor: 'stdDevDuration', truncate: false },
     { header: 'Anomaly Flag', accessor: 'anomalyflag', truncate: false },
   ];
 

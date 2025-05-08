@@ -9,13 +9,16 @@ import {
   CChartRadar,
 } from '@coreui/react-chartjs'
 import { DocsLink } from 'src/components'
+import ProcLogChart from '../dashboard/components/ProcLogChart'
 
 const Charts = () => {
   const random = () => Math.round(Math.random() * 100)
 
   return (
     <CRow>
-      <CCol xs={12}></CCol>
+      <CCol xs={12}>
+        <ProcLogChart />
+      </CCol>
       <CCol xs={6}>
         <CCard className="mb-4">
           <CCardHeader>
