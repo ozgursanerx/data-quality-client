@@ -63,6 +63,15 @@ const ProcLogChart = () => {
     return true;
   };
 
+  const convertSecondsToMinutes = (seconds) => {
+    return seconds / 60;
+  };
+
+  const formatNumber = (value) => {
+    if (!value && value !== 0) return '';
+    return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  };
+
   const fetchData = async () => {
     if (!validateDates()) {
       return;
@@ -102,7 +111,7 @@ const ProcLogChart = () => {
             };
           }
           
-          acc[formattedDate].totalDuration += item.duration || 0;
+          acc[formattedDate].totalDuration += convertSecondsToMinutes(item.duration || 0);
           acc[formattedDate].totalRowCount += item.rowCount || 0;
           acc[formattedDate].count += 1;
           
@@ -112,7 +121,7 @@ const ProcLogChart = () => {
         // Convert grouped data into chart format
         const sortedDates = Object.keys(groupedData).sort();
         
-        // Calculate daily values and overall averages
+        // Calculate daily totals and sum for averages
         let totalDuration = 0;
         let totalRowCount = 0;
         let totalDays = sortedDates.length;
@@ -123,15 +132,15 @@ const ProcLogChart = () => {
           rowCount: [],
         };
 
-        // Calculate daily values and sum for averages
         sortedDates.forEach(date => {
-          const avgDuration = Math.round((groupedData[date].totalDuration / groupedData[date].count));
+          // Toplam duration - artık ortalama almıyoruz
+          const totalDurationForDay = groupedData[date].totalDuration;
           const totalRowCountForDay = groupedData[date].totalRowCount;
           
-          chartData.duration.push(avgDuration);
+          chartData.duration.push(totalDurationForDay);
           chartData.rowCount.push(totalRowCountForDay);
           
-          totalDuration += avgDuration;
+          totalDuration += totalDurationForDay;
           totalRowCount += totalRowCountForDay;
         });
 
@@ -242,7 +251,7 @@ const ProcLogChart = () => {
             labels: chartData.labels,
             datasets: [
               {
-                label: 'Duration (seconds)',
+                label: 'Duration (minutes)',
                 backgroundColor: 'rgba(75, 192, 192, 0.2)',
                 borderColor: 'rgb(75, 192, 192)',
                 pointBackgroundColor: 'rgb(75, 192, 192)',
@@ -253,7 +262,7 @@ const ProcLogChart = () => {
                 pointRadius: chartData.labels.length === 1 ? 6 : 3,
               },
               {
-                label: 'Average Duration',
+                label: 'Average Duration (minutes)',
                 backgroundColor: 'transparent',
                 borderColor: 'rgb(75, 192, 192)',
                 borderDash: [5, 5],
@@ -309,7 +318,9 @@ const ProcLogChart = () => {
                       label += ': ';
                     }
                     if (label.includes('Duration')) {
-                      label += Math.round(context.parsed.y) + ' seconds';
+                      label += Math.round(context.parsed.y * 100) / 100 + ' minutes';
+                    } else if (label.includes('Row Count')) {
+                      label += formatNumber(Math.round(context.parsed.y));
                     } else {
                       label += Math.round(context.parsed.y);
                     }
@@ -345,7 +356,7 @@ const ProcLogChart = () => {
                 position: 'left',
                 title: {
                   display: true,
-                  text: 'Duration (seconds)',
+                  text: 'Duration (minutes)',
                 },
                 beginAtZero: true,
                 grid: {
@@ -369,6 +380,9 @@ const ProcLogChart = () => {
                 },
                 ticks: {
                   padding: chartData.labels.length === 1 ? 20 : 0,
+                  callback: function(value) {
+                    return formatNumber(value);
+                  }
                 }
               },
             }

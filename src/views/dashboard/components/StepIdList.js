@@ -121,14 +121,15 @@ const StepIdList = () => {
       </CCardHeader>
       <CCardBody>
         <div className="mb-3">
-          <CFormLabel htmlFor="progId">Program ID</CFormLabel>
-          <div className="d-flex gap-2">
+          <div className="d-flex gap-2 align-items-center">
+            <CFormLabel htmlFor="progId" className="mb-0" style={{ whiteSpace: 'nowrap' }}>Program ID:</CFormLabel>
             <CFormInput
               id="progId"
               type="number"
               value={progId}
               onChange={(e) => setProgId(e.target.value)}
               placeholder="Enter Program ID"
+              style={{ maxWidth: '350px' }}
               onKeyPress={(e) => {
                 if (e.key === 'Enter') {
                   fetchStepIds();
@@ -139,6 +140,7 @@ const StepIdList = () => {
               isLoading={isLoading} 
               onClick={fetchStepIds}
               style={{ whiteSpace: 'nowrap' }}
+              size="sm"
             >
               Get Step IDs
             </LoadingButton>
@@ -164,28 +166,30 @@ const StepIdList = () => {
           </div>
         )}
 
-        <div className="d-flex flex-column" style={{ gap: '1rem', height: '250px' }}>
-          <div style={{ flex: 1, overflow: 'auto', minHeight: 0 }}>
-            <CustomTable
-              data={filteredStepIds}
-              columns={columns}
-              currentPage={currentPage}
-              itemsPerPage={itemsPerPage}
-              totalPages={Math.ceil(filteredStepIds.length / itemsPerPage)}
-              onPageChange={setCurrentPage}
-              truncateText={truncateText}
-              customRowRender={(item) => ({
-                ...item,
-                actions: (
-                  <button
-                    className="btn btn-sm btn-info"
-                    onClick={() => handleCopyStepId(item.stepId)}
-                  >
-                    <CIcon icon={cilCopy} /> Copy
-                  </button>
-                )
-              })}
-            />
+        <div style={{ display: 'flex', flexDirection: 'column', height: '300px' }}>
+          <div style={{ flex: 1, minHeight: 0, position: 'relative' }}>
+            <div style={{ position: 'absolute', inset: 0, overflowY: 'auto' }}>
+              <CustomTable
+                data={filteredStepIds}
+                columns={columns}
+                currentPage={currentPage}
+                itemsPerPage={itemsPerPage}
+                totalPages={Math.ceil(filteredStepIds.length / itemsPerPage)}
+                onPageChange={setCurrentPage}
+                truncateText={truncateText}
+                customRowRender={(item) => ({
+                  ...item,
+                  actions: (
+                    <button
+                      className="btn btn-sm btn-info"
+                      onClick={() => handleCopyStepId(item.stepId)}
+                    >
+                      <CIcon icon={cilCopy} /> Copy
+                    </button>
+                  )
+                })}
+              />
+            </div>
           </div>
         </div>
 

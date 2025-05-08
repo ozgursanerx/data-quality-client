@@ -65,6 +65,20 @@ const ProcLogTable = () => {
     }
   };
 
+  const convertSecondsToMinutes = (value) => {
+    if (!value) return '';
+    return (value / 60).toFixed(2);
+  };
+
+  const processRowData = (row) => {
+    return {
+      ...row,
+      duration: convertSecondsToMinutes(row.duration),
+      meanDuration: convertSecondsToMinutes(row.meanDuration),
+      stdDevDuration: convertSecondsToMinutes(row.stdDevDuration)
+    };
+  };
+
   const truncateText = (text, maxLength = 30) => {
     if (!text) {
       return '';
@@ -98,9 +112,9 @@ const ProcLogTable = () => {
     { header: 'Prog ID', accessor: 'progId', truncate: false },
     { header: 'SQL Full Text', accessor: 'sqlFullText', truncate: true, maxLength: 100 },
     { header: 'Start Time', accessor: 'startTm', truncate: false },
-    { header: 'Duration (sec)', accessor: 'duration', truncate: false },
-    { header: 'Mean Duration (sec)', accessor: 'meanDuration', truncate: false },
-    { header: 'Std Dev Duration (sec)', accessor: 'stdDevDuration', truncate: false },
+    { header: 'Duration (min)', accessor: 'duration', truncate: false },
+    { header: 'Mean Duration (min)', accessor: 'meanDuration', truncate: false },
+    { header: 'Std Dev Duration (min)', accessor: 'stdDevDuration', truncate: false },
     { header: 'Anomaly Flag', accessor: 'anomalyflag', truncate: false },
   ];
 
@@ -170,7 +184,7 @@ const ProcLogTable = () => {
       </CRow>
 
       <CustomTable
-        data={procLogData}
+        data={procLogData.map(processRowData)}
         columns={columns}
         currentPage={currentPage}
         itemsPerPage={itemsPerPage}

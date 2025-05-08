@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { CButton, CSpinner } from '@coreui/react';
 
-const LoadingButton = ({ onClick, children }) => {
+const LoadingButton = ({ onClick, children, size, ...props }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleClick = async () => {
@@ -14,7 +14,7 @@ const LoadingButton = ({ onClick, children }) => {
   };
 
   return (
-    <CButton onClick={handleClick} disabled={isLoading} color="light">
+    <CButton onClick={handleClick} disabled={isLoading} color="light" size={size} {...props}>
       {isLoading ? <CSpinner size="sm" /> : children}
     </CButton>
   );

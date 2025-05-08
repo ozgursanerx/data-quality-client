@@ -69,7 +69,12 @@ const MonitoringForm = () => {
         <>
           {text.substring(0, maxLength)}...
           <button
-            style={{ background: 'none', border: 'none', color: 'blue', cursor: 'pointer' }}
+            style={{ 
+              background: 'none', 
+              border: 'none', 
+              color: 'var(--cui-link-color, #321fdb)', 
+              cursor: 'pointer' 
+            }}
             onClick={() => handleShowFullText(text)}
           >
             Devamını Göster
