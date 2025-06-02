@@ -4,6 +4,7 @@ import {
   CCol,
   CFormLabel,
   CFormInput,
+  CTooltip,
 } from '@coreui/react';
 import LoadingButton from '../../../components/LoadingButton';
 import CustomTable from './CustomTable';
@@ -118,33 +119,48 @@ const MonitoringForm = () => {
       <CRow className="align-items-center">
         <CCol xs={12} md={3}>
           <CFormLabel htmlFor="typeId">Type ID</CFormLabel>
-          <CFormInput
-            id="typeId"
-            type="number"
-            value={typeId === null ? '' : typeId}
-            onChange={(e) => {
-              const value = e.target.value;
-              setTypeId(value === '' ? null : Number(value));
-            }}
-          />
+          <CTooltip
+            content="Kontrol tipi için benzersiz tanımlayıcı numara"
+            placement="top"
+          >
+            <CFormInput
+              id="typeId"
+              type="number"
+              value={typeId === null ? '' : typeId}
+              onChange={(e) => {
+                const value = e.target.value;
+                setTypeId(value === '' ? null : Number(value));
+              }}
+            />
+          </CTooltip>
         </CCol>
         <CCol xs={12} md={3}>
           <CFormLabel htmlFor="detailTableName">Detail Table Name</CFormLabel>
-          <CFormInput
-            id="detailTableName"
-            type="text"
-            value={detailTableName}
-            onChange={(e) => setDetailTableName(e.target.value)}
-          />
+          <CTooltip
+            content="Detay verilerinin saklandığı tablo adı"
+            placement="top"
+          >
+            <CFormInput
+              id="detailTableName"
+              type="text"
+              value={detailTableName}
+              onChange={(e) => setDetailTableName(e.target.value)}
+            />
+          </CTooltip>
         </CCol>
         <CCol xs={12} md={3}>
           <CFormLabel htmlFor="scenarioName">Scenario Name</CFormLabel>
-          <CFormInput
-            id="scenarioName"
-            type="text"
-            value={scenarioName}
-            onChange={(e) => setScenarioName(e.target.value)}
-          />
+          <CTooltip
+            content="Kontrol senaryosunun adı"
+            placement="top"
+          >
+            <CFormInput
+              id="scenarioName"
+              type="text"
+              value={scenarioName}
+              onChange={(e) => setScenarioName(e.target.value)}
+            />
+          </CTooltip>
         </CCol>
         <CCol xs={12} md={3}>
           <LoadingButton isLoading={isLoading} onClick={handleSubmit} className="mt-4">

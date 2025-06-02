@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import CustomTable from './CustomTable';
-import { CFormInput, CRow, CCol, CFormLabel } from '@coreui/react';
+import { CFormInput, CRow, CCol, CFormLabel, CTooltip } from '@coreui/react';
 import LoadingButton from '../../../components/LoadingButton';
 
 const MonitoringSummary = () => {
@@ -18,18 +18,18 @@ const MonitoringSummary = () => {
   const [modalContent, setModalContent] = useState('');
 
   const columns = [
-    { header: 'As Of Date', accessor: 'asOfDt', truncate: false },
-    { header: 'Control Type', accessor: 'controlType', truncate: false },
-    { header: 'Count', accessor: 'count', truncate: false },
-    { header: 'Detail Table Name', accessor: 'detailtableName', truncate: true, maxLength: 30 },
-    { header: 'Error Code', accessor: 'errCode', truncate: false },
-    { header: 'Error Description', accessor: 'errDesc', truncate: true, maxLength: 30 },
-    { header: 'Offer Type', accessor: 'offerType', truncate: false },
-    { header: 'Pattern Type', accessor: 'patternType', truncate: false },
-    { header: 'Scenario Name', accessor: 'scenarioName', truncate: true, maxLength: 30 },
-    { header: 'Source Field Name', accessor: 'srcFieldName', truncate: true, maxLength: 30 },
-    { header: 'Source Table Name', accessor: 'srcTableName', truncate: true, maxLength: 30 },
-    { header: 'Version', accessor: 'version', truncate: false },
+    { header: 'As Of Date', accessor: 'asOfDt', truncate: false, tooltip: 'İşlem tarihi' },
+    { header: 'Control Type', accessor: 'controlType', truncate: false, tooltip: 'Kontrol tipi' },
+    { header: 'Count', accessor: 'count', truncate: false, tooltip: 'Kayıt sayısı' },
+    { header: 'Detail Table Name', accessor: 'detailtableName', truncate: true, maxLength: 30, tooltip: 'Detay tablo adı' },
+    { header: 'Error Code', accessor: 'errCode', truncate: false, tooltip: 'Hata kodu' },
+    { header: 'Error Description', accessor: 'errDesc', truncate: true, maxLength: 30, tooltip: 'Hata açıklaması' },
+    { header: 'Offer Type', accessor: 'offerType', truncate: false, tooltip: 'Teklif tipi' },
+    { header: 'Pattern Type', accessor: 'patternType', truncate: false, tooltip: 'Desen tipi' },
+    { header: 'Scenario Name', accessor: 'scenarioName', truncate: true, maxLength: 30, tooltip: 'Senaryo adı' },
+    { header: 'Source Field Name', accessor: 'srcFieldName', truncate: true, maxLength: 30, tooltip: 'Kaynak alan adı' },
+    { header: 'Source Table Name', accessor: 'srcTableName', truncate: true, maxLength: 30, tooltip: 'Kaynak tablo adı' },
+    { header: 'Version', accessor: 'version', truncate: false, tooltip: 'Versiyon' }
   ];
 
   const fetchData = async () => {
@@ -107,39 +107,59 @@ const MonitoringSummary = () => {
       <CRow className="align-items-center mb-4">
         <CCol xs={12} md={3}>
           <CFormLabel htmlFor="firstAsOfDt">First As Of Date</CFormLabel>
-          <CFormInput
-            id="firstAsOfDt"
-            type="date"
-            value={firstAsOfDt}
-            onChange={(e) => setFirstAsOfDt(e.target.value)}
-          />
+          <CTooltip
+            content="Başlangıç tarihini seçin"
+            placement="top"
+          >
+            <CFormInput
+              id="firstAsOfDt"
+              type="date"
+              value={firstAsOfDt}
+              onChange={(e) => setFirstAsOfDt(e.target.value)}
+            />
+          </CTooltip>
         </CCol>
         <CCol xs={12} md={3}>
           <CFormLabel htmlFor="lastAsOfDt">Last As Of Date</CFormLabel>
-          <CFormInput
-            id="lastAsOfDt"
-            type="date"
-            value={lastAsOfDt}
-            onChange={(e) => setLastAsOfDt(e.target.value)}
-          />
+          <CTooltip
+            content="Bitiş tarihini seçin"
+            placement="top"
+          >
+            <CFormInput
+              id="lastAsOfDt"
+              type="date"
+              value={lastAsOfDt}
+              onChange={(e) => setLastAsOfDt(e.target.value)}
+            />
+          </CTooltip>
         </CCol>
         <CCol xs={12} md={3}>
           <CFormLabel htmlFor="detailTableName">Detail Table Name</CFormLabel>
-          <CFormInput
-            id="detailTableName"
-            type="text"
-            value={detailTableName}
-            onChange={(e) => setDetailTableName(e.target.value)}
-          />
+          <CTooltip
+            content="Kontrol edilecek detay tablosunun adı"
+            placement="top"
+          >
+            <CFormInput
+              id="detailTableName"
+              type="text"
+              value={detailTableName}
+              onChange={(e) => setDetailTableName(e.target.value)}
+            />
+          </CTooltip>
         </CCol>
         <CCol xs={12} md={3}>
           <CFormLabel htmlFor="scenarioName">Scenario Name</CFormLabel>
-          <CFormInput
-            id="scenarioName"
-            type="text"
-            value={scenarioName}
-            onChange={(e) => setScenarioName(e.target.value)}
-          />
+          <CTooltip
+            content="Kontrol senaryosunun adı"
+            placement="top"
+          >
+            <CFormInput
+              id="scenarioName"
+              type="text"
+              value={scenarioName}
+              onChange={(e) => setScenarioName(e.target.value)}
+            />
+          </CTooltip>
         </CCol>
         <CCol className="mt-4" xs={12} md={2}>
           <LoadingButton isLoading={loading} onClick={fetchData}>

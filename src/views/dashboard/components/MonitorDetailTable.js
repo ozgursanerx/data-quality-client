@@ -5,6 +5,7 @@ import {
   CFormLabel,
   CFormInput,
   CFormSelect,
+  CTooltip,
 } from '@coreui/react';
 import LoadingButton from '../../../components/LoadingButton';
 import CustomTable from './CustomTable';
@@ -120,67 +121,67 @@ const MonitorDetailTable = () => {
 
   const columnsByTable = useMemo(() => ({
     'DA_MONITOR_KFT': [
-      { header: 'As Of Date', accessor: 'asOfDt' },
-      { header: 'Control Type', accessor: 'controlType' },
-      { header: 'Scenario Name', accessor: 'senarioName' },
-      { header: 'Customer ID', accessor: 'customerId' },
-      { header: 'Unique Key', accessor: 'uniqueKey', truncate: true, maxLength: 30 },
-      { header: 'Reference No', accessor: 'referenceNo' },
-      { header: 'Company Code', accessor: 'companyCode' },
-      { header: 'Company Type', accessor: 'companyType' },
+      { header: 'As Of Date', accessor: 'asOfDt', tooltip: 'İşlem tarihi' },
+      { header: 'Control Type', accessor: 'controlType', tooltip: 'Kontrol tipi' },
+      { header: 'Scenario Name', accessor: 'senarioName', tooltip: 'Senaryo adı' },
+      { header: 'Customer ID', accessor: 'customerId', tooltip: 'Müşteri numarası' },
+      { header: 'Unique Key', accessor: 'uniqueKey', truncate: true, maxLength: 30, tooltip: 'Benzersiz anahtar' },
+      { header: 'Reference No', accessor: 'referenceNo', tooltip: 'Referans numarası' },
+      { header: 'Company Code', accessor: 'companyCode', tooltip: 'Şirket kodu' },
+      { header: 'Company Type', accessor: 'companyType', tooltip: 'Şirket tipi' }
     ],
     'DA_MONITOR_CP': [
-      { header: 'As Of Date', accessor: 'asOfDt' },
-      { header: 'Control Type', accessor: 'controlType' },
-      { header: 'Scenario Name', accessor: 'senarioName' },
-      { header: 'Customer ID', accessor: 'customerId' },
-      { header: 'Unique Key', accessor: 'uniqueKey', truncate: true, maxLength: 30 },
-      { header: 'Customer OID', accessor: 'customerOid' },
-      { header: 'Card Bank', accessor: 'cardBank', truncate: true, maxLength: 30 },
-      { header: 'Card Owner', accessor: 'cardOwner', truncate: true, maxLength: 30 },
-      { header: 'Card No', accessor: 'cardNo' },
-      { header: 'CC Key', accessor: 'ccKey' },
-      { header: 'Statement Type', accessor: 'stmtType' },
+      { header: 'As Of Date', accessor: 'asOfDt', tooltip: 'İşlem tarihi' },
+      { header: 'Control Type', accessor: 'controlType', tooltip: 'Kontrol tipi' },
+      { header: 'Scenario Name', accessor: 'senarioName', tooltip: 'Senaryo adı' },
+      { header: 'Customer ID', accessor: 'customerId', tooltip: 'Müşteri numarası' },
+      { header: 'Unique Key', accessor: 'uniqueKey', truncate: true, maxLength: 30, tooltip: 'Benzersiz anahtar' },
+      { header: 'Customer OID', accessor: 'customerOid', tooltip: 'Müşteri OID' },
+      { header: 'Card Bank', accessor: 'cardBank', truncate: true, maxLength: 30, tooltip: 'Kart bankası' },
+      { header: 'Card Owner', accessor: 'cardOwner', truncate: true, maxLength: 30, tooltip: 'Kart sahibi' },
+      { header: 'Card No', accessor: 'cardNo', tooltip: 'Kart numarası' },
+      { header: 'CC Key', accessor: 'ccKey', tooltip: 'Kredi kartı anahtarı' },
+      { header: 'Statement Type', accessor: 'stmtType', tooltip: 'Ekstre tipi' }
     ],
     'DA_MONITOR_CPR': [
-      { header: 'As Of Date', accessor: 'asOfDt' },
-      { header: 'Card No', accessor: 'cardNo' },
-      { header: 'Control Type', accessor: 'controlType' },
-      { header: 'Customer ID', accessor: 'customerId' },
-      { header: 'Exp Date', accessor: 'expDt' },
+      { header: 'As Of Date', accessor: 'asOfDt', tooltip: 'İşlem tarihi' },
+      { header: 'Card No', accessor: 'cardNo', tooltip: 'Kart numarası' },
+      { header: 'Control Type', accessor: 'controlType', tooltip: 'Kontrol tipi' },
+      { header: 'Customer ID', accessor: 'customerId', tooltip: 'Müşteri numarası' },
+      { header: 'Exp Date', accessor: 'expDt', tooltip: 'Son kullanma tarihi' },
       { header: 'Merchant Desc', accessor: 'merchantDesc', truncate: true, maxLength: 30 },
       { header: 'Merchant ID', accessor: 'merchantId' },
       { header: 'Scenario Name', accessor: 'senarioName' },
       { header: 'Transaction Desc', accessor: 'transactionDesc', truncate: true, maxLength: 30 },
-      { header: 'Unique Key', accessor: 'uniqueKey', truncate: true, maxLength: 30 },
+      { header: 'Unique Key', accessor: 'uniqueKey', truncate: true, maxLength: 30 }
     ],
     'DA_MONITOR_MT': [
-      { header: 'As Of Date', accessor: 'asOfDt' },
-      { header: 'Control Type', accessor: 'controlType' },
-      { header: 'Customer ID', accessor: 'customerId' },
-      { header: 'Money Transfer Type', accessor: 'moneyTransferType' },
-      { header: 'Scenario Name', accessor: 'senarioName' },
-      { header: 'Sender Account No', accessor: 'senderAccountNo' },
-      { header: 'Unique Key', accessor: 'uniqueKey', truncate: true, maxLength: 30 },
+      { header: 'As Of Date', accessor: 'asOfDt', tooltip: 'İşlem tarihi' },
+      { header: 'Control Type', accessor: 'controlType', tooltip: 'Kontrol tipi' },
+      { header: 'Customer ID', accessor: 'customerId', tooltip: 'Müşteri numarası' },
+      { header: 'Money Transfer Type', accessor: 'moneyTransferType', tooltip: 'Para transferi tipi' },
+      { header: 'Scenario Name', accessor: 'senarioName', tooltip: 'Senaryo adı' },
+      { header: 'Sender Account No', accessor: 'senderAccountNo', tooltip: 'Gönderen hesap numarası' },
+      { header: 'Unique Key', accessor: 'uniqueKey', truncate: true, maxLength: 30, tooltip: 'Benzersiz anahtar' }
     ],
     'DA_MONITOR_OTHR': [
-      { header: 'As Of Date', accessor: 'asOfDt' },
-      { header: 'Control Type', accessor: 'controlType' },
-      { header: 'Customer ID', accessor: 'customerId' },
-      { header: 'Customer OID', accessor: 'customerOid' },
-      { header: 'Exp Date', accessor: 'expDt' },
-      { header: 'Scenario Name', accessor: 'senarioName' },
-      { header: 'Unique Key', accessor: 'uniqueKey', truncate: true, maxLength: 30 },
+      { header: 'As Of Date', accessor: 'asOfDt', tooltip: 'İşlem tarihi' },
+      { header: 'Control Type', accessor: 'controlType', tooltip: 'Kontrol tipi' },
+      { header: 'Customer ID', accessor: 'customerId', tooltip: 'Müşteri numarası' },
+      { header: 'Customer OID', accessor: 'customerOid', tooltip: 'Müşteri OID' },
+      { header: 'Exp Date', accessor: 'expDt', tooltip: 'Son kullanma tarihi' },
+      { header: 'Scenario Name', accessor: 'senarioName', tooltip: 'Senaryo adı' },
+      { header: 'Unique Key', accessor: 'uniqueKey', truncate: true, maxLength: 30, tooltip: 'Benzersiz anahtar' }
     ],
     'DA_MONITOR_CREDIT_OFFER': [
-      { header: 'As Of Date', accessor: 'asOfDt' },
-      { header: 'Control Type', accessor: 'controlType' },
-      { header: 'Create Date', accessor: 'createDt' },
-      { header: 'Customer ID', accessor: 'customerId' },
-      { header: 'Offer ID', accessor: 'offerId' },
-      { header: 'Payment Plan Row ID', accessor: 'paymentPlanRowId' },
-      { header: 'Scenario Name', accessor: 'senarioName' },
-    ],
+      { header: 'As Of Date', accessor: 'asOfDt', tooltip: 'İşlem tarihi' },
+      { header: 'Control Type', accessor: 'controlType', tooltip: 'Kontrol tipi' },
+      { header: 'Create Date', accessor: 'createDt', tooltip: 'Oluşturulma tarihi' },
+      { header: 'Customer ID', accessor: 'customerId', tooltip: 'Müşteri numarası' },
+      { header: 'Offer ID', accessor: 'offerId', tooltip: 'Teklif ID' },
+      { header: 'Payment Plan Row ID', accessor: 'paymentPlanRowId', tooltip: 'Ödeme planı satır ID' },
+      { header: 'Scenario Name', accessor: 'senarioName', tooltip: 'Senaryo adı' }
+    ]
   }), []);
 
   const columns = useMemo(() => 
@@ -194,58 +195,83 @@ const MonitorDetailTable = () => {
       <CRow className="align-items-center mb-4">
         <CCol xs={12} md={2}>
           <CFormLabel htmlFor="detailTableName">Detail Table Name</CFormLabel>
-          <CFormSelect
-            id="detailTableName"
-            value={detailTableName}
-            onChange={(e) => {
-              setDetailTableName(e.target.value);
-              setResponseData([]); // Reset table data when table type changes
-              setCurrentPage(1); // Reset to first page
-            }}
+          <CTooltip
+            content="Kontrol edilecek detay tablosunu seçin"
+            placement="top"
           >
-            <option value="">Select Table</option>
-            {detailTableOptions.map(option => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </CFormSelect>
+            <CFormSelect
+              id="detailTableName"
+              value={detailTableName}
+              onChange={(e) => {
+                setDetailTableName(e.target.value);
+                setResponseData([]); // Reset table data when table type changes
+                setCurrentPage(1); // Reset to first page
+              }}
+            >
+              <option value="">Select Table</option>
+              {detailTableOptions.map(option => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </CFormSelect>
+          </CTooltip>
         </CCol>
         <CCol xs={12} md={2}>
           <CFormLabel htmlFor="scenarioName">Scenario Name</CFormLabel>
-          <CFormInput
-            id="scenarioName"
-            type="text"
-            value={scenarioName}
-            onChange={(e) => setScenarioName(e.target.value)}
-          />
+          <CTooltip
+            content="Kontrol senaryosunun adı"
+            placement="top"
+          >
+            <CFormInput
+              id="scenarioName"
+              type="text"
+              value={scenarioName}
+              onChange={(e) => setScenarioName(e.target.value)}
+            />
+          </CTooltip>
         </CCol>
         <CCol xs={12} md={2}>
           <CFormLabel htmlFor="firstAsOfDt">First As Of Date</CFormLabel>
-          <CFormInput
-            id="firstAsOfDt"
-            type="date"
-            value={firstAsOfDt}
-            onChange={(e) => setFirstAsOfDt(e.target.value)}
-          />
+          <CTooltip
+            content="Başlangıç tarihini seçin"
+            placement="top"
+          >
+            <CFormInput
+              id="firstAsOfDt"
+              type="date"
+              value={firstAsOfDt}
+              onChange={(e) => setFirstAsOfDt(e.target.value)}
+            />
+          </CTooltip>
         </CCol>
         <CCol xs={12} md={2}>
           <CFormLabel htmlFor="lastAsOfDt">Last As Of Date</CFormLabel>
-          <CFormInput
-            id="lastAsOfDt"
-            type="date"
-            value={lastAsOfDt}
-            onChange={(e) => setLastAsOfDt(e.target.value)}
-          />
+          <CTooltip
+            content="Bitiş tarihini seçin"
+            placement="top"
+          >
+            <CFormInput
+              id="lastAsOfDt"
+              type="date"
+              value={lastAsOfDt}
+              onChange={(e) => setLastAsOfDt(e.target.value)}
+            />
+          </CTooltip>
         </CCol>
         <CCol xs={12} md={2}>
           <CFormLabel htmlFor="controlType">Control Type</CFormLabel>
-          <CFormInput
-            id="controlType"
-            type="text"
-            value={controlType}
-            onChange={(e) => setControlType(e.target.value)}
-          />
+          <CTooltip
+            content="Kontrol tipini girin"
+            placement="top"
+          >
+            <CFormInput
+              id="controlType"
+              type="text"
+              value={controlType}
+              onChange={(e) => setControlType(e.target.value)}
+            />
+          </CTooltip>
         </CCol>
         <CCol className="mt-4" xs={12} md={2}>
           <LoadingButton isLoading={isLoading} onClick={handleSubmit}>

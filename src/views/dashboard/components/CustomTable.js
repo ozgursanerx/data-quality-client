@@ -78,6 +78,7 @@ const CustomTable = ({
                   key={index}
                   className="text-center"
                   onClick={(e) => e.preventDefault()}
+                  title={column.tooltip} // Adding tooltip
                   style={{
                     borderRight: index !== columns.length - 1 ? '1px solid var(--cui-border-color)' : 'none',
                     borderBottom: '2px solid var(--cui-border-color)',
@@ -88,7 +89,7 @@ const CustomTable = ({
                     color: 'var(--cui-body-color)',
                     whiteSpace: 'nowrap',
                     backgroundColor: 'inherit',
-                    cursor: 'pointer'
+                    cursor: 'help' // Changed cursor to help to indicate tooltip
                   }}
                 >
                   {column.header}

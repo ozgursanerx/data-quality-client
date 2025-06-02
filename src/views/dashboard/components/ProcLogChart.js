@@ -24,6 +24,8 @@ const ProcLogChart = () => {
   const [firstDate, setFirstDate] = useState('');
   const [lastDate, setLastDate] = useState('');
   const [useCustomDateRange, setUseCustomDateRange] = useState(false);
+  const [useGroupStepId, setUseGroupStepId] = useState(false);
+  const [stepIdPrefix, setStepIdPrefix] = useState('');
   const [toast, setToast] = useState(null);
   const [chartData, setChartData] = useState({
     labels: [],
@@ -90,6 +92,8 @@ const ProcLogChart = () => {
           timeType: useCustomDateRange ? 'DR' : timeType,
           firstDate: useCustomDateRange ? firstDate.replace(/-/g, '') : null,
           lastDate: useCustomDateRange ? lastDate.replace(/-/g, '') : null,
+          stepIdGrp: useGroupStepId ? 'GS' : 'S',
+          stepIdPrefix: useGroupStepId ? stepIdPrefix : null,
         }),
       });
 
@@ -171,72 +175,130 @@ const ProcLogChart = () => {
       <CCardBody>
         <CRow className="mb-4">
           <CCol xs={12} md={2}>
-            <CFormLabel htmlFor="progId">Prog ID</CFormLabel>
+            <CFormLabel htmlFor="progId" title="Program ID'sini girin">Prog ID</CFormLabel>
             <CFormInput
               id="progId"
               type="number"
               value={progId}
               onChange={(e) => setProgId(e.target.value)}
+              title="Analiz edilecek programın ID'sini girin"
             />
           </CCol>
-          <CCol xs={12} md={2}>
-            <CFormLabel htmlFor="stepId">Step ID</CFormLabel>
-            <CFormInput
-              id="stepId"
-              type="text"
-              value={stepId}
-              onChange={(e) => setStepId(e.target.value)}
-            />
-          </CCol>
-          <CCol xs={12} md={2}>
-            <CFormLabel htmlFor="timeType">Zaman Aralığı</CFormLabel>
-            <CFormSelect
-              id="timeType"
-              value={timeType}
-              onChange={(e) => setTimeType(e.target.value)}
-            >
-              {timeTypeOptions.map(option => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </CFormSelect>
-          </CCol>
-          <CCol xs={12} md={2}>
-            <div className="mt-4">
-              <CFormCheck
-                id="useCustomDateRange"
-                label="Tarih Aralığı Belirt"
-                checked={useCustomDateRange}
-                onChange={(e) => {
-                  setUseCustomDateRange(e.target.checked);
-                  if (!e.target.checked) {
-                    setFirstDate('');
-                    setLastDate('');
-                  }
-                }}
+          <CCol xs={12} md={4}>
+            <CFormLabel>Step ID / Prosedür</CFormLabel>
+            <div className="d-flex gap-2 align-items-center">
+              <div className="btn-group" role="group" style={{ minWidth: '200px' }}>
+                <input
+                  type="radio"
+                  className="btn-check"
+                  name="searchType"
+                  id="stepIdRadio"
+                  checked={!useGroupStepId}
+                  onChange={() => {
+                    setUseGroupStepId(false);
+                    setStepIdPrefix('');
+                  }}
+                />
+                <label className="btn btn-outline-primary" htmlFor="stepIdRadio">
+                  Step ID
+                </label>
+
+                <input
+                  type="radio"
+                  className="btn-check"
+                  name="searchType"
+                  id="procedureRadio"
+                  checked={useGroupStepId}
+                  onChange={() => {
+                    setUseGroupStepId(true);
+                    setStepId('');
+                  }}
+                />
+                <label className="btn btn-outline-primary" htmlFor="procedureRadio">
+                  Prosedür
+                </label>
+              </div>
+
+              <CFormInput
+                id={useGroupStepId ? "stepIdPrefix" : "stepId"}
+                type="text"
+                value={useGroupStepId ? stepIdPrefix : stepId}
+                onChange={(e) => useGroupStepId ? setStepIdPrefix(e.target.value) : setStepId(e.target.value)}
+                placeholder={useGroupStepId ? "Prosedür adını girin" : "Step ID'yi girin"}
+                title={useGroupStepId ? "Prosedür adını girin" : "Step ID'yi girin"}
+                style={{ flex: 1 }}
               />
             </div>
           </CCol>
-          <CCol xs={12} md={2}>
-            <CFormLabel htmlFor="firstDate">Başlangıç Tarihi</CFormLabel>
-            <CFormInput
-              id="firstDate"
-              type="date"
-              value={firstDate}
-              onChange={(e) => setFirstDate(e.target.value)}
-              disabled={!useCustomDateRange}
-            />
-          </CCol>
-          <CCol xs={12} md={2}>
-            <CFormLabel htmlFor="lastDate">Bitiş Tarihi</CFormLabel>
-            <CFormInput
-              id="lastDate"
-              type="date"
-              value={lastDate}
-              onChange={(e) => setLastDate(e.target.value)}
-              disabled={!useCustomDateRange}
-            />
+          <CCol xs={12} md={6}>
+            <CFormLabel>Zaman Aralığı</CFormLabel>
+            <div className="d-flex gap-2 align-items-center">
+              <div className="btn-group" role="group" style={{ minWidth: '200px' }}>
+                <input
+                  type="radio"
+                  className="btn-check"
+                  name="dateType"
+                  id="defaultDateRadio"
+                  checked={!useCustomDateRange}
+                  onChange={() => {
+                    setUseCustomDateRange(false);
+                    setFirstDate('');
+                    setLastDate('');
+                  }}
+                />
+                <label className="btn btn-outline-primary" htmlFor="defaultDateRadio">
+                  Varsayılan
+                </label>
+
+                <input
+                  type="radio"
+                  className="btn-check"
+                  name="dateType"
+                  id="customDateRadio"
+                  checked={useCustomDateRange}
+                  onChange={() => {
+                    setUseCustomDateRange(true);
+                  }}
+                />
+                <label className="btn btn-outline-primary" htmlFor="customDateRadio">
+                  Özel Tarih
+                </label>              </div>
+              {useCustomDateRange ? (                <div className="d-flex gap-2 align-items-start ms-2" style={{ flex: 1 }}>
+                  <div style={{ flex: 1 }}>
+                    <CFormInput
+                      id="firstDate"
+                      type="date"
+                      value={firstDate}
+                      onChange={(e) => setFirstDate(e.target.value)}
+                      title="Analiz başlangıç tarihini seçin"
+                    />
+                  </div>
+                  <div style={{ flex: 1 }}>
+                    <CFormInput
+                      id="lastDate"
+                      type="date"
+                      value={lastDate}
+                      onChange={(e) => setLastDate(e.target.value)}
+                      title="Analiz bitiş tarihini seçin"
+                    />
+                  </div>
+                </div>
+              ) : (
+                <CFormSelect
+                  id="timeType"
+                  value={timeType}
+                  onChange={(e) => setTimeType(e.target.value)}
+                  style={{ flex: 1 }}
+                  title="Analiz edilecek zaman aralığını seçin"
+                >
+                  {timeTypeOptions.map(option => (
+                    <option key={option.value} value={option.value} title={`${option.label} için analiz yap`}>
+                      {option.label}
+                    </option>
+                  ))}
+                </CFormSelect>
+              )}
+            </div>
           </CCol>
           <CCol className="mt-4" xs={12} md={2}>
             <LoadingButton isLoading={isLoading} onClick={fetchData}>
@@ -310,7 +372,7 @@ const ProcLogChart = () => {
                 intersect: false,
                 callbacks: {
                   title: (context) => {
-                    return context[0].label;
+                    return `Tarih: ${context[0].label}`;
                   },
                   label: (context) => {
                     let label = context.dataset.label || '';
@@ -318,13 +380,11 @@ const ProcLogChart = () => {
                       label += ': ';
                     }
                     if (label.includes('Duration')) {
-                      label += Math.round(context.parsed.y * 100) / 100 + ' minutes';
+                      return `${label}${Math.round(context.parsed.y * 100) / 100} dakika`;
                     } else if (label.includes('Row Count')) {
-                      label += formatNumber(Math.round(context.parsed.y));
-                    } else {
-                      label += Math.round(context.parsed.y);
+                      return `${label}${formatNumber(context.parsed.y)} satır`;
                     }
-                    return label;
+                    return label + context.parsed.y;
                   }
                 }
               }

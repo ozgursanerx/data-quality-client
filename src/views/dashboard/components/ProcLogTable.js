@@ -4,6 +4,7 @@ import {
   CCol,
   CFormLabel,
   CFormInput,
+  CTooltip,
 } from '@coreui/react';
 import LoadingButton from '../../../components/LoadingButton';
 import CustomTable from './CustomTable';
@@ -107,15 +108,15 @@ const ProcLogTable = () => {
   const totalPages = Math.ceil(procLogData.length / itemsPerPage);
 
   const columns = [
-    { header: '#', accessor: 'index', truncate: false },
-    { header: 'Step ID', accessor: 'stepId', truncate: true, maxLength: 30 },
-    { header: 'Prog ID', accessor: 'progId', truncate: false },
-    { header: 'SQL Full Text', accessor: 'sqlFullText', truncate: true, maxLength: 100 },
-    { header: 'Start Time', accessor: 'startTm', truncate: false },
-    { header: 'Duration (min)', accessor: 'duration', truncate: false },
-    { header: 'Mean Duration (min)', accessor: 'meanDuration', truncate: false },
-    { header: 'Std Dev Duration (min)', accessor: 'stdDevDuration', truncate: false },
-    { header: 'Anomaly Flag', accessor: 'anomalyflag', truncate: false },
+    { header: '#', accessor: 'index', truncate: false, tooltip: 'Sıra numarası' },
+    { header: 'Step ID', accessor: 'stepId', truncate: true, maxLength: 30, tooltip: 'İşlem adımı ID\'si' },
+    { header: 'Prog ID', accessor: 'progId', truncate: false, tooltip: 'Program ID\'si' },
+    { header: 'SQL Full Text', accessor: 'sqlFullText', truncate: true, maxLength: 100, tooltip: 'SQL sorgusu' },
+    { header: 'Start Time', accessor: 'startTm', truncate: false, tooltip: 'İşlemin başlangıç zamanı' },
+    { header: 'Duration (min)', accessor: 'duration', truncate: false, tooltip: 'İşlemin süresi (dakika)' },
+    { header: 'Mean Duration (min)', accessor: 'meanDuration', truncate: false, tooltip: 'Ortalama işlem süresi (dakika)' },
+    { header: 'Std Dev Duration (min)', accessor: 'stdDevDuration', truncate: false, tooltip: 'Standart sapma süresi (dakika)' },
+    { header: 'Anomaly Flag', accessor: 'anomalyflag', truncate: false, tooltip: 'Anomali durumu' }
   ];
 
   return (
@@ -123,63 +124,75 @@ const ProcLogTable = () => {
       <CRow className="align-items-center mb-4">
         <CCol xs={12} md={3}>
           <CFormLabel htmlFor="progId">Prog ID</CFormLabel>
-          <CFormInput
-            id="progId"
-            type="number"
-            placeholder="Prog ID girin"
-            value={progId}
-            onChange={(e) => setProgId(e.target.value)}
-          />
+          <CTooltip content="İşlem yapılacak programın ID'sini girin" placement="top">
+            <CFormInput
+              id="progId"
+              type="number"
+              placeholder="Prog ID girin"
+              value={progId}
+              onChange={(e) => setProgId(e.target.value)}
+            />
+          </CTooltip>
         </CCol>
 
         <CCol xs={12} md={3}>
           <CFormLabel htmlFor="logDate">Log Date</CFormLabel>
-          <CFormInput
-            id="logDate"
-            type="date"
-            value={logDate}
-            onChange={(e) => setLogDate(e.target.value)}
-          />
+          <CTooltip content="Bu tarihten itibaren değerler hesaplanacaktır" placement="top">
+            <CFormInput
+              id="logDate"
+              type="date"
+              value={logDate}
+              onChange={(e) => setLogDate(e.target.value)}
+            />
+          </CTooltip>
         </CCol>
 
         <CCol xs={12} md={3}>
           <CFormLabel htmlFor="anomalyLogDate">Anomaly Log Date</CFormLabel>
-          <CFormInput
-            id="anomalyLogDate"
-            type="date"
-            value={anomalyLogDate}
-            onChange={(e) => setAnomalyLogDate(e.target.value)}
-          />
+          <CTooltip content="Bu tarihten itibaren analiz yapılacaktır" placement="top">
+            <CFormInput
+              id="anomalyLogDate"
+              type="date"
+              value={anomalyLogDate}
+              onChange={(e) => setAnomalyLogDate(e.target.value)}
+            />
+          </CTooltip>
         </CCol>
 
         <CCol xs={12} md={3}>
           <CFormLabel htmlFor="potentialAnomalyValue">Potential Anomaly Value</CFormLabel>
-          <CFormInput
-            id="potentialAnomalyValue"
-            type="number"
-            step="0.01"
-            placeholder="Değer girin"
-            value={potentialAnomalyValue}
-            onChange={(e) => setPotentialAnomalyValue(e.target.value)}
-          />
+          <CTooltip content="Anomali tespiti için eşik değerini girin" placement="top">
+            <CFormInput
+              id="potentialAnomalyValue"
+              type="number"
+              step="0.01"
+              placeholder="Değer girin"
+              value={potentialAnomalyValue}
+              onChange={(e) => setPotentialAnomalyValue(e.target.value)}
+            />
+          </CTooltip>
         </CCol>
 
         <CCol xs={12} md={3} className="mt-3">
           <CFormLabel htmlFor="potentialAnomalyRate">Potential Anomaly Rate</CFormLabel>
-          <CFormInput
-            id="potentialAnomalyRate"
-            type="number"
-            step="0.01"
-            placeholder="Oran girin"
-            value={potentialAnomalyRate}
-            onChange={(e) => setPotentialAnomalyRate(e.target.value)}
-          />
+          <CTooltip content="Anomali tespiti için oran değerini girin" placement="top">
+            <CFormInput
+              id="potentialAnomalyRate"
+              type="number"
+              step="0.01"
+              placeholder="Oran girin"
+              value={potentialAnomalyRate}
+              onChange={(e) => setPotentialAnomalyRate(e.target.value)}
+            />
+          </CTooltip>
         </CCol>
 
         <CCol className="mt-4" xs={12} md={2}>
-          <LoadingButton isLoading={isLoading} onClick={fetchProcLogData}>
-            Gönder
-          </LoadingButton>
+          <CTooltip content="Form verilerini sunucuya gönder" placement="top">
+            <LoadingButton isLoading={isLoading} onClick={fetchProcLogData}>
+              Gönder
+            </LoadingButton>
+          </CTooltip>
         </CCol>
       </CRow>
 

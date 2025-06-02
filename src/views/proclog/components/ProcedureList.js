@@ -11,14 +11,14 @@ import {
   CTooltip,
 } from '@coreui/react';
 import LoadingButton from '../../../components/LoadingButton';
-import CustomTable from './CustomTable';
+import CustomTable from '../../dashboard/components/CustomTable';
 import CIcon from '@coreui/icons-react';
 import { cilSearch, cilCopy } from '@coreui/icons';
 
-const StepIdList = () => {
+const ProcedureList = () => {
   const [progId, setProgId] = useState('');
-  const [stepIds, setStepIds] = useState([]);
-  const [filteredStepIds, setFilteredStepIds] = useState([]);
+  const [procedures, setProcedures] = useState([]);
+  const [filteredProcedures, setFilteredProcedures] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
@@ -27,7 +27,7 @@ const StepIdList = () => {
 
   const columns = [
     { header: '#', accessor: 'index', truncate: false },
-    { header: 'Step ID', accessor: 'stepId', truncate: false },
+    { header: 'Procedure', accessor: 'stepIdPrefix', truncate: false },
     { header: 'Actions', accessor: 'actions', truncate: false }
   ];
 
@@ -37,75 +37,86 @@ const StepIdList = () => {
   };
 
   useEffect(() => {
-    const filtered = stepIds
-      .map((stepId, index) => ({
+    const filtered = procedures
+      .map((proc, index) => ({
         index: index + 1,
-        stepId: stepId,
+        stepIdPrefix: proc,
         actions: 'copy'
       }))
       .filter(item => 
-        item.stepId.toString().toLowerCase().includes(searchText.toLowerCase())
+        item.stepIdPrefix.toString().toLowerCase().includes(searchText.toLowerCase())
       );
-    setFilteredStepIds(filtered);
-  }, [stepIds, searchText]);
+    setFilteredProcedures(filtered);
+  }, [procedures, searchText]);
 
-  const fetchStepIds = async () => {
+  const fetchProcedures = async () => {
     if (!progId) {
       showError('Please enter a Program ID');
       return;
     }
 
     setIsLoading(true);
-    setStepIds([]); // Reset previous results
+    setProcedures([]); // Reset previous results
     try {
-      const response = await fetch('/edwapi/getStepIdService', {
+      const response = await fetch('http://localhost:8080/edwapi/getStepIdGroupedService', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          progId: parseInt(progId)
+          progId: parseInt(progId),
+          bgnTs: null,
+          endTs: null,
+          stepId: null,
+          stepIdPrefix: null,
+          groupBy: null
         }),
-      });
-
-      if (response.ok) {
+      });      if (response.ok) {
         const rawData = await response.json();
-        let parsedData = rawData[0];
-        try {
-          if (typeof parsedData === 'string') {
-            parsedData = JSON.parse(parsedData);
-          }
+        try {          // Handle the case where the response is a string that needs to be parsed
+          const jsonStr = Array.isArray(rawData) ? rawData[0] : rawData;
+          const parsedData = typeof jsonStr === 'string' ? JSON.parse(jsonStr) : jsonStr;
 
-          const stepIdArray = Array.isArray(parsedData) 
-            ? parsedData.map(item => item.stepId).filter(Boolean)
-            : [parsedData.stepId].filter(Boolean);
+          // Ensure we have an array to work with
+          const dataArray = Array.isArray(parsedData) ? parsedData : [parsedData];
           
-          setStepIds(stepIdArray);
+          // Get stepId values directly from the response
+          const stepIds = [...new Set(dataArray
+            .map(item => {
+              try {
+                const parsedItem = typeof item === 'string' ? JSON.parse(item) : item;
+                return parsedItem.stepId;
+              } catch (e) {
+                return null;
+              }
+            })
+            .filter(Boolean))];          setProcedures(stepIds);
           
-          if (stepIdArray.length === 0) {
-            showError('No step IDs found for this Program ID');
+          if (stepIds.length === 0) {
+            showError('No procedures found for this Program ID');
           }
         } catch (parseError) {
           console.error('Parse error:', parseError);
           showError('Error parsing response data');
+          setProcedures([]);
         }
       } else {
         console.error('Error:', response.statusText);
-        showError('Error fetching step IDs');
-        setStepIds([]);
+        showError('Error fetching procedures');
+        setProcedures([]);
       }
     } catch (error) {
       console.error('Error:', error);
       showError('Error connecting to server');
-      setStepIds([]);
+      setProcedures([]);
     } finally {
       setIsLoading(false);
     }
   };
 
-  const handleCopyStepId = (stepId) => {
-    navigator.clipboard.writeText(stepId.toString());
-    showError('Step ID copied to clipboard!');
+  const handleCopyProcedure = (procedure) => {
+    navigator.clipboard.writeText(procedure.toString());
+    showError('Procedure copied to clipboard!');
   };
 
   const truncateText = (text, maxLength = 30) => text;
@@ -113,10 +124,10 @@ const StepIdList = () => {
   return (
     <CCard className="h-100">
       <CCardHeader className="d-flex justify-content-between align-items-center">
-        <span>Step ID List</span>
-        {filteredStepIds.length > 0 && (
+        <span>Procedure List</span>
+        {filteredProcedures.length > 0 && (
           <CBadge color="info" shape="rounded-pill">
-            {filteredStepIds.length} Steps
+            {filteredProcedures.length} Procedures
           </CBadge>
         )}
       </CCardHeader>
@@ -124,7 +135,7 @@ const StepIdList = () => {
         <div className="mb-3">
           <div className="d-flex gap-2 align-items-center">
             <CFormLabel htmlFor="progId" className="mb-0" style={{ whiteSpace: 'nowrap' }}>Program ID:</CFormLabel>
-            <CTooltip content="Step ID'leri görmek için ilgili Prog ID" placement="top">
+            <CTooltip content="Prosedürleri görmek için ilgili Prog ID" placement="top">
               <CFormInput
                 id="progId"
                 type="number"
@@ -134,30 +145,30 @@ const StepIdList = () => {
                 style={{ maxWidth: '350px' }}
                 onKeyPress={(e) => {
                   if (e.key === 'Enter') {
-                    fetchStepIds();
+                    fetchProcedures();
                   }
                 }}
               />
             </CTooltip>
             <LoadingButton 
               isLoading={isLoading} 
-              onClick={fetchStepIds}
+              onClick={fetchProcedures}
               style={{ whiteSpace: 'nowrap' }}
               size="sm"
             >
-              Get Step IDs
+              Get Procedures
             </LoadingButton>
           </div>
         </div>
 
-        {stepIds.length > 0 && (
+        {procedures.length > 0 && (
           <CInputGroup className="mb-3">
             <CInputGroupText>
               <CIcon icon={cilSearch} />
             </CInputGroupText>
-            <CTooltip content="Filter the list of Step IDs" placement="top">
+            <CTooltip content="Filter the list of Procedures" placement="top">
               <CFormInput
-                placeholder="Search Step IDs..."
+                placeholder="Search Procedures..."
                 value={searchText}
                 onChange={(e) => setSearchText(e.target.value)}
               />
@@ -175,11 +186,11 @@ const StepIdList = () => {
           <div style={{ flex: 1, minHeight: 0, position: 'relative' }}>
             <div style={{ position: 'absolute', inset: 0, overflowY: 'auto' }}>
               <CustomTable
-                data={filteredStepIds}
+                data={filteredProcedures}
                 columns={columns}
                 currentPage={currentPage}
                 itemsPerPage={itemsPerPage}
-                totalPages={Math.ceil(filteredStepIds.length / itemsPerPage)}
+                totalPages={Math.ceil(filteredProcedures.length / itemsPerPage)}
                 onPageChange={setCurrentPage}
                 truncateText={truncateText}
                 customRowRender={(item) => ({
@@ -187,7 +198,7 @@ const StepIdList = () => {
                   actions: (
                     <button
                       className="btn btn-sm btn-info"
-                      onClick={() => handleCopyStepId(item.stepId)}
+                      onClick={() => handleCopyProcedure(item.stepIdPrefix)}
                     >
                       <CIcon icon={cilCopy} /> Copy
                     </button>
@@ -198,9 +209,9 @@ const StepIdList = () => {
           </div>
         </div>
 
-        {!isLoading && stepIds.length === 0 && !error && (
+        {!isLoading && procedures.length === 0 && !error && (
           <div className="text-center text-muted mt-3">
-            Enter a Program ID to see Step IDs
+            Enter a Program ID to see Procedures
           </div>
         )}
       </CCardBody>
@@ -208,4 +219,4 @@ const StepIdList = () => {
   );
 };
 
-export default StepIdList;
+export default ProcedureList;

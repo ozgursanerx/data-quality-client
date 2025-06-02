@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { CListGroup, CListGroupItem, CFormInput, CInputGroup } from '@coreui/react';
+import { CListGroup, CListGroupItem, CFormInput, CInputGroup, CTooltip } from '@coreui/react';
 
 const PackageList = ({ onPackageSelect }) => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -34,11 +34,13 @@ const PackageList = ({ onPackageSelect }) => {
   return (
     <div className="package-list">
       <CInputGroup className="mb-3">
-        <CFormInput
-          placeholder="Paket ara..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
+        <CTooltip content="Paket listesinde arama yapmak için paket adını girin" placement="top">
+          <CFormInput
+            placeholder="Paket ara..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </CTooltip>
       </CInputGroup>
       <CListGroup>
         {filteredPackages.map((pkg) => (
