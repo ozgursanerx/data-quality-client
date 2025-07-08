@@ -15,7 +15,7 @@ import {
   CTooltip,
 } from '@coreui/react'
 import { DocsComponents, DocsExample } from 'src/components'
-import LoadingButton from '../../components/LoadingButton'
+import LoadingButton from 'src/components/LoadingButton'
 
 const LiveDemo = () => {
   const [visible, setVisible] = useState(false)
@@ -548,7 +548,7 @@ const Modals = () => {
           </CCardHeader>
           <CCardBody>
             <p className="text-body-secondary small">
-              If you don’t provide an <code>onDimsiss</code> handler to the Modal component, your
+              If you don't provide an <code>onDimsiss</code> handler to the Modal component, your
               modal will behave as though the backdrop is static, meaning it will not close when
               clicking outside it. Click the button below to try it.
             </p>
@@ -563,7 +563,7 @@ const Modals = () => {
           </CCardHeader>
           <CCardBody>
             <p className="text-body-secondary small">
-              If you don’t provide an <code>onDimsiss</code> handler to the Modal component, your
+              If you don't provide an <code>onDimsiss</code> handler to the Modal component, your
               modal will behave as though the backdrop is static, meaning it will not close when
               clicking outside it. Click the button below to try it.
             </p>
@@ -587,7 +587,7 @@ const Modals = () => {
           </CCardHeader>
           <CCardBody>
             <p className="text-body-secondary small">
-              Add <code>alignment=&#34;center&#34;</code> to <code>&lt;CModal&gt;</code> to
+              Add <code>alignment='center'</code> to <code>&lt;CModal&gt;</code> to
               vertically center the modal.
             </p>
             <DocsExample href="components/modal#vertically-centered">
@@ -639,7 +639,7 @@ const Modals = () => {
                 <tr>
                   <td>Small</td>
                   <td>
-                    <code>&#39;sm&#39;</code>
+                    <code>'sm'</code>
                   </td>
                   <td>
                     <code>300px</code>
@@ -655,7 +655,7 @@ const Modals = () => {
                 <tr>
                   <td>Large</td>
                   <td>
-                    <code>&#39;lg&#39;</code>
+                    <code>'lg'</code>
                   </td>
                   <td>
                     <code>800px</code>
@@ -664,7 +664,7 @@ const Modals = () => {
                 <tr>
                   <td>Extra large</td>
                   <td>
-                    <code>&#39;xl&#39;</code>
+                    <code>'xl'</code>
                   </td>
                   <td>
                     <code>1140px</code>
@@ -702,7 +702,7 @@ const Modals = () => {
                 </tr>
                 <tr>
                   <td>
-                    <code>&#39;sm&#39;</code>
+                    <code>'sm'</code>
                   </td>
                   <td>
                     Below <code>576px</code>
@@ -710,7 +710,7 @@ const Modals = () => {
                 </tr>
                 <tr>
                   <td>
-                    <code>&#39;md&#39;</code>
+                    <code>'md'</code>
                   </td>
                   <td>
                     Below <code>768px</code>
@@ -718,7 +718,7 @@ const Modals = () => {
                 </tr>
                 <tr>
                   <td>
-                    <code>&#39;lg&#39;</code>
+                    <code>'lg'</code>
                   </td>
                   <td>
                     Below <code>992px</code>
@@ -726,7 +726,7 @@ const Modals = () => {
                 </tr>
                 <tr>
                   <td>
-                    <code>&#39;xl&#39;</code>
+                    <code>'xl'</code>
                   </td>
                   <td>
                     Below <code>1200px</code>
@@ -734,7 +734,7 @@ const Modals = () => {
                 </tr>
                 <tr>
                   <td>
-                    <code>&#39;xxl&#39;</code>
+                    <code>'xxl'</code>
                   </td>
                   <td>
                     Below <code>1400px</code>

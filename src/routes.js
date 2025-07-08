@@ -1,9 +1,13 @@
 import React from 'react'
 
-const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
-const Monitoring = React.lazy(() => import('./views/dashboard/Monitoring'))
+const Dashboard = React.lazy(() => import('./pages/dashboard/Dashboard'))
+const Monitoring = React.lazy(() => import('./pages/monitoring/Monitoring'))
+const PackageAnalysis = React.lazy(() => import('./pages/package-analysis/PackageAnalysis'))
+const AnomalyDetection = React.lazy(() => import('./pages/anomaly-detection/AnomalyDetection'))
+const DataLineage = React.lazy(() => import('./pages/data-lineage/DataLineage'))
 const Colors = React.lazy(() => import('./views/theme/colors/Colors'))
 const Typography = React.lazy(() => import('./views/theme/typography/Typography'))
+const ProcLog = React.lazy(() => import('./pages/proclog/ProcLog'))
 
 // Base
 const Accordion = React.lazy(() => import('./views/base/accordion/Accordion'))
@@ -38,7 +42,6 @@ const Select = React.lazy(() => import('./views/forms/select/Select'))
 const Validation = React.lazy(() => import('./views/forms/validation/Validation'))
 
 const Charts = React.lazy(() => import('./views/charts/Charts'))
-const ProcLog = React.lazy(() => import('./views/proclog/ProcLog'))
 
 // Icons
 const CoreUIIcons = React.lazy(() => import('./views/icons/coreui-icons/CoreUIIcons'))
@@ -56,6 +59,9 @@ const Widgets = React.lazy(() => import('./views/widgets/Widgets'))
 const routes = [
   { path: '/', exact: true, name: 'Home' },
   { path: '/monitoring', name: 'Monitoring', element: Monitoring },
+  { path: '/package-analysis', name: 'Package Analysis', element: PackageAnalysis },
+  { path: '/anomaly-detection', name: 'Anomaly Detection', element: AnomalyDetection },
+  { path: '/data-lineage', name: 'Data Lineage', element: DataLineage },
   { path: '/dashboard', name: 'Dashboard', element: Dashboard },
   { path: '/theme', name: 'Theme', element: Colors, exact: true },
   { path: '/theme/colors', name: 'Colors', element: Colors },
@@ -64,8 +70,8 @@ const routes = [
   { path: '/base/accordion', name: 'Accordion', element: Accordion },
   { path: '/base/breadcrumbs', name: 'Breadcrumbs', element: Breadcrumbs },
   { path: '/base/cards', name: 'Cards', element: Cards },
-  { path: '/base/carousels', name: 'Carousel', element: Carousels },
-  { path: '/base/collapses', name: 'Collapse', element: Collapses },
+  { path: '/base/carousels', name: 'Carousels', element: Carousels },
+  { path: '/base/collapses', name: 'Collapses', element: Collapses },
   { path: '/base/list-groups', name: 'List Groups', element: ListGroups },
   { path: '/base/navs', name: 'Navs', element: Navs },
   { path: '/base/paginations', name: 'Paginations', element: Paginations },

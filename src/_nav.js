@@ -3,7 +3,6 @@ import CIcon from '@coreui/icons-react'
 import {
   cilBell,
   cilCalculator,
-  cilCat,
   cilChartPie,
   cilCursor,
   cilDescription,
@@ -14,7 +13,9 @@ import {
   cilPuzzle,
   cilSpeedometer,
   cilStar,
-  cilChart,
+  cilStorage,
+  cilMonitor,
+  cilDataTransferDown,
 } from '@coreui/icons'
 import { CNavGroup, CNavItem, CNavTitle } from '@coreui/react'
 
@@ -30,32 +31,60 @@ const _nav = [
     },
   },
   {
-    component: CNavItem,
-    name: 'Monitoring',
-    to: '/monitoring',
-    icon: <CIcon icon={cilChart} customClassName="nav-icon" />,
+    component: CNavTitle,
+    name: 'Veri Analizi',
   },
   {
     component: CNavItem,
-    name: 'Proc Log',
+    name: 'ProcLog Analizi',
     to: '/proclog',
-    icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
+    icon: <CIcon icon={cilStorage} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavItem,
+    name: 'Monitoring',
+    to: '/monitoring',
+    icon: <CIcon icon={cilMonitor} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavItem,
+    name: 'Paket Analizi',
+    to: '/package-analysis',
+    icon: <CIcon icon={cilPuzzle} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavItem,
+    name: 'Anomali Tespiti',
+    to: '/anomaly-detection',
+    icon: <CIcon icon={cilBell} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavItem,
+    name: 'Data Lineage',
+    to: '/data-lineage',
+    icon: <CIcon icon={cilDataTransferDown} customClassName="nav-icon" />,
   },
   {
     component: CNavTitle,
     name: 'Theme',
   },
   {
-    component: CNavItem,
+    component: CNavGroup,
     name: 'Colors',
-    to: '/theme/colors',
+    to: '/theme',
     icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
-  },
-  {
-    component: CNavItem,
-    name: 'Typography',
-    to: '/theme/typography',
-    icon: <CIcon icon={cilPencil} customClassName="nav-icon" />,
+    items: [
+      {
+        component: CNavItem,
+        name: 'Colors',
+        to: '/theme/colors',
+      },
+      {
+        component: CNavItem,
+        name: 'Typography',
+        to: '/theme/typography',
+      },
+    ],
   },
   {
     component: CNavTitle,
@@ -362,7 +391,7 @@ const _nav = [
     component: CNavItem,
     name: 'Charts',
     to: '/charts',
-    icon: <CIcon icon={cilChart} customClassName="nav-icon" />,
+    icon: <CIcon icon={cilChartPie} customClassName="nav-icon" />,
   },
   {
     component: CNavGroup,
@@ -373,6 +402,10 @@ const _nav = [
         component: CNavItem,
         name: 'CoreUI Free',
         to: '/icons/coreui-icons',
+        badge: {
+          color: 'success',
+          text: 'NEW',
+        },
       },
       {
         component: CNavItem,
@@ -457,7 +490,7 @@ const _nav = [
   {
     component: CNavItem,
     name: 'Docs',
-    href: 'https://coreui.io/react/docs/templates/installation/',
+    href: 'https://coreui.io/react/docs/templates/installation',
     icon: <CIcon icon={cilDescription} customClassName="nav-icon" />,
   },
 ]

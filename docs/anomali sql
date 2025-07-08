@@ -1,0 +1,148 @@
+Bir task açıldı. bunu beraber yapacağız EDW | CANCELLEDCARDTRX | Farklı açıklamalarla tekrarlı denenen işlemlerin tekilleştirilmesi
+
+Bir müşterinin aynı kart, aynı tutar ve aynı kurdan geçen işlemleri
+ arasında 10 saniyeden daha kısa bir süre geçmişse, işlemleri gruplarız. 
+ Sadece ilk işlemi alırız ve diğerlerini işlem setine dahil etmeyiz.
+
+ Söz konusu alanların DA_CCT_TRX tablosunda karsılılıkları CUST_D, CARD_NO, TRX_AMT_ORG ve CCY_CODE. işlemler arası geçen süre için de trx_dt ve trx-time alanları kullanılır.
+ date dogrudan date iken time alanı saat bilgisini verir son iki basamak saniye bilgisini verir.
+
+ Taska ve tablolara hakim oldguna göre aşağıdaki sorgular üzerinden gerekli güncellemeyi yap. 
+
+ Buradaki söz konusu işlemleri aldığım iki sorgu var ardınan bu sorgulardan çıan tabloları birleştiridim bir sorgu daha var bunları ekliyorum.
+  V_STEP_ID := 'DA_CP_PLATFORM_REMINDER-111';
+        SNPADM.PKG_EDW_UTILITY.P_DROP_TABLE('DA_CCT_CC_TRX'||V_USER||'');  
+        V_SQL_STR := '
+            CREATE TABLE DA_CCT_CC_TRX'||V_USER||' PARALLEL 16 PCTFREE 0 AS
+            SELECT * FROM (
+               SELECT  /*+ parallel (8) */
+                    CAST(NULL AS NUMBER(6)) as TRX_ID, A.CUST_NO as CUST_ID, A.TRX_MERC_CODE as TRX_MRCHNT_ID,
+                    CASE WHEN A.TRX_LOC_CUR_CODE <> 949 and A.TRX_SRC_CODE <> ''07'' -- Eksrandan otorizasyon alınmadı ise  
+                        THEN A.TRX_LOC_CUR_AMNT/100.0 ELSE A.TRX_LOC_CUR_AMNT END  as TRX_AMT_ORG, --A.TRX_LOC_CUR_AMNT as TRX_AMT_ORG, 
+                    D.CCY_CODE, A.DATE_TRX as TRX_DT, A.TRX_LOCATION as TRX_DSC,
+                    B.CARD_NO, B.CUR_CARD_NO, B.CARD_NAME, B.CARD_TP, B.ENTRY_DT, B.RNW_RSN_DESC, B.RSN_CLOSE_DESC, B.S_CUST_ID, B.CARD_ST_DESC, B.CLS_DT, B.CLS_TM, B.CARD_ST_CHG_DT, B.EXP_DT,
+                    A.TIME_TRX AS TRX_TIME, POS_ENTRY_MODE, A.DEC_REASON_CODE TRX_RPLY_CODE, E.RESPONSE_DESC TRX_RPLY_DESC,
+                    TO_DATE(TO_CHAR(B.CARD_ST_CHG_DT, ''YYYYMMDD'') || B.CLS_TM, ''YYYYMMDDHH24MISS'') AS CARD_CHG_DT_TM,
+                    TO_DATE(TO_CHAR(A.DATE_TRX, ''YYYYMMDD'') || A.TIME_TRX, ''YYYYMMDDHH24MISS'') AS TRX_DT_TM
+                FROM     
+                    CDM.CC_CARD_PROV_DEC A,
+                    '||V_SCHEMA||'.DA_PLATFORM_CC_LIST'||V_USER||' B,
+                    LOOKUP.LU_CCY D,
+                    LOOKUP.LU_CC_PROV_INFO E
+                WHERE 1=1
+                    AND A.CUST_NO = B.CUST_ID
+                    AND A.CARD_NO = TO_CHAR(B.CARD_NO) --gecici cozum 20250414
+                    AND A.DATE_TRX BETWEEN B.CARD_ST_CHG_DT AND B.CARD_ST_CHG_DT+35
+                    AND B.CARD_ST_ID IN (''K'',''C'',''I'') --kayip,calinti,iptal kartlar
+                    AND B.CARD_ST_ID_DRV <> ''N''
+                    AND B.CARD_ST_CHG_DT >= TO_DATE('''||P_AS_OF_DT||''',''YYYYMMDD'')-42
+--                    AND A.TRX_TP_ID = C.TRX_TP_ID
+--                    AND EOD_DT BETWEEN LAST_DAY(ADD_MONTHS(TRUNC(TO_DATE('''||P_AS_OF_DT||''',''YYYYMMDD'')), -4))+1 AND LAST_DAY(ADD_MONTHS(TRUNC(TO_DATE('''||P_AS_OF_DT||''',''YYYYMMDD'')), -1))
+--                    AND TRX_DT BETWEEN  LAST_DAY(ADD_MONTHS(TRUNC(TO_DATE('''||P_AS_OF_DT||''',''YYYYMMDD'')), -4))+1 AND LAST_DAY(ADD_MONTHS(TRUNC(TO_DATE('''||P_AS_OF_DT||''',''YYYYMMDD'')), -1))
+                    AND SUBSTR(A.POS_ENTRY_MODE,1,2) IN  (''01'', ''10'', ''81'')
+--                    AND NVL(TRX_TOT_INS_CNT,1)<=1 -- taksitsiz
+                    AND A.TRX_MERC_CODE  <> ''-1''
+--                    AND A.ACQ_REF <> ''-1''--??
+--                    AND A.TRX_DIR = ''B''
+                    AND LOWER(A.TRX_LOCATION) NOT LIKE ''%kkdf%''
+                    AND LOWER(A.TRX_LOCATION) NOT LIKE ''%bsmv%''
+                    AND LOWER(A.TRX_LOCATION) NOT LIKE ''%faiz%''
+                    AND LOWER(A.TRX_LOCATION) NOT LIKE ''%parapuan%''
+                    AND LOWER(A.TRX_LOCATION) NOT LIKE ''%kampanya%''
+                    AND A.TRX_LOC_CUR_CODE = D.CCY_ISO_CODE
+                    AND A.TRX_SRC_CODE IN (''04'', ''05'', ''06'', ''10'')
+                    AND A.DEC_REASON_CODE = E.RESPONSE_CODE (+)
+                    AND CASE WHEN B.CLS_TM = ''000000'' AND B.CARD_ST_CHG_DT = A.DATE_TRX AND A.DEC_REASON_CODE IN (005,041,043,046) THEN 1
+                            WHEN B.CLS_TM = ''000000'' AND B.CARD_ST_CHG_DT < A.DATE_TRX THEN 1
+                            WHEN B.CLS_TM <> ''000000'' AND B.CARD_ST_CHG_DT <= A.DATE_TRX THEN 1 ELSE 0 END = 1
+                )
+            WHERE 1=1 AND TRX_DT_TM BETWEEN CARD_CHG_DT_TM AND CARD_CHG_DT_TM +35
+        ';        
+        SNPADM.PKG_EDW_UTILITY.P_EXECUTE_SQL(V_PROG_ID, V_STEP_ID, V_SQL_STR, 1); 
+    
+
+        --son 35 günde kapanan debit kartlar için hatalı işlemler alınır.
+        V_STEP_ID := 'DA_CP_PLATFORM_REMINDER-120';
+        SNPADM.PKG_EDW_UTILITY.P_DROP_TABLE('DA_CCT_DC_TRX'||V_USER||'');  
+        V_SQL_STR := '
+             CREATE TABLE DA_CCT_DC_TRX'||V_USER||' PARALLEL 16 PCTFREE 0 AS
+                SELECT * FROM (
+                    SELECT /*+ PARALLEL (8) */ DISTINCT CAST(NULL AS NUMBER(6)) as TRX_ID, A.TRX_DT, LPAD(A.TRX_TM,6,''0'') AS TRX_TIME, A.CARD_NO, A.TRMNL_LOC, A.CARD_BRND, 
+                        A.CARD_TP, A.LOC_RT as CCY_CODE, A.TRX_AMT, A.TRX_USD, A.TRX_ORIG, 
+                        A.CUST_ID, A.POS_ENTRY_MODE, A.TERMINAL_CARD_ACCEPTOR, CUR_CARD_NO, CARD_NAME, ENTRY_DT, RNW_RSN_DESC, RSN_CLOSE_DESC, S_CUST_ID, CARD_ST_DESC, CLS_DT, CLS_TM, CARD_ST_CHG_DT, EXP_DT, 
+                        A.RPLY_ANS_CODE TRX_RPLY_CODE, B.RPLY_ANS_DESC TRX_RPLY_DESC, A.TASK_ID, C.DC_TRX_TP_DSC,
+                        TO_DATE(TO_CHAR(DC.CARD_ST_CHG_DT, ''YYYYMMDD'') || DC.CLS_TM, ''YYYYMMDDHH24MISS'') AS CARD_CHG_DT_TM,
+                        TO_DATE(TO_CHAR(A.TRX_DT, ''YYYYMMDD'') || LPAD(A.TRX_TM,6,''0''), ''YYYYMMDDHH24MISS'') AS TRX_DT_TM
+                    FROM EDW.TRX_ATM A,
+                        '||V_SCHEMA||'.DA_PLATFORM_DC_LIST'||V_USER||' DC, 
+                        LOOKUP.LU_DC_TRX_RPLY_ANS_CODE B,
+                        LOOKUP.LU_DC_TRX_TP C
+                    WHERE 1=1
+                    AND A.TRMNL_SRC IN (''04'', ''05'', ''06'', ''10'') 
+                    AND SUBSTR(A.POS_ENTRY_MODE,1,2) IN  (''01'', ''10'', ''81'')
+--                    AND A.TRX_DT BETWEEN DC.CARD_ST_CHG_DT + 1 AND DC.CARD_ST_CHG_DT + 36 --Birer gün ilerletildi. Kapalı karttan geçen işlem olduğu için
+                    AND DC.CARD_ST_ID IN (''K'',''C'',''I'') --kayip,calinti,iptal kartlar
+--                    AND DC.CARD_ST_ID <> ''N''
+                    AND DC.CARD_ST_CHG_DT >= TO_DATE('''||P_AS_OF_DT||''',''YYYYMMDD'') -42
+--                    AND A.TRX_DT BETWEEN LAST_DAY(ADD_MONTHS(TRUNC(TO_DATE('''||P_AS_OF_DT||''',''YYYYMMDD'')), -4))+1 AND LAST_DAY(ADD_MONTHS(TRUNC(TO_DATE('''||P_AS_OF_DT||''',''YYYYMMDD'')), -1))
+                    AND A.TRX_SUCCESS_F <> 1 --başarısız işlem için yeterli
+--                    AND  SUBSTR(A.CARD_NO,1,6) NOT IN (''535177'', ''498749'', ''479679'', ''515483'')
+--                    AND NVL(A.PROV_RESP_SUB_CODE, ''00000'') = ''00000'' -- basarili islemler
+                    AND A.CUST_ID = DC.CUST_ID
+                    AND A.CARD_NO = DC.CARD_NO
+                    AND A.RPLY_ANS_CODE = B.RPLY_ANS_CODE (+)
+                    AND A.TASK_ID = C.DC_TRX_TP (+)
+                    AND A.TERMINAL_CARD_ACCEPTOR IS NOT NULL
+                    AND A.TASK_ID IN (''90'', ''60'',  ''64'', ''67'') --satis işlemleri
+                    AND CASE WHEN DC.CLS_TM = ''000000'' AND DC.CARD_ST_CHG_DT = A.TRX_DT AND A.RPLY_ANS_CODE IN (041,043,205) THEN 1
+                            WHEN DC.CLS_TM = ''000000'' AND DC.CARD_ST_CHG_DT < A.TRX_DT THEN 1
+                            WHEN DC.CLS_TM <> ''000000'' AND DC.CARD_ST_CHG_DT <= A.TRX_DT THEN 1 ELSE 0 END = 1
+                    )
+                WHERE TRX_DT_TM BETWEEN CARD_CHG_DT_TM AND CARD_CHG_DT_TM +35
+        ';        
+        SNPADM.PKG_EDW_UTILITY.P_EXECUTE_SQL(V_PROG_ID, V_STEP_ID, V_SQL_STR, 1);   
+        
+        
+        --kredi kartı ve debit kart işlemleri birleştirilir. İşlem açıklama kolonundaki veri temizlenerek TRX_DSC_CLN elde edilir.
+        --TASK: Aynı müşteri, aynı kart, aynı tutar ve aynı kurdan 10 saniyeden kısa sürede yapılan işlemlerin tekilleştirilmesi
+        V_STEP_ID := 'DA_CP_PLATFORM_REMINDER-130';
+        SNPADM.PKG_EDW_UTILITY.P_DROP_TABLE('DA_CCT_TRX' || V_USER || '');
+        V_SQL_STR := '
+               CREATE TABLE DA_CCT_TRX' || V_USER || ' PARALLEL 16 PCTFREE 0 AS
+               SELECT /*+ PARALLEL (8) */ TRX_ID, CUST_ID, TRX_MRCHNT_ID, TRX_AMT_ORG, CCY_CODE, TRX_DT, TRX_TIME,
+                      TRX_DSC, TRX_DSC_CLN, CARD_NO, CUR_CARD_NO, CARD_NAME, CARD_TP, ENTRY_DT, 
+                      RNW_RSN_DESC, RSN_CLOSE_DESC, S_CUST_ID, CARD_ST_DESC, CLS_DT, CARD_ST_CHG_DT, 
+                      EXP_DT, POS_ENTRY_MODE, TRX_RPLY_CODE, TRX_RPLY_DESC
+               FROM (
+                   SELECT *,
+                          ROW_NUMBER() OVER (
+                              PARTITION BY CUST_ID, CARD_NO, TRX_AMT_ORG, CCY_CODE 
+                              ORDER BY TO_DATE(TO_CHAR(TRX_DT, ''YYYYMMDD'') || TRX_TIME, ''YYYYMMDDHH24MISS'')
+                          ) AS RN,
+                          LAG(TO_DATE(TO_CHAR(TRX_DT, ''YYYYMMDD'') || TRX_TIME, ''YYYYMMDDHH24MISS''), 1) OVER (
+                              PARTITION BY CUST_ID, CARD_NO, TRX_AMT_ORG, CCY_CODE 
+                              ORDER BY TO_DATE(TO_CHAR(TRX_DT, ''YYYYMMDD'') || TRX_TIME, ''YYYYMMDDHH24MISS'')
+                          ) AS PREV_TRX_DATETIME,
+                          TO_DATE(TO_CHAR(TRX_DT, ''YYYYMMDD'') || TRX_TIME, ''YYYYMMDDHH24MISS'') AS TRX_DATETIME
+                   FROM (
+                       SELECT /*+ PARALLEL (8) */ TRX_ID, 
+                              CUST_ID, TRX_MRCHNT_ID, TRX_AMT_ORG, CCY_CODE, TRX_DT, TRX_TIME,
+                              REGEXP_REPLACE(TRIM(SUBSTR(UPPER(TRX_DSC), 1, 50)), ''\s{2,}'', '' '') AS TRX_DSC,
+                              '' '' || TRIM(REGEXP_REPLACE(LOWER(TRANSLATE(SUBSTR(REGEXP_REPLACE(REGEXP_REPLACE(UPPER(TRX_DSC), ''[^[:alnum:] ]'', '' ''), ''\d'', ''''), 1, 50 ),''ĞÜŞİÖÇÒÕÚÂÃÅÀÁÄÆÈÉËÊÏÎÌÍÑÔÔÓØßÛÙ'',''GUSIOCOOUAAAAAAAEEEEIIIOOOOSUU'')),''[ ]+'', '' '')) || '' '' AS TRX_DSC_CLN,
+                              CARD_NO, CUR_CARD_NO, CARD_NAME, CARD_TP, ENTRY_DT, RNW_RSN_DESC, 
+                              RSN_CLOSE_DESC, S_CUST_ID, CARD_ST_DESC, CLS_DT, CARD_ST_CHG_DT, EXP_DT, POS_ENTRY_MODE, TRX_RPLY_CODE, TRX_RPLY_DESC
+                       FROM DA_CCT_CC_TRX' || V_USER || ' WHERE 1=1
+                       UNION ALL
+                       SELECT /*+ PARALLEL (8) */ TRX_ID,  
+                              CUST_ID, TERMINAL_CARD_ACCEPTOR AS TRX_MRCHNT_ID, TRX_ORIG AS TRX_AMT_ORG, CCY_CODE, TRX_DT, TRX_TIME,
+                              REGEXP_REPLACE(TRIM(SUBSTR(UPPER(TRMNL_LOC), 1, 50)), ''\s{2,}'', '' '') AS TRX_DSC,
+                              '' '' || TRIM(REGEXP_REPLACE(LOWER(TRANSLATE(SUBSTR(REGEXP_REPLACE(REGEXP_REPLACE(UPPER(TRMNL_LOC), ''[^[:alnum:] ]'', '' ''), ''\d'', ''''), 1, 50 ),''ĞÜŞİÖÇÒÕÚÂÃÅÀÁÄÆÈÉËÊÏÎÌÍÑÔÔÓØßÛÙ'',''GUSIOCOOUAAAAAAAEEEEIIIOOOOSUU'')),''[ ]+'', '' '')) || '' '' AS TRX_DSC_CLN,
+                              CARD_NO, CUR_CARD_NO, CARD_NAME, CARD_TP, ENTRY_DT, RNW_RSN_DESC, 
+                              RSN_CLOSE_DESC, S_CUST_ID, CARD_ST_DESC, CLS_DT, CARD_ST_CHG_DT, EXP_DT, POS_ENTRY_MODE, TRX_RPLY_CODE, TRX_RPLY_DESC
+                       FROM DA_CCT_DC_TRX' || V_USER || ' WHERE 1=1
+                   )
+               )
+               WHERE RN = 1 -- İlk işlemi al
+                  OR (TRX_DATETIME - PREV_TRX_DATETIME) * 24 * 60 * 60 >= 10 -- veya önceki işlemle arası 10+ saniye olan işlemleri al
+        ';
+        SNPADM.PKG_EDW_UTILITY.P_EXECUTE_SQL(V_PROG_ID, V_STEP_ID, V_SQL_STR, 1);

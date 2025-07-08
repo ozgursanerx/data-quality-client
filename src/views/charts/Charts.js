@@ -9,7 +9,7 @@ import {
   CChartRadar,
 } from '@coreui/react-chartjs'
 import { DocsLink } from 'src/components'
-import ProcLogChart from '../dashboard/components/ProcLogChart'
+import ProcLogChart from '../../pages/proclog/components/ProcLogChart'
 
 const Charts = () => {
   const random = () => Math.round(Math.random() * 100)

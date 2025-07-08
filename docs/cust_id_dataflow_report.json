@@ -1,0 +1,94 @@
+{
+  "timestamp": "2025-06-18T12:59:10.738Z",
+  "target": {
+    "schema": "SNPADM",
+    "table": "EDWCRM.CRM_WNC_CUSTOMER",
+    "column": "CUST_ID"
+  },
+  "summary": {
+    "totalPackages": 2,
+    "impactedPackages": 1,
+    "directReferences": 10,
+    "indirectReferences": 0,
+    "totalImpact": 10
+  },
+  "packageAnalysis": [
+    {
+      "packageName": "SNPADM.PKG_DA_WNC_BNFT_CUST",
+      "riskScore": 500,
+      "directReferences": [
+        {
+          "line": 30,
+          "text": "--     - The EDWCRM.CRM_WNC_CUSTOMER, EDWCRM.CRM_WNC_CUSTOMERCRITERIA, EDWCRM.CRM_WNC_BNFT_CUST_SUMMARY table exists and has the required columns",
+          "stepId": "UNKNOWN",
+          "stepLine": 30,
+          "type": "DIRECT_TABLE_REFERENCE"
+        },
+        {
+          "line": 55,
+          "text": "SELECT /*+ PARALLEL (8) */ C.CUST_OID, C.CUST_ID, C.PERIOD, C.IS_WNC, C.WINNING_TP, CASE WHEN NVL(C.WINNING_TP,''STD'') = ''STD'' THEN 1 ELSE 0 END WINNING_STD_F",
+          "stepId": "P_DA_WNC_CUST-10",
+          "stepLine": 51,
+          "type": "DIRECT_ALIAS_COLUMN_REFERENCE"
+        },
+        {
+          "line": 56,
+          "text": "FROM EDWCRM.CRM_WNC_CUSTOMER C, EDW.DA_CUST DC",
+          "stepId": "P_DA_WNC_CUST-10",
+          "stepLine": 51,
+          "type": "DIRECT_TABLE_REFERENCE"
+        },
+        {
+          "line": 60,
+          "text": "AND C.CUST_ID = DC.CUST_ID",
+          "stepId": "P_DA_WNC_CUST-10",
+          "stepLine": 51,
+          "type": "DIRECT_ALIAS_COLUMN_REFERENCE"
+        },
+        {
+          "line": 65,
+          "text": "AND C.CUST_ID = FC.CUST_ID",
+          "stepId": "P_DA_WNC_CUST-10",
+          "stepLine": 51,
+          "type": "DIRECT_ALIAS_COLUMN_REFERENCE"
+        },
+        {
+          "line": 78,
+          "text": "FROM EDWCRM.CRM_WNC_CUSTOMERCRITERIA C, DA_WNC_CURR_CUST'||V_USER||' A",
+          "stepId": "P_DA_WNC_CUST-20",
+          "stepLine": 71,
+          "type": "DIRECT_TABLE_REFERENCE"
+        },
+        {
+          "line": 80,
+          "text": "AND A.CUST_ID = C.CUST_ID (+)",
+          "stepId": "P_DA_WNC_CUST-20",
+          "stepLine": 71,
+          "type": "DIRECT_ALIAS_COLUMN_REFERENCE"
+        },
+        {
+          "line": 98,
+          "text": "AND A.CUST_ID = C.CUST_ID (+)",
+          "stepId": "P_DA_WNC_CUST-30",
+          "stepLine": 88,
+          "type": "DIRECT_ALIAS_COLUMN_REFERENCE"
+        },
+        {
+          "line": 129,
+          "text": "AND A.CUST_ID = C.CUST_ID (+)",
+          "stepId": "P_DA_WNC_CUST-31",
+          "stepLine": 107,
+          "type": "DIRECT_ALIAS_COLUMN_REFERENCE"
+        },
+        {
+          "line": 349,
+          "text": "AND A.CUST_ID = C.CUST_ID (+)",
+          "stepId": "P_DA_WNC_CUST-70",
+          "stepLine": 273,
+          "type": "DIRECT_ALIAS_COLUMN_REFERENCE"
+        }
+      ],
+      "indirectReferences": []
+    }
+  ]
+}

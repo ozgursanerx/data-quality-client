@@ -1,0 +1,179 @@
+{
+  "timestamp": "2025-06-18T06:04:32.920Z",
+  "target": {
+    "schema": "EDW",
+    "table": "CLLTN_PLTFRM_CUSTMR_DCSN",
+    "column": "CUSTOMERNUMBER"
+  },
+  "summary": {
+    "totalPackages": 13,
+    "impactedPackages": 1,
+    "directReferences": 7,
+    "indirectReferences": 13,
+    "totalImpact": 20
+  },
+  "packageAnalysis": [
+    {
+      "packageName": "SNPADM.PKG_DA_COLLTN_PATTERN_DATA",
+      "riskScore": 235,
+      "directReferences": [
+        {
+          "line": 40,
+          "stepId": "P_DA_COLLTN_CUST-50",
+          "stepLine": 32,
+          "text": "(SELECT /*+PARALLEL(16) */ CD.CUSTOMERNUMBER CUST_ID, PD.COLLECTIONCUSTOMEROID CUST_OID,"
+        },
+        {
+          "line": 44,
+          "stepId": "P_DA_COLLTN_CUST-50",
+          "stepLine": 32,
+          "text": "ROW_NUMBER() OVER (PARTITION BY CD.CUSTOMERNUMBER ORDER BY TO_DATE(CD.INSERTDATE||LPAD(CD.INSERTTIME,6,0),''YYYYMMDDHH24MISS'') ASC) RN"
+        },
+        {
+          "line": 45,
+          "stepId": "P_DA_COLLTN_CUST-50",
+          "stepLine": 32,
+          "text": "FROM EDW.CLLTN_PLTFRM_CUSTMR_DCSN CD, EDW.CLLTN_PLTFRM_PRDCT_DCSN PD, EDW.DA_INST_OFFER F"
+        },
+        {
+          "line": 73,
+          "stepId": "P_DA_COLLTN_CUST-100",
+          "stepLine": 65,
+          "text": "(SELECT /*+PARALLEL(16) */ CD.CUSTOMERNUMBER CUST_ID, PD.COLLECTIONCUSTOMEROID CUST_OID,"
+        },
+        {
+          "line": 77,
+          "stepId": "P_DA_COLLTN_CUST-100",
+          "stepLine": 65,
+          "text": "ROW_NUMBER() OVER (PARTITION BY CD.CUSTOMERNUMBER ORDER BY TO_DATE(CD.INSERTDATE||LPAD(CD.INSERTTIME,6,0),''YYYYMMDDHH24MISS'') ASC) RN"
+        },
+        {
+          "line": 78,
+          "stepId": "P_DA_COLLTN_CUST-100",
+          "stepLine": 65,
+          "text": "FROM EDW.CLLTN_PLTFRM_CUSTMR_DCSN CD, EDW.CLLTN_PLTFRM_PRDCT_DCSN PD"
+        },
+        {
+          "line": 89,
+          "stepId": "P_DA_COLLTN_CUST-100",
+          "stepLine": 65,
+          "text": "AND NOT EXISTS (SELECT 1 FROM '||V_SESSION_USER||'.DA_COLLTN_CUST_TMP1'||V_USER||' Z WHERE Z.CUST_ID = CD.CUSTOMERNUMBER)"
+        }
+      ],
+      "indirectReferences": [
+        {
+          "line": 36,
+          "stepId": "P_DA_COLLTN_CUST-50",
+          "stepLine": 32,
+          "type": "ALIAS_USAGE",
+          "originalField": "CUSTOMERNUMBER",
+          "aliasField": "CUST_ID",
+          "text": "SELECT CUST_ID||''$''||NVL(OFFER_EXP_DT, TO_CHAR(TRUNC(INSERTDATE) + 1,''YYYYMMDD'')) UNQ_KEY,"
+        },
+        {
+          "line": 69,
+          "stepId": "P_DA_COLLTN_CUST-100",
+          "stepLine": 65,
+          "type": "ALIAS_USAGE",
+          "originalField": "CUSTOMERNUMBER",
+          "aliasField": "CUST_ID",
+          "text": "SELECT CAST (CUST_ID||''$''||TO_CHAR(TRUNC(INSERTDATE) + 1,''YYYYMMDD'') AS VARCHAR2(200)) UNQ_KEY,"
+        },
+        {
+          "line": 89,
+          "stepId": "P_DA_COLLTN_CUST-100",
+          "stepLine": 65,
+          "type": "TEMP_TABLE_USAGE",
+          "tempTable": "'||V_SESSION_USER||'.DA_COLLTN_CUST_TMP1'||V_USER||'",
+          "text": "AND NOT EXISTS (SELECT 1 FROM '||V_SESSION_USER||'.DA_COLLTN_CUST_TMP1'||V_USER||' Z WHERE Z.CUST_ID = CD.CUSTOMERNUMBER)"
+        },
+        {
+          "line": 97,
+          "stepId": "P_DA_COLLTN_CUST-150",
+          "stepLine": 93,
+          "type": "TEMP_TABLE_USAGE",
+          "tempTable": "'||V_SESSION_USER||'.DA_COLLTN_CUST_TMP1'||V_USER||'",
+          "text": "SELECT * FROM '||V_SESSION_USER||'.DA_COLLTN_CUST_TMP1'||V_USER||'"
+        },
+        {
+          "line": 124,
+          "stepId": "P_DA_COLLTN_CUST_PRD-50",
+          "stepLine": 120,
+          "type": "ALIAS_USAGE",
+          "originalField": "CUSTOMERNUMBER",
+          "aliasField": "CUST_ID",
+          "text": "SELECT CUST_ID,"
+        },
+        {
+          "line": 129,
+          "stepId": "P_DA_COLLTN_CUST_PRD-50",
+          "stepLine": 120,
+          "type": "ALIAS_USAGE",
+          "originalField": "CUSTOMERNUMBER",
+          "aliasField": "CUST_ID",
+          "text": "SELECT /*+PARALLEL(8) */ P.CUST_ID,"
+        },
+        {
+          "line": 134,
+          "stepId": "P_DA_COLLTN_CUST_PRD-50",
+          "stepLine": 120,
+          "type": "TEMP_TABLE_USAGE",
+          "tempTable": "'||V_SESSION_USER||'.DA_COLLTN_CUST_TMP'||V_USER||'",
+          "text": "FROM '||V_SESSION_USER||'.DA_COLLTN_CUST_TMP'||V_USER||' P, CLDM.COLLTN_CUST_PD C"
+        },
+        {
+          "line": 135,
+          "stepId": "P_DA_COLLTN_CUST_PRD-50",
+          "stepLine": 120,
+          "type": "ALIAS_USAGE",
+          "originalField": "CUSTOMERNUMBER",
+          "aliasField": "CUST_ID",
+          "text": "WHERE C.CUST_ID   = P.CUST_ID"
+        },
+        {
+          "line": 139,
+          "stepId": "P_DA_COLLTN_CUST_PRD-50",
+          "stepLine": 120,
+          "type": "ALIAS_USAGE",
+          "originalField": "CUSTOMERNUMBER",
+          "aliasField": "CUST_ID",
+          "text": "AND P.INSERTDATE = (SELECT MAX(A.INSERTDATE) FROM '||V_SESSION_USER||'.DA_COLLTN_CUST_TMP'||V_USER||' A WHERE A.CUST_ID = P.CUST_ID)"
+        },
+        {
+          "line": 139,
+          "stepId": "P_DA_COLLTN_CUST_PRD-50",
+          "stepLine": 120,
+          "type": "TEMP_TABLE_USAGE",
+          "tempTable": "'||V_SESSION_USER||'.DA_COLLTN_CUST_TMP'||V_USER||'",
+          "text": "AND P.INSERTDATE = (SELECT MAX(A.INSERTDATE) FROM '||V_SESSION_USER||'.DA_COLLTN_CUST_TMP'||V_USER||' A WHERE A.CUST_ID = P.CUST_ID)"
+        },
+        {
+          "line": 210,
+          "stepId": "P_DA_COLLTN_CUST_X_PD-50",
+          "stepLine": 206,
+          "type": "ALIAS_USAGE",
+          "originalField": "CUSTOMERNUMBER",
+          "aliasField": "CUST_ID",
+          "text": "SELECT A.UNQ_KEY, A.CUST_ID, A.CUST_OID, A.EXP_DT,"
+        },
+        {
+          "line": 220,
+          "stepId": "P_DA_COLLTN_CUST_X_PD-50",
+          "stepLine": 206,
+          "type": "TEMP_TABLE_USAGE",
+          "tempTable": "'||V_SESSION_USER||'.DA_COLLTN_CUST_TMP'||V_USER||'",
+          "text": "FROM '||V_SESSION_USER||'.DA_COLLTN_CUST_TMP'||V_USER||' A,"
+        },
+        {
+          "line": 223,
+          "stepId": "P_DA_COLLTN_CUST_X_PD-50",
+          "stepLine": 206,
+          "type": "ALIAS_USAGE",
+          "originalField": "CUSTOMERNUMBER",
+          "aliasField": "CUST_ID",
+          "text": "WHERE A.CUST_ID = B.CUST_ID"
+        }
+      ]
+    }
+  ]
+}

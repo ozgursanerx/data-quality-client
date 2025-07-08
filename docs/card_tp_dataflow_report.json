@@ -1,0 +1,472 @@
+{
+  "timestamp": "2025-06-19T05:14:48.323Z",
+  "target": {
+    "schema": "SNPADM",
+    "table": "CDM.CC_DAILY",
+    "column": "CARD_TP"
+  },
+  "summary": {
+    "totalPackages": 54,
+    "impactedPackages": 7,
+    "directReferences": 58,
+    "indirectReferences": 0,
+    "totalImpact": 58
+  },
+  "packageAnalysis": [
+    {
+      "packageName": "SNPADM.PKG_DA_CARDPLATFORMREMINDER",
+      "riskScore": 50,
+      "directReferences": [
+        {
+          "line": 49,
+          "text": "CDM.CC_DAILY A,",
+          "stepId": "P_CPR_TRX-10",
+          "stepLine": 28,
+          "type": "DIRECT_TABLE_REFERENCE"
+        }
+      ],
+      "indirectReferences": []
+    },
+    {
+      "packageName": "SNPADM.PKG_DA_CORP_CP_PATTERN_DATA",
+      "riskScore": 1450,
+      "directReferences": [
+        {
+          "line": 47,
+          "text": ", DECODE(C.CARD_TP,''S'',A.CARD_NO,NULL) VIRTUAL_CARD",
+          "stepId": "P_DA_CORP_CP_CC_KEY-100",
+          "stepLine": 39,
+          "type": "DIRECT_ALIAS_COLUMN_REFERENCE"
+        },
+        {
+          "line": 49,
+          "text": ", CDM.CC_DAILY C",
+          "stepId": "P_DA_CORP_CP_CC_KEY-100",
+          "stepLine": 39,
+          "type": "DIRECT_TABLE_REFERENCE"
+        },
+        {
+          "line": 50,
+          "text": ", CDM.CC_DAILY F",
+          "stepId": "P_DA_CORP_CP_CC_KEY-100",
+          "stepLine": 39,
+          "type": "DIRECT_TABLE_REFERENCE"
+        },
+        {
+          "line": 68,
+          "text": ", DECODE(C.CARD_TP,''S'',A.CARD_NO,NULL) VIRTUAL_CARD",
+          "stepId": "P_DA_CORP_CP_CC_KEY-105",
+          "stepLine": 61,
+          "type": "DIRECT_ALIAS_COLUMN_REFERENCE"
+        },
+        {
+          "line": 70,
+          "text": ", CDM.CC_DAILY C",
+          "stepId": "P_DA_CORP_CP_CC_KEY-105",
+          "stepLine": 61,
+          "type": "DIRECT_TABLE_REFERENCE"
+        },
+        {
+          "line": 71,
+          "text": ", CDM.CC_DAILY F",
+          "stepId": "P_DA_CORP_CP_CC_KEY-105",
+          "stepLine": 61,
+          "type": "DIRECT_TABLE_REFERENCE"
+        },
+        {
+          "line": 102,
+          "text": "FROM CDM.CC_DAILY A, TMP_DUP B",
+          "stepId": "P_DA_CORP_CP_CC_KEY-110",
+          "stepLine": 87,
+          "type": "DIRECT_TABLE_REFERENCE"
+        },
+        {
+          "line": 105,
+          "text": "--                AND A.CARD_TP = ''B'' --QT-3864 // KALDIRILDI!",
+          "stepId": "P_DA_CORP_CP_CC_KEY-110",
+          "stepLine": 87,
+          "type": "DIRECT_ALIAS_COLUMN_REFERENCE"
+        },
+        {
+          "line": 192,
+          "text": "--            , CDM.CC_DAILY B --QT-3864 // KALDIRILDI!",
+          "stepId": "P_DA_CORP_CP_CC_KEY-220",
+          "stepLine": 153,
+          "type": "DIRECT_TABLE_REFERENCE"
+        },
+        {
+          "line": 216,
+          "text": ", CDM.CC_DAILY C",
+          "stepId": "P_DA_CORP_CP_CC_KEY-222",
+          "stepLine": 201,
+          "type": "DIRECT_TABLE_REFERENCE"
+        },
+        {
+          "line": 217,
+          "text": ", CDM.CC_DAILY FC",
+          "stepId": "P_DA_CORP_CP_CC_KEY-222",
+          "stepLine": 201,
+          "type": "DIRECT_TABLE_REFERENCE"
+        },
+        {
+          "line": 238,
+          "text": ", CDM.CC_DAILY B",
+          "stepId": "P_DA_CORP_CP_CC_KEY-222",
+          "stepLine": 201,
+          "type": "DIRECT_TABLE_REFERENCE"
+        },
+        {
+          "line": 258,
+          "text": "--   - The EDW.DA_CORP_MONEY_TRANSFER ,EDW.DA_CORP_ACCOUNT_NAMES,EDW.DA_CORP_NAME_KEYS,CDM.CC_DAILY,EDW.TRX, EDW.DA_CORP_CUST table exists and has the required columns",
+          "stepId": "P_DA_CORP_CP_CC_KEY-222",
+          "stepLine": 201,
+          "type": "DIRECT_TABLE_REFERENCE"
+        },
+        {
+          "line": 333,
+          "text": ", CDM.CC_DAILY B",
+          "stepId": "P_DA_CORP_CP_PATTERN-200",
+          "stepLine": 269,
+          "type": "DIRECT_TABLE_REFERENCE"
+        },
+        {
+          "line": 401,
+          "text": "--        FROM TMP_TRX A, CDM.CC_DAILY C",
+          "stepId": "P_DA_CP_PATTERN-210",
+          "stepLine": 353,
+          "type": "DIRECT_TABLE_REFERENCE"
+        },
+        {
+          "line": 447,
+          "text": "--            , CDM.CC_DAILY C",
+          "stepId": "P_DA_CP_PATTERN-211",
+          "stepLine": 416,
+          "type": "DIRECT_TABLE_REFERENCE"
+        },
+        {
+          "line": 520,
+          "text": ", C.CARD_TP",
+          "stepId": "P_DA_CORP_CP_PATTERN-213",
+          "stepLine": 470,
+          "type": "DIRECT_ALIAS_COLUMN_REFERENCE"
+        },
+        {
+          "line": 523,
+          "text": "--                 , CASE WHEN C.CARD_TP = ''B'' THEN ''B'' --QT-4166 // EKLENDI!",
+          "stepId": "P_DA_CORP_CP_PATTERN-213",
+          "stepLine": 470,
+          "type": "DIRECT_ALIAS_COLUMN_REFERENCE"
+        },
+        {
+          "line": 524,
+          "text": "--                    WHEN C.CARD_TP = ''S'' AND C.CUST_ID = C.S_CUST_ID THEN ''S'' --QT-4166 // EKLENDI!",
+          "stepId": "P_DA_CORP_CP_PATTERN-213",
+          "stepLine": 470,
+          "type": "DIRECT_ALIAS_COLUMN_REFERENCE"
+        },
+        {
+          "line": 525,
+          "text": "--                    WHEN C.CARD_TP = ''S'' AND C.CUST_ID <> C.S_CUST_ID AND A.CUST_ID <> C.S_CUST_ID THEN ''BEK'' --QT-4166 // EKLENDI!",
+          "stepId": "P_DA_CORP_CP_PATTERN-213",
+          "stepLine": 470,
+          "type": "DIRECT_ALIAS_COLUMN_REFERENCE"
+        },
+        {
+          "line": 526,
+          "text": "--                    WHEN C.CARD_TP = ''S'' AND C.CUST_ID <> C.S_CUST_ID AND A.CUST_ID = C.S_CUST_ID THEN ''KEK'' --QT-4166 // EKLENDI!",
+          "stepId": "P_DA_CORP_CP_PATTERN-213",
+          "stepLine": 470,
+          "type": "DIRECT_ALIAS_COLUMN_REFERENCE"
+        },
+        {
+          "line": 530,
+          "text": ", CDM.CC_DAILY C",
+          "stepId": "P_DA_CORP_CP_PATTERN-213",
+          "stepLine": 470,
+          "type": "DIRECT_TABLE_REFERENCE"
+        },
+        {
+          "line": 667,
+          "text": "--             , A.CARD_TP --QT-4166 // EKLENDI!",
+          "stepId": "P_DA_CORP_CP_PATTERN-400",
+          "stepLine": 635,
+          "type": "DIRECT_ALIAS_COLUMN_REFERENCE"
+        },
+        {
+          "line": 679,
+          "text": "A.EXP_DT_CHR_ONL, A.RCPNT_NAME --, A.CARD_TP, A.CARD_NO_MBL",
+          "stepId": "P_DA_CORP_CP_PATTERN-400",
+          "stepLine": 635,
+          "type": "DIRECT_ALIAS_COLUMN_REFERENCE"
+        },
+        {
+          "line": 924,
+          "text": ", CDM.CC_DAILY C",
+          "stepId": "P_DA_CORP_CP_PATTERN-652",
+          "stepLine": 917,
+          "type": "DIRECT_TABLE_REFERENCE"
+        },
+        {
+          "line": 1463,
+          "text": "--   - The CDM.CC_DAILY,LOOKUP.LU_CC_STMT_GROUP, DA_CC_KEYS_TMP table exists and has the required columns",
+          "stepId": "P_DA_CORP_CP_PATTERN-1020",
+          "stepLine": 1354,
+          "type": "DIRECT_TABLE_REFERENCE"
+        },
+        {
+          "line": 1478,
+          "text": "FROM CDM.CC_DAILY C",
+          "stepId": "P_DA_CORP_CP_PATTERN-1030",
+          "stepLine": 1473,
+          "type": "DIRECT_TABLE_REFERENCE"
+        },
+        {
+          "line": 1807,
+          "text": "--   - The CDM.CC_DAILY,LOOKUP.LU_CC_CARD_GRP_PD,LOOKUP.LU_CC_BKM_BIN,EDW.CUSTOMER_SNAPSHOT,DA_CP_PYMT_REFUND_AMT_TMP,DA_CP_CUST_PYMT_AMT_TMP",
+          "stepId": "P_DA_CORP_CP_PATTERN-907",
+          "stepLine": 1776,
+          "type": "DIRECT_TABLE_REFERENCE"
+        },
+        {
+          "line": 2049,
+          "text": ", CDM.CC_DAILY C",
+          "stepId": "P_DA_CORP_CP_PATTERN-1100",
+          "stepLine": 1830,
+          "type": "DIRECT_TABLE_REFERENCE"
+        }
+      ],
+      "indirectReferences": []
+    },
+    {
+      "packageName": "SNPADM.PKG_DA_CP_PATTERN_DATA",
+      "riskScore": 1100,
+      "directReferences": [
+        {
+          "line": 305,
+          "text": "--   - The EDW.DA_MONEY_TRANSFER ,EDW.DA_ACCOUNT_NAMES,EDW.DA_NAME_KEYS,CDM.CC_DAILY,EDW.TRX, EDW.DA_CUST table exists and has the required columns",
+          "stepId": "P_DA_CP_PATTERN-353",
+          "stepLine": 283,
+          "type": "DIRECT_TABLE_REFERENCE"
+        },
+        {
+          "line": 377,
+          "text": ", CDM.CC_DAILY B",
+          "stepId": "P_DA_CP_PATTERN-200",
+          "stepLine": 316,
+          "type": "DIRECT_TABLE_REFERENCE"
+        },
+        {
+          "line": 447,
+          "text": "FROM TMP_TRX A, CDM.CC_DAILY C",
+          "stepId": "P_DA_CP_PATTERN-210",
+          "stepLine": 397,
+          "type": "DIRECT_TABLE_REFERENCE"
+        },
+        {
+          "line": 494,
+          "text": ", CDM.CC_DAILY C",
+          "stepId": "P_DA_CP_PATTERN-211",
+          "stepLine": 462,
+          "type": "DIRECT_TABLE_REFERENCE"
+        },
+        {
+          "line": 569,
+          "text": ", CDM.CC_DAILY C",
+          "stepId": "P_DA_CP_PATTERN-213",
+          "stepLine": 517,
+          "type": "DIRECT_TABLE_REFERENCE"
+        },
+        {
+          "line": 853,
+          "text": "--   - The CDM.CC_DAILY,LOOKUP.LU_CC_STMT_GROUP, DA_CC_KEYS_TMP table exists and has the required columns",
+          "stepId": "P_DA_CP_PATTERN-550",
+          "stepLine": 809,
+          "type": "DIRECT_TABLE_REFERENCE"
+        },
+        {
+          "line": 868,
+          "text": "FROM CDM.CC_DAILY C",
+          "stepId": "P_DA_CP_PATTERN-1030",
+          "stepLine": 863,
+          "type": "DIRECT_TABLE_REFERENCE"
+        },
+        {
+          "line": 1671,
+          "text": "--   - The CDM.CARD_X_CARD ,CDM.CC_DAILY,CDM.CC_STMT,EDW.DA_CUST table exists and has the required columns",
+          "stepId": "P_DA_CP_PATTERN-1061",
+          "stepLine": 1649,
+          "type": "DIRECT_TABLE_REFERENCE"
+        },
+        {
+          "line": 1691,
+          "text": ", DECODE(C.CARD_TP,''S'',A.CARD_NO,NULL) VIRTUAL_CARD",
+          "stepId": "P_DA_CP_PATTERN-100",
+          "stepLine": 1683,
+          "type": "DIRECT_ALIAS_COLUMN_REFERENCE"
+        },
+        {
+          "line": 1693,
+          "text": ", CDM.CC_DAILY C",
+          "stepId": "P_DA_CP_PATTERN-100",
+          "stepLine": 1683,
+          "type": "DIRECT_TABLE_REFERENCE"
+        },
+        {
+          "line": 1694,
+          "text": ", CDM.CC_DAILY F",
+          "stepId": "P_DA_CP_PATTERN-100",
+          "stepLine": 1683,
+          "type": "DIRECT_TABLE_REFERENCE"
+        },
+        {
+          "line": 1712,
+          "text": ", DECODE(C.CARD_TP,''S'',A.CARD_NO,NULL) VIRTUAL_CARD",
+          "stepId": "P_DA_CP_PATTERN-105",
+          "stepLine": 1705,
+          "type": "DIRECT_ALIAS_COLUMN_REFERENCE"
+        },
+        {
+          "line": 1714,
+          "text": ", CDM.CC_DAILY C",
+          "stepId": "P_DA_CP_PATTERN-105",
+          "stepLine": 1705,
+          "type": "DIRECT_TABLE_REFERENCE"
+        },
+        {
+          "line": 1715,
+          "text": ", CDM.CC_DAILY F",
+          "stepId": "P_DA_CP_PATTERN-105",
+          "stepLine": 1705,
+          "type": "DIRECT_TABLE_REFERENCE"
+        },
+        {
+          "line": 1746,
+          "text": "FROM CDM.CC_DAILY A, TMP_DUP B",
+          "stepId": "P_DA_CP_PATTERN-110",
+          "stepLine": 1731,
+          "type": "DIRECT_TABLE_REFERENCE"
+        },
+        {
+          "line": 1749,
+          "text": "AND A.CARD_TP = ''B''",
+          "stepId": "P_DA_CP_PATTERN-110",
+          "stepLine": 1731,
+          "type": "DIRECT_ALIAS_COLUMN_REFERENCE"
+        },
+        {
+          "line": 1801,
+          "text": ", CDM.CC_DAILY B",
+          "stepId": "P_DA_CP_PATTERN-220",
+          "stepLine": 1767,
+          "type": "DIRECT_TABLE_REFERENCE"
+        },
+        {
+          "line": 1825,
+          "text": ", CDM.CC_DAILY C",
+          "stepId": "P_DA_CP_PATTERN-221",
+          "stepLine": 1810,
+          "type": "DIRECT_TABLE_REFERENCE"
+        },
+        {
+          "line": 1826,
+          "text": ", CDM.CC_DAILY FC",
+          "stepId": "P_DA_CP_PATTERN-221",
+          "stepLine": 1810,
+          "type": "DIRECT_TABLE_REFERENCE"
+        },
+        {
+          "line": 1847,
+          "text": ", CDM.CC_DAILY B",
+          "stepId": "P_DA_CP_PATTERN-221",
+          "stepLine": 1810,
+          "type": "DIRECT_TABLE_REFERENCE"
+        },
+        {
+          "line": 2200,
+          "text": "--   - The CDM.CC_DAILY,LOOKUP.LU_CC_CARD_GRP_PD,LOOKUP.LU_CC_BKM_BIN,EDW.CUSTOMER_SNAPSHOT,DA_CP_PYMT_REFUND_AMT_TMP,DA_CP_CUST_PYMT_AMT_TMP",
+          "stepId": "P_DA_CP_PATTERN-901",
+          "stepLine": 2168,
+          "type": "DIRECT_TABLE_REFERENCE"
+        },
+        {
+          "line": 2458,
+          "text": ", CDM.CC_DAILY C",
+          "stepId": "P_DA_CP_PATTERN-1100",
+          "stepLine": 2228,
+          "type": "DIRECT_TABLE_REFERENCE"
+        }
+      ],
+      "indirectReferences": []
+    },
+    {
+      "packageName": "SNPADM.PKG_DA_CP_PLATFORM_REMINDER",
+      "riskScore": 100,
+      "directReferences": [
+        {
+          "line": 27,
+          "text": "--     - CDM.CC_DAILY,CDM.DC",
+          "stepId": "UNKNOWN",
+          "stepLine": 27,
+          "type": "DIRECT_TABLE_REFERENCE"
+        },
+        {
+          "line": 72,
+          "text": "CDM.CC_DAILY A,",
+          "stepId": "DA_CP_PLATFORM_REMINDER-10",
+          "stepLine": 40,
+          "type": "DIRECT_TABLE_REFERENCE"
+        }
+      ],
+      "indirectReferences": []
+    },
+    {
+      "packageName": "SNPADM.PKG_DA_CUST_CP_STMT_ANALYTICS",
+      "riskScore": 50,
+      "directReferences": [
+        {
+          "line": 69,
+          "text": "CDM.CC_DAILY D, --SNPADM.DA_PLATFORM_CC_LIST D,",
+          "stepId": "P_DA_CUST_CP_STMT_ANALYTICS-10",
+          "stepLine": 38,
+          "type": "DIRECT_TABLE_REFERENCE"
+        }
+      ],
+      "indirectReferences": []
+    },
+    {
+      "packageName": "SNPADM.PKG_DA_CUST_OPEN_BANKING",
+      "riskScore": 50,
+      "directReferences": [
+        {
+          "line": 98,
+          "text": "FROM EDW.TRF T, CDM.CC_DAILY D",
+          "stepId": "P_DA_QPI_CUST-8",
+          "stepLine": 91,
+          "type": "DIRECT_TABLE_REFERENCE"
+        }
+      ],
+      "indirectReferences": []
+    },
+    {
+      "packageName": "SNPADM.PKG_DA_SUBSCRIPTION",
+      "riskScore": 100,
+      "directReferences": [
+        {
+          "line": 302,
+          "text": "--   - The CDM.CC_TRX, EDW.TRX_ATM, CDM.CC_DAILY tables exist and has the required columns",
+          "stepId": "P_NEW_MERCHANTS-300",
+          "stepLine": 284,
+          "type": "DIRECT_TABLE_REFERENCE"
+        },
+        {
+          "line": 325,
+          "text": "JOIN  CDM.CC_DAILY B ON C.CARD_NO=B.CARD_NO",
+          "stepId": "P_DA_SUBSCRIPTION-100",
+          "stepLine": 310,
+          "type": "DIRECT_TABLE_REFERENCE"
+        }
+      ],
+      "indirectReferences": []
+    }
+  ]
+}

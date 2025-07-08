@@ -1,0 +1,436 @@
+# LOOKUP.LU_DA_MONITOR_TYPES Tablosu API Dokümantasyonu
+
+## İçindekiler
+1. [Genel Bakış](#genel-bakış)
+2. [Tablo Yapısı](#tablo-yapısı)
+3. [API Endpoint'leri](#api-endpointleri)
+4. [Veri Modelleri](#veri-modelleri)
+5. [İş Kuralları](#iş-kuralları)
+6. [Hata Kodları](#hata-kodları)
+7. [Kullanım Örnekleri](#kullanım-örnekleri)
+
+---
+
+## Genel Bakış
+
+`LOOKUP.LU_DA_MONITOR_TYPES` tablosu, veri kalitesi izleme türlerini yöneten ana tablodur. Bu tablo, farklı senaryolar için kontrol tanımlarını, hata kodlarını ve aktiflik durumlarını saklar.
+
+### Temel Özellikler
+- **Otomatik INSERT/UPDATE**: Kayıt varsa günceller, yoksa yeni kayıt oluşturur
+- **TYPE_ID Benzersizlik**: Her TYPE_ID için sadece tek kayıt olabilir
+- **Soft Delete**: Kayıtlar silinmez, sadece pasif hale getirilir (ACTIVE_F = 0)
+- **Hard Delete**: Sadece TYPE_ID bazında onaylı silme işlemi
+
+---
+
+## Tablo Yapısı
+
+| Sütun Adı | Veri Tipi | Açıklama | Zorunlu | Varsayılan |
+|-----------|-----------|----------|---------|------------|
+| TYPE_ID | INTEGER | Benzersiz tip kimliği | Evet | - |
+| SCENARIO_NM | VARCHAR2(100) | Senaryo adı | Evet | - |
+| SRC_TABLE_NM | VARCHAR2(100) | Kaynak tablo adı | Evet | - |
+| DTL_TABLE_NM | VARCHAR2(100) | Detay tablo adı | Evet | - |
+| CONTROL_DESC | VARCHAR2(500) | Kontrol açıklaması | Hayır | - |
+| CONTROL_TP | VARCHAR2(50) | Kontrol tipi | Hayır | - |
+| ERR_CODE | VARCHAR2(20) | Hata kodu | Hayır | - |
+| ACTIVE_F | INTEGER | Aktiflik durumu (1=Aktif, 0=Pasif) | Hayır | 1 |
+
+### Birincil Anahtar
+- TYPE_ID, SCENARIO_NM, SRC_TABLE_NM, DTL_TABLE_NM
+
+### Benzersizlik Kısıtı
+- TYPE_ID (Her TYPE_ID için sadece tek kayıt)
+
+---
+
+## API Endpoint'leri
+
+### 1. Kayıt Sorgulama
+**Endpoint:** `POST /edwapi/getDaMonitorTypesService`
+
+**Açıklama:** Belirtilen kriterlere göre kayıtları sorgular.
+
+**Request Body:**
+```json
+{
+  "typeId": 1,
+  "scenarioNm": "DATA_QUALITY_CHECK",
+  "dtlTableNm": "CUSTOMER_DETAILS"
+}
+```
+
+**Response:**
+```json
+[
+  {
+    "typeId": 1,
+    "scenarioNm": "DATA_QUALITY_CHECK",
+    "srcTableNm": "CUSTOMER",
+    "dtlTableNm": "CUSTOMER_DETAILS",
+    "controlDesc": "Müşteri veri kalitesi kontrolü",
+    "controlTp": "VALIDATION",
+    "errCode": "E001",
+    "activeF": 1,
+    "result": "SUCCESS",
+    "errorCode": "S000",
+    "errorDescription": "İşlem başarılı"
+  }
+]
+```
+
+### 2. Kayıt Ekleme/Güncelleme
+**Endpoint:** `POST /edwapi/saveOrUpdateDaMonitorTypes`
+
+**Açıklama:** Kayıt varsa günceller, yoksa yeni kayıt oluşturur.
+
+**Request Body:**
+```json
+{
+  "typeId": 1,
+  "scenarioNm": "DATA_QUALITY_CHECK",
+  "srcTableNm": "CUSTOMER",
+  "dtlTableNm": "CUSTOMER_DETAILS",
+  "controlDesc": "Müşteri veri kalitesi kontrolü",
+  "controlTp": "VALIDATION",
+  "errCode": "E001",
+  "activeF": 1
+}
+```
+
+**Response:**
+```json
+{
+  "typeId": 1,
+  "scenarioNm": "DATA_QUALITY_CHECK",
+  "srcTableNm": "CUSTOMER",
+  "dtlTableNm": "CUSTOMER_DETAILS",
+  "controlDesc": "Müşteri veri kalitesi kontrolü",
+  "controlTp": "VALIDATION",
+  "errCode": "E001",
+  "activeF": 1,
+  "result": "SUCCESS",
+  "errorCode": "S000",
+  "errorDescription": "Kayıt başarıyla kaydedildi"
+}
+```
+
+### 3. Kayıt Ekleme (Alternatif)
+**Endpoint:** `POST /edwapi/insertDaMonitorTypes`
+
+**Açıklama:** Yeni kayıt oluşturur veya mevcut kaydı günceller.
+
+### 4. Kayıt Güncelleme (Alternatif)
+**Endpoint:** `POST /edwapi/updateDaMonitorTypes`
+
+**Açıklama:** Mevcut kaydı günceller veya yeni kayıt oluşturur.
+
+### 5. Soft Delete (Pasif Hale Getirme)
+**Endpoint:** `POST /edwapi/deactivateDaMonitorTypes`
+
+**Açıklama:** Kaydı silmez, sadece ACTIVE_F = 0 yapar.
+
+**Request Body:**
+```json
+{
+  "typeId": 1,
+  "scenarioNm": "DATA_QUALITY_CHECK",
+  "srcTableNm": "CUSTOMER",
+  "dtlTableNm": "CUSTOMER_DETAILS"
+}
+```
+
+**Response:**
+```json
+{
+  "result": "SUCCESS",
+  "errorCode": "S000",
+  "errorDescription": "Kayıt başarıyla pasif hale getirildi"
+}
+```
+
+### 6. Silme Onayı Alma
+**Endpoint:** `POST /edwapi/getDeleteConfirmationByTypeId`
+
+**Açıklama:** TYPE_ID ile kayıt bilgilerini getirir, silme onayı için.
+
+**Request Body:**
+```json
+{
+  "typeId": 1
+}
+```
+
+**Response:**
+```json
+{
+  "typeId": 1,
+  "scenarioNm": "DATA_QUALITY_CHECK",
+  "srcTableNm": "CUSTOMER",
+  "dtlTableNm": "CUSTOMER_DETAILS",
+  "controlDesc": "Müşteri veri kalitesi kontrolü",
+  "controlTp": "VALIDATION",
+  "errCode": "E001",
+  "activeF": 1,
+  "result": "SUCCESS",
+  "errorCode": "S000",
+  "errorDescription": "TYPE_ID 1 ile kayıt bulundu. Silmek istediğinize emin misiniz?"
+}
+```
+
+### 7. Tüm Kayıtları Listeleme (TYPE_ID Bazında)
+**Endpoint:** `POST /edwapi/getAllRecordsByTypeId`
+
+**Açıklama:** Belirtilen TYPE_ID ile tüm kayıtları listeler.
+
+**Request Body:**
+```json
+{
+  "typeId": 1
+}
+```
+
+**Response:**
+```json
+[
+  {
+    "typeId": 1,
+    "scenarioNm": "DATA_QUALITY_CHECK",
+    "srcTableNm": "CUSTOMER",
+    "dtlTableNm": "CUSTOMER_DETAILS",
+    "controlDesc": "Müşteri veri kalitesi kontrolü",
+    "controlTp": "VALIDATION",
+    "errCode": "E001",
+    "activeF": 1,
+    "result": "SUCCESS",
+    "errorCode": "S000",
+    "errorDescription": "TYPE_ID 1 ile 1 kayıt bulundu. Hangi kaydı silmek istediğinizi seçin."
+  }
+]
+```
+
+### 8. Hard Delete (Kalıcı Silme)
+**Endpoint:** `POST /edwapi/deleteByTypeIdWithConfirmation`
+
+**Açıklama:** TYPE_ID bazında tüm kayıtları kalıcı olarak siler.
+
+**Request Body:**
+```json
+{
+  "typeId": 1,
+  "confirmed": true
+}
+```
+
+**Response:**
+```json
+{
+  "result": "SUCCESS",
+  "errorCode": "S000",
+  "errorDescription": "TYPE_ID 1 ile kayıt başarıyla silindi"
+}
+```
+
+---
+
+## Veri Modelleri
+
+### DaMonitorTypesRequest
+```java
+public class DaMonitorTypesRequest {
+    private Integer typeId;
+    private String scenarioNm;
+    private String srcTableNm;
+    private String dtlTableNm;
+    private String controlDesc;
+    private String controlTp;
+    private String errCode;
+    private Integer activeF;
+    
+    // Getter ve Setter metodları...
+}
+```
+
+### DaMonitorTypesResponse
+```java
+public class DaMonitorTypesResponse extends BaseResponse {
+    private Integer typeId;
+    private String scenarioNm;
+    private String srcTableNm;
+    private String dtlTableNm;
+    private String controlDesc;
+    private String controlTp;
+    private String errCode;
+    private Integer activeF;
+    
+    // Getter ve Setter metodları...
+}
+```
+
+### DaMonitorTypesModel
+```java
+public class DaMonitorTypesModel extends BaseResponse {
+    private Integer typeId;
+    private String scenarioNm;
+    private String srcTableNm;
+    private String dtlTableNm;
+    private String controlDesc;
+    private String controlTp;
+    private String errCode;
+    private Integer activeF;
+    
+    // Getter ve Setter metodları...
+}
+```
+
+---
+
+## İş Kuralları
+
+### 1. TYPE_ID Benzersizlik Kuralı
+- Her TYPE_ID için sistemde sadece tek kayıt olabilir
+- Yeni kayıt eklenirken TYPE_ID kontrolü yapılır
+- Güncelleme işleminde mevcut kayıt hariç TYPE_ID kontrolü yapılır
+
+### 2. Otomatik INSERT/UPDATE Mantığı
+```
+IF (kayıt mevcut) THEN
+    UPDATE işlemi yap
+ELSE
+    INSERT işlemi yap
+END IF
+```
+
+### 3. Soft Delete Kuralı
+- Kayıtlar fiziksel olarak silinmez
+- ACTIVE_F = 0 yapılarak pasif hale getirilir
+- Veri bütünlüğü korunur
+
+### 4. Hard Delete Kuralı
+- Sadece TYPE_ID bazında silme yapılır
+- Onay parametresi (confirmed = true) zorunludur
+- Tüm ilgili kayıtlar kalıcı olarak silinir
+
+### 5. Varsayılan Değerler
+- ACTIVE_F: 1 (Aktif)
+- Diğer alanlar: NULL kabul edilir
+
+---
+
+## Hata Kodları
+
+### Başarı Kodları
+| Kod | Açıklama |
+|-----|----------|
+| S000 | İşlem başarılı |
+
+### Hata Kodları
+| Kod | Açıklama |
+|-----|----------|
+| E001 | TYPE_ID ile başka bir kayıt zaten mevcut |
+| E002 | Kayıt bulunamadı |
+| E003 | Gerekli parametre eksik |
+| E004 | Silme işlemi onaylanmadı |
+| E005 | Veritabanı bağlantı hatası |
+| E006 | Yetki yetersiz |
+| E999 | Beklenmeyen sistem hatası |
+
+---
+
+## Kullanım Örnekleri
+
+### Örnek 1: Yeni Kayıt Ekleme
+```bash
+curl -X POST http://localhost:8080/edwapi/saveOrUpdateDaMonitorTypes \
+  -H "Content-Type: application/json" \
+  -d '{
+    "typeId": 100,
+    "scenarioNm": "CUSTOMER_VALIDATION",
+    "srcTableNm": "CUSTOMER_MASTER",
+    "dtlTableNm": "CUSTOMER_DETAILS",
+    "controlDesc": "Müşteri bilgileri doğrulama kontrolü",
+    "controlTp": "DATA_VALIDATION",
+    "errCode": "CV001",
+    "activeF": 1
+  }'
+```
+
+### Örnek 2: Kayıt Sorgulama
+```bash
+curl -X POST http://localhost:8080/edwapi/getDaMonitorTypesService \
+  -H "Content-Type: application/json" \
+  -d '{
+    "typeId": 100,
+    "scenarioNm": "CUSTOMER_VALIDATION"
+  }'
+```
+
+### Örnek 3: Soft Delete
+```bash
+curl -X POST http://localhost:8080/edwapi/deactivateDaMonitorTypes \
+  -H "Content-Type: application/json" \
+  -d '{
+    "typeId": 100,
+    "scenarioNm": "CUSTOMER_VALIDATION",
+    "srcTableNm": "CUSTOMER_MASTER",
+    "dtlTableNm": "CUSTOMER_DETAILS"
+  }'
+```
+
+### Örnek 4: Hard Delete
+```bash
+# Önce silme onayı al
+curl -X POST http://localhost:8080/edwapi/getDeleteConfirmationByTypeId \
+  -H "Content-Type: application/json" \
+  -d '{"typeId": 100}'
+
+# Sonra onaylı silme yap
+curl -X POST http://localhost:8080/edwapi/deleteByTypeIdWithConfirmation \
+  -H "Content-Type: application/json" \
+  -d '{
+    "typeId": 100,
+    "confirmed": true
+  }'
+```
+
+---
+
+## Veritabanı Yetkileri
+
+### Gerekli Yetkiler (RBTPMTEST kullanıcısı için)
+```sql
+-- Temel yetkiler
+GRANT SELECT, INSERT, UPDATE, DELETE ON LOOKUP.LU_DA_MONITOR_TYPES TO RBTPMTEST;
+
+-- Sequence yetkileri (varsa)
+GRANT SELECT ON LOOKUP.LU_DA_MONITOR_TYPES_SEQ TO RBTPMTEST;
+
+-- Yetki kontrolü
+SELECT * FROM USER_TAB_PRIVS WHERE TABLE_NAME = 'LU_DA_MONITOR_TYPES';
+```
+
+---
+
+## Sürüm Geçmişi
+
+| Sürüm | Tarih | Değişiklikler |
+|-------|-------|---------------|
+| 1.0 | 2024-06-10 | İlk sürüm oluşturuldu |
+| 1.1 | 2024-06-10 | ACTIVE_F sütunu eklendi |
+| 1.2 | 2024-06-10 | Operation sütunu kaldırıldı |
+| 1.3 | 2024-06-10 | Delete metodu kaldırıldı, güvenli silme yapısı eklendi |
+
+---
+
+## Notlar
+
+1. **Güvenlik**: Hard delete işlemleri dikkatli kullanılmalıdır
+2. **Performans**: TYPE_ID üzerinde index bulunmaktadır
+3. **Monitoring**: Tüm işlemler log'lanmaktadır
+4. **Backup**: Silme işlemlerinden önce yedek alınması önerilir
+5. **Test**: Production ortamında kullanmadan önce test ortamında doğrulayın
+
+---
+
+*Bu dokümantasyon LOOKUP.LU_DA_MONITOR_TYPES tablosu API'si için hazırlanmıştır.*
+*Son güncelleme: 10 Haziran 2024* 

@@ -1,0 +1,704 @@
+{
+  "timestamp": "2025-06-20T10:31:19.888Z",
+  "target": {
+    "schema": "SNPADM",
+    "table": "EDW.TRX_ATM",
+    "column": "TERMINAL_CARD_ACCEPTOR"
+  },
+  "summary": {
+    "totalPackages": 54,
+    "impactedPackages": 3,
+    "directReferences": 5,
+    "indirectReferences": 30,
+    "totalImpact": 35
+  },
+  "packageAnalysis": [
+    {
+      "packageName": "SNPADM.PKG_DA_CARDPLATFORMREMINDER",
+      "directReferences": [
+        {
+          "line": 140,
+          "text": "A.CUST_ID, A.POS_ENTRY_MODE, A.TERMINAL_CARD_ACCEPTOR",
+          "stepId": "P_CPR_TRX-40",
+          "stepLine": 134,
+          "type": "DIRECT_ALIAS_COLUMN_REFERENCE",
+          "occurrences": 2,
+          "allLines": [
+            140,
+            141
+          ],
+          "summary": "2 occurrences in step P_CPR_TRX-40"
+        }
+      ],
+      "indirectReferences": []
+    },
+    {
+      "packageName": "SNPADM.PKG_DA_CP_PLATFORM_REMINDER",
+      "directReferences": [
+        {
+          "line": 207,
+          "text": "A.CUST_ID, A.POS_ENTRY_MODE, A.TERMINAL_CARD_ACCEPTOR, CUR_CARD_NO, CARD_NAME, ENTRY_DT, RNW_RSN_ID, RNW_RSN_DESC, RSN_CLOSE_DESC, S_CUST_ID, CARD_ST_ID, CARD_ST_DESC, CLS_DT, CLS_TM,",
+          "stepId": "DA_CP_PLATFORM_REMINDER-40",
+          "stepLine": 201,
+          "type": "DIRECT_ALIAS_COLUMN_REFERENCE",
+          "occurrences": 3,
+          "allLines": [
+            207,
+            209,
+            218
+          ],
+          "summary": "3 occurrences in step DA_CP_PLATFORM_REMINDER-40"
+        },
+        {
+          "line": 774,
+          "text": "A.CUST_ID, A.POS_ENTRY_MODE, A.TERMINAL_CARD_ACCEPTOR, CUR_CARD_NO, CARD_NAME, ENTRY_DT, RNW_RSN_DESC, RSN_CLOSE_DESC, S_CUST_ID, CARD_ST_DESC, CLS_DT, CLS_TM, CARD_ST_CHG_DT, EXP_DT,",
+          "stepId": "DA_CP_PLATFORM_REMINDER-120",
+          "stepLine": 767,
+          "type": "DIRECT_ALIAS_COLUMN_REFERENCE",
+          "occurrences": 3,
+          "allLines": [
+            774,
+            778,
+            792
+          ],
+          "summary": "3 occurrences in step DA_CP_PLATFORM_REMINDER-120"
+        }
+      ],
+      "indirectReferences": [
+        {
+          "line": 239,
+          "text": "SELECT /*+ PARALLEL (8) */ TRX_ID, CUST_ID, TERMINAL_CARD_ACCEPTOR AS TRX_MRCHNT_ID, TRX_ORIG AS TRX_AMT_ORG, CCY_CODE, TRX_DT,",
+          "stepId": "DA_CP_PLATFORM_REMINDER-50",
+          "stepLine": 224,
+          "type": "SELECT_ALIAS_CREATION",
+          "originalField": "TERMINAL_CARD_ACCEPTOR",
+          "aliasField": "TRX_MRCHNT_ID",
+          "occurrences": 1,
+          "allLines": [
+            239
+          ],
+          "summary": "Single occurrence"
+        },
+        {
+          "line": 261,
+          "text": "WHERE 1=1 AND A.TRX_MRCHNT_ID = B.MRCHNT_ID",
+          "stepId": "DA_CP_PLATFORM_REMINDER-60",
+          "stepLine": 253,
+          "type": "ALIAS_USAGE",
+          "originalField": "TERMINAL_CARD_ACCEPTOR",
+          "aliasField": "TRX_MRCHNT_ID",
+          "sourceStep": "DA_CP_PLATFORM_REMINDER-50",
+          "level": 1,
+          "occurrences": 6,
+          "allLines": [
+            261,
+            261,
+            261,
+            270,
+            270,
+            270
+          ],
+          "summary": "6 occurrences in step DA_CP_PLATFORM_REMINDER-60"
+        },
+        {
+          "line": 314,
+          "text": "AND A.TRX_MRCHNT_ID = B.MRCHNT_ID",
+          "stepId": "DA_CP_PLATFORM_REMINDER-80",
+          "stepLine": 303,
+          "type": "ALIAS_USAGE",
+          "originalField": "TERMINAL_CARD_ACCEPTOR",
+          "aliasField": "TRX_MRCHNT_ID",
+          "sourceStep": "DA_CP_PLATFORM_REMINDER-50",
+          "level": 1,
+          "occurrences": 2,
+          "allLines": [
+            314,
+            314
+          ],
+          "summary": "2 occurrences in step DA_CP_PLATFORM_REMINDER-80"
+        },
+        {
+          "line": 332,
+          "text": "SELECT TRX_MRCHNT_ID, TRX_DSC_CLN, LENGTH(TRX_DSC) AS TRX_DSC_LEN, COUNT(*) AS TRX_CNT,",
+          "stepId": "DA_CP_PLATFORM_REMINDER-90",
+          "stepLine": 326,
+          "type": "ALIAS_USAGE",
+          "originalField": "TERMINAL_CARD_ACCEPTOR",
+          "aliasField": "TRX_MRCHNT_ID",
+          "sourceStep": "DA_CP_PLATFORM_REMINDER-50",
+          "level": 1,
+          "occurrences": 10,
+          "allLines": [
+            332,
+            332,
+            333,
+            333,
+            333,
+            335,
+            335,
+            335,
+            344,
+            344
+          ],
+          "summary": "10 occurrences in step DA_CP_PLATFORM_REMINDER-90"
+        },
+        {
+          "line": 357,
+          "text": "SELECT /*+ PARALLEL (8) */ MRCHNT_DESC, TRX_ID, CUST_ID, TRX_MRCHNT_ID, TRX_AMT_ORG, CCY_CODE, TRX_DT, TRX_DSC, TRX_DSC_CLN, CARD_NO, CUR_CARD_NO, CARD_NAME,",
+          "stepId": "DA_CP_PLATFORM_REMINDER-91",
+          "stepLine": 353,
+          "type": "ALIAS_USAGE",
+          "originalField": "TERMINAL_CARD_ACCEPTOR",
+          "aliasField": "TRX_MRCHNT_ID",
+          "sourceStep": "DA_CP_PLATFORM_REMINDER-50",
+          "level": 1,
+          "occurrences": 8,
+          "allLines": [
+            357,
+            357,
+            362,
+            362,
+            367,
+            367,
+            372,
+            372
+          ],
+          "summary": "8 occurrences in step DA_CP_PLATFORM_REMINDER-91"
+        },
+        {
+          "line": 408,
+          "text": "A.TRX_ID, A.CUST_ID, A.TRX_MRCHNT_ID, A.TRX_AMT_ORG, A.CCY_CODE, A.TRX_DT, A.TRX_TIME, A.TRX_DSC, A.CARD_NO,",
+          "stepId": "DA_CP_PLATFORM_REMINDER-100",
+          "stepLine": 395,
+          "type": "ALIAS_USAGE",
+          "originalField": "TERMINAL_CARD_ACCEPTOR",
+          "aliasField": "TRX_MRCHNT_ID",
+          "sourceStep": "DA_CP_PLATFORM_REMINDER-50",
+          "level": 1,
+          "occurrences": 4,
+          "allLines": [
+            408,
+            408,
+            415,
+            415
+          ],
+          "summary": "4 occurrences in step DA_CP_PLATFORM_REMINDER-100"
+        },
+        {
+          "line": 431,
+          "text": "SELECT /*+ PARALLEL (8) */ A.CUST_ID, A.CUST_ID || ''*'' || A.UNQ_KEY_MRCHNT AS UNQ_KEY, A.TRX_MRCHNT_ID AS MRCHNT_ID, A.MRCHNT_DESC, A.TRX_ID, A.TRX_DSC, A.CARD_NO, A.CARD_NAME, A.CARD_TP,",
+          "stepId": "DA_CP_PLATFORM_REMINDER-101",
+          "stepLine": 427,
+          "type": "ALIAS_USAGE",
+          "originalField": "TERMINAL_CARD_ACCEPTOR",
+          "aliasField": "TRX_MRCHNT_ID",
+          "sourceStep": "DA_CP_PLATFORM_REMINDER-50",
+          "level": 1,
+          "occurrences": 2,
+          "allLines": [
+            431,
+            431
+          ],
+          "summary": "2 occurrences in step DA_CP_PLATFORM_REMINDER-101"
+        },
+        {
+          "line": 452,
+          "text": "A.CUST_ID, A.CUST_ID || ''*'' || A.UNQ_KEY_MRCHNT AS UNQ_KEY, A.TRX_MRCHNT_ID AS MRCHNT_ID, A.MRCHNT_DESC, A.TRX_ID, A.TRX_DSC, A.CARD_NO, A.CARD_NAME, A.CARD_TP, A.TRX_DT AS LAST_TRX_DT, A.TRX_TIME AS LAST_TRX_TM ,A.CCY_CODE, A.TRX_AMT_ORG,",
+          "stepId": "DA_CP_PLATFORM_REMINDER-102",
+          "stepLine": 441,
+          "type": "ALIAS_USAGE",
+          "originalField": "TERMINAL_CARD_ACCEPTOR",
+          "aliasField": "TRX_MRCHNT_ID",
+          "sourceStep": "DA_CP_PLATFORM_REMINDER-50",
+          "level": 1,
+          "occurrences": 2,
+          "allLines": [
+            452,
+            452
+          ],
+          "summary": "2 occurrences in step DA_CP_PLATFORM_REMINDER-102"
+        },
+        {
+          "line": 497,
+          "text": "A.CUST_ID || ''*'' || A.UNQ_KEY_MRCHNT AS UNQ_KEY, A.TRX_MRCHNT_ID AS MRCHNT_ID, A.MRCHNT_DESC, A.TRX_ID, A.TRX_DSC, A.CARD_NO, A.CARD_NAME, A.CARD_TP, A.TRX_DT AS LAST_TRX_DT, A.TRX_TIME AS LAST_TRX_TM, A.CCY_CODE, A.TRX_AMT_ORG,",
+          "stepId": "DA_CP_PLATFORM_REMINDER-103",
+          "stepLine": 470,
+          "type": "ALIAS_USAGE",
+          "originalField": "TERMINAL_CARD_ACCEPTOR",
+          "aliasField": "TRX_MRCHNT_ID",
+          "sourceStep": "DA_CP_PLATFORM_REMINDER-50",
+          "level": 1,
+          "occurrences": 2,
+          "allLines": [
+            497,
+            497
+          ],
+          "summary": "2 occurrences in step DA_CP_PLATFORM_REMINDER-103"
+        },
+        {
+          "line": 524,
+          "text": "A.CUST_ID || ''*'' || A.UNQ_KEY_MRCHNT AS UNQ_KEY, A.TRX_MRCHNT_ID AS MRCHNT_ID, A.MRCHNT_DESC, A.TRX_ID, A.TRX_DSC, A.CARD_NO, A.CARD_NAME, A.CARD_TP, A.TRX_DT AS LAST_TRX_DT, A.TRX_TIME AS LAST_TRX_TM, A.CCY_CODE, A.TRX_AMT_ORG,",
+          "stepId": "DA_CP_PLATFORM_REMINDER-104",
+          "stepLine": 513,
+          "type": "ALIAS_USAGE",
+          "originalField": "TERMINAL_CARD_ACCEPTOR",
+          "aliasField": "TRX_MRCHNT_ID",
+          "sourceStep": "DA_CP_PLATFORM_REMINDER-50",
+          "level": 1,
+          "occurrences": 2,
+          "allLines": [
+            524,
+            524
+          ],
+          "summary": "2 occurrences in step DA_CP_PLATFORM_REMINDER-104"
+        },
+        {
+          "line": 542,
+          "text": "SELECT A.*, ROW_NUMBER() OVER(PARTITION BY CUST_ID, TRX_MRCHNT_ID ORDER BY CNT DESC, LENGTH(TRX_DSC_CLN) ,TRX_DSC_CLN) AS RN FROM",
+          "stepId": "DA_CP_PLATFORM_REMINDER-105",
+          "stepLine": 537,
+          "type": "ALIAS_USAGE",
+          "originalField": "TERMINAL_CARD_ACCEPTOR",
+          "aliasField": "TRX_MRCHNT_ID",
+          "sourceStep": "DA_CP_PLATFORM_REMINDER-50",
+          "level": 1,
+          "occurrences": 8,
+          "allLines": [
+            542,
+            542,
+            542,
+            544,
+            544,
+            547,
+            547,
+            547
+          ],
+          "summary": "8 occurrences in step DA_CP_PLATFORM_REMINDER-105"
+        },
+        {
+          "line": 560,
+          "text": "T.TRX_MRCHNT_ID,",
+          "stepId": "DA_CP_PLATFORM_REMINDER-106",
+          "stepLine": 554,
+          "type": "ALIAS_USAGE",
+          "originalField": "TERMINAL_CARD_ACCEPTOR",
+          "aliasField": "TRX_MRCHNT_ID",
+          "sourceStep": "DA_CP_PLATFORM_REMINDER-50",
+          "level": 1,
+          "occurrences": 2,
+          "allLines": [
+            560,
+            560
+          ],
+          "summary": "2 occurrences in step DA_CP_PLATFORM_REMINDER-106"
+        },
+        {
+          "line": 591,
+          "text": "FROM (SELECT TRX_ID, CUST_ID, CUST_ID || ''*'' || UNQ_KEY_MRCHNT AS UNQ_KEY, TRX_MRCHNT_ID AS MRCHNT_ID,",
+          "stepId": "DA_CP_PLATFORM_REMINDER-107",
+          "stepLine": 574,
+          "type": "ALIAS_USAGE",
+          "originalField": "TERMINAL_CARD_ACCEPTOR",
+          "aliasField": "TRX_MRCHNT_ID",
+          "sourceStep": "DA_CP_PLATFORM_REMINDER-50",
+          "level": 1,
+          "occurrences": 2,
+          "allLines": [
+            591,
+            591
+          ],
+          "summary": "2 occurrences in step DA_CP_PLATFORM_REMINDER-107"
+        },
+        {
+          "line": 627,
+          "text": "ROW_NUMBER() OVER (PARTITION BY A.CUST_ID, A.TRX_MRCHNT_ID ORDER BY A.TRX_DSC_CLN) AS RN",
+          "stepId": "DA_CP_PLATFORM_REMINDER-108",
+          "stepLine": 613,
+          "type": "ALIAS_USAGE",
+          "originalField": "TERMINAL_CARD_ACCEPTOR",
+          "aliasField": "TRX_MRCHNT_ID",
+          "sourceStep": "DA_CP_PLATFORM_REMINDER-50",
+          "level": 1,
+          "occurrences": 11,
+          "allLines": [
+            627,
+            627,
+            635,
+            635,
+            635,
+            639,
+            639,
+            642,
+            642,
+            646,
+            646
+          ],
+          "summary": "11 occurrences in step DA_CP_PLATFORM_REMINDER-108"
+        },
+        {
+          "line": 663,
+          "text": "AND A.MRCHNT_ID=B.TRX_MRCHNT_ID",
+          "stepId": "DA_CP_PLATFORM_REMINDER-109",
+          "stepLine": 653,
+          "type": "ALIAS_USAGE",
+          "originalField": "TERMINAL_CARD_ACCEPTOR",
+          "aliasField": "TRX_MRCHNT_ID",
+          "sourceStep": "DA_CP_PLATFORM_REMINDER-50",
+          "level": 1,
+          "occurrences": 2,
+          "allLines": [
+            663,
+            663
+          ],
+          "summary": "2 occurrences in step DA_CP_PLATFORM_REMINDER-109"
+        },
+        {
+          "line": 727,
+          "text": "CAST(NULL AS NUMBER(6)) as TRX_ID, A.CUST_NO as CUST_ID, A.TRX_MERC_CODE as TRX_MRCHNT_ID,",
+          "stepId": "DA_CP_PLATFORM_REMINDER-111",
+          "stepLine": 721,
+          "type": "ALIAS_USAGE",
+          "originalField": "TERMINAL_CARD_ACCEPTOR",
+          "aliasField": "TRX_MRCHNT_ID",
+          "sourceStep": "DA_CP_PLATFORM_REMINDER-50",
+          "level": 1,
+          "occurrences": 2,
+          "allLines": [
+            727,
+            727
+          ],
+          "summary": "2 occurrences in step DA_CP_PLATFORM_REMINDER-111"
+        },
+        {
+          "line": 809,
+          "text": "CUST_ID, TERMINAL_CARD_ACCEPTOR AS TRX_MRCHNT_ID, TRX_ORIG AS TRX_AMT_ORG, CCY_CODE, TRX_DT, TRX_TIME,",
+          "stepId": "DA_CP_PLATFORM_REMINDER-130",
+          "stepLine": 804,
+          "type": "ALIAS_USAGE",
+          "originalField": "TERMINAL_CARD_ACCEPTOR",
+          "aliasField": "TRX_MRCHNT_ID",
+          "sourceStep": "DA_CP_PLATFORM_REMINDER-50",
+          "level": 1,
+          "occurrences": 4,
+          "allLines": [
+            809,
+            809,
+            817,
+            817
+          ],
+          "summary": "4 occurrences in step DA_CP_PLATFORM_REMINDER-130"
+        },
+        {
+          "line": 831,
+          "text": "(SELECT /*+ PARALLEL (8) */ RELATED_KEY, OFFER_REF, CRITERIA1 as TRX_DSC, CRITERIA2 as TRX_MRCHNT_ID, CRITERIA3 as MRCHNT_DESC, CREATE_DT as LAST_OFFER_DT, NVL(SEEN_F,0) as SEEN_F,",
+          "stepId": "DA_CP_PLATFORM_REMINDER-140",
+          "stepLine": 826,
+          "type": "ALIAS_USAGE",
+          "originalField": "TERMINAL_CARD_ACCEPTOR",
+          "aliasField": "TRX_MRCHNT_ID",
+          "sourceStep": "DA_CP_PLATFORM_REMINDER-50",
+          "level": 1,
+          "occurrences": 2,
+          "allLines": [
+            831,
+            831
+          ],
+          "summary": "2 occurrences in step DA_CP_PLATFORM_REMINDER-140"
+        },
+        {
+          "line": 848,
+          "text": "ROW_NUMBER() OVER (PARTITION BY T.CARD_NO, T.TRX_DT, T.TRX_MRCHNT_ID ORDER BY T.PRIORITY_F, T.TRX_DT, T.TRX_TIME) RN FROM",
+          "stepId": "DA_CP_PLATFORM_REMINDER-150",
+          "stepLine": 842,
+          "type": "ALIAS_USAGE",
+          "originalField": "TERMINAL_CARD_ACCEPTOR",
+          "aliasField": "TRX_MRCHNT_ID",
+          "sourceStep": "DA_CP_PLATFORM_REMINDER-50",
+          "level": 1,
+          "occurrences": 5,
+          "allLines": [
+            848,
+            848,
+            848,
+            854,
+            854
+          ],
+          "summary": "5 occurrences in step DA_CP_PLATFORM_REMINDER-150"
+        },
+        {
+          "line": 874,
+          "text": "AND NOT EXISTS ( SELECT 1 FROM DA_CCT_MRCHNT_TRX'||V_USER||' TMP WHERE A.CARD_NO = TMP.CARD_NO AND A.TRX_DT = TMP.TRX_DT AND A.TRX_MRCHNT_ID = TMP.TRX_MRCHNT_ID)",
+          "stepId": "DA_CP_PLATFORM_REMINDER-160",
+          "stepLine": 862,
+          "type": "ALIAS_USAGE",
+          "originalField": "TERMINAL_CARD_ACCEPTOR",
+          "aliasField": "TRX_MRCHNT_ID",
+          "sourceStep": "DA_CP_PLATFORM_REMINDER-50",
+          "level": 1,
+          "occurrences": 3,
+          "allLines": [
+            874,
+            874,
+            874
+          ],
+          "summary": "3 occurrences in step DA_CP_PLATFORM_REMINDER-160"
+        },
+        {
+          "line": 888,
+          "text": "AND A.TRX_DT = TMP.TRX_DT AND A.TRX_MRCHNT_ID = TMP.TRX_MRCHNT_ID)",
+          "stepId": "DA_CP_PLATFORM_REMINDER-170",
+          "stepLine": 880,
+          "type": "ALIAS_USAGE",
+          "originalField": "TERMINAL_CARD_ACCEPTOR",
+          "aliasField": "TRX_MRCHNT_ID",
+          "sourceStep": "DA_CP_PLATFORM_REMINDER-50",
+          "level": 1,
+          "occurrences": 5,
+          "allLines": [
+            888,
+            888,
+            888,
+            892,
+            892
+          ],
+          "summary": "5 occurrences in step DA_CP_PLATFORM_REMINDER-170"
+        },
+        {
+          "line": 903,
+          "text": "((SELECT /*+ PARALLEL (8) */ CARD_NO, TRX_MRCHNT_ID, TRX_DT, MRCHNT_DESC FROM DA_CCT_PEM_TRX_TMP1'||V_USER||' UNION ALL SELECT CARD_NO, TRX_MRCHNT_ID, TRX_DT, MRCHNT_DESC FROM DA_CCT_PEM_TRX_TMP2'||V_USER||'))",
+          "stepId": "DA_CP_PLATFORM_REMINDER-180",
+          "stepLine": 897,
+          "type": "ALIAS_USAGE",
+          "originalField": "TERMINAL_CARD_ACCEPTOR",
+          "aliasField": "TRX_MRCHNT_ID",
+          "sourceStep": "DA_CP_PLATFORM_REMINDER-50",
+          "level": 1,
+          "occurrences": 15,
+          "allLines": [
+            903,
+            903,
+            904,
+            904,
+            904,
+            906,
+            906,
+            906,
+            910,
+            910,
+            916,
+            916,
+            918,
+            918,
+            918
+          ],
+          "summary": "15 occurrences in step DA_CP_PLATFORM_REMINDER-180"
+        },
+        {
+          "line": 927,
+          "text": "SELECT /*+ PARALLEL (8) */ T.*, ROW_NUMBER() OVER (PARTITION BY CUST_ID, CARD_NO, TRX_MRCHNT_ID, TRX_AMT_ORG, CCY_CODE, TRX_DT, TRX_TIME, TRX_DSC ORDER BY PRIORITY_F, PRIORITY, MRCHNT_DESC) RN FROM",
+          "stepId": "DA_CP_PLATFORM_REMINDER-181",
+          "stepLine": 923,
+          "type": "ALIAS_USAGE",
+          "originalField": "TERMINAL_CARD_ACCEPTOR",
+          "aliasField": "TRX_MRCHNT_ID",
+          "sourceStep": "DA_CP_PLATFORM_REMINDER-50",
+          "level": 1,
+          "occurrences": 9,
+          "allLines": [
+            927,
+            927,
+            927,
+            928,
+            928,
+            932,
+            932,
+            936,
+            936
+          ],
+          "summary": "9 occurrences in step DA_CP_PLATFORM_REMINDER-181"
+        },
+        {
+          "line": 968,
+          "text": "SELECT /*+ PARALLEL (8) */ PRIORITY, RANK, MRCHNT_DESC, TRX_ID, CUST_ID, TRX_MRCHNT_ID, TRX_AMT_ORG, CCY_CODE, TRX_DT, TRX_TIME, TRX_DSC, CARD_NO, CUR_CARD_NO, CARD_NAME,",
+          "stepId": "DA_CP_PLATFORM_REMINDER-190",
+          "stepLine": 959,
+          "type": "ALIAS_USAGE",
+          "originalField": "TERMINAL_CARD_ACCEPTOR",
+          "aliasField": "TRX_MRCHNT_ID",
+          "sourceStep": "DA_CP_PLATFORM_REMINDER-50",
+          "level": 1,
+          "occurrences": 6,
+          "allLines": [
+            968,
+            968,
+            974,
+            974,
+            982,
+            982
+          ],
+          "summary": "6 occurrences in step DA_CP_PLATFORM_REMINDER-190"
+        },
+        {
+          "line": 998,
+          "text": "SELECT CUST_ID, TRX_DSC, TRX_MRCHNT_ID, MRCHNT_DESC, CARD_NO, CARD_NAME, TRX_DT, TRX_TIME, CCY_CODE, TRX_AMT_ORG, CARD_ST_DESC, CARD_ST_CHG_DT FROM DA_CCT_PEM_TRX_TMP3'||V_USER||') A,",
+          "stepId": "DA_CP_PLATFORM_REMINDER-200",
+          "stepLine": 990,
+          "type": "ALIAS_USAGE",
+          "originalField": "TERMINAL_CARD_ACCEPTOR",
+          "aliasField": "TRX_MRCHNT_ID",
+          "sourceStep": "DA_CP_PLATFORM_REMINDER-50",
+          "level": 1,
+          "occurrences": 6,
+          "allLines": [
+            998,
+            998,
+            1000,
+            1000,
+            1002,
+            1002
+          ],
+          "summary": "6 occurrences in step DA_CP_PLATFORM_REMINDER-200"
+        },
+        {
+          "line": 1021,
+          "text": "SELECT /*+ PARALLEL (8) */ A.*, B.RELATED_KEY, B.OFFER_REF, B.LAST_OFFER_DT, B.SEEN_F, C.TRX_DSC AS NEXT_TRX_DSC, C.TRX_MRCHNT_ID AS NEXT_TRX_MRCHNT_ID,",
+          "stepId": "DA_CP_PLATFORM_REMINDER-220",
+          "stepLine": 1015,
+          "type": "ALIAS_USAGE",
+          "originalField": "TERMINAL_CARD_ACCEPTOR",
+          "aliasField": "TRX_MRCHNT_ID",
+          "sourceStep": "DA_CP_PLATFORM_REMINDER-50",
+          "level": 1,
+          "occurrences": 4,
+          "allLines": [
+            1021,
+            1021,
+            1037,
+            1037
+          ],
+          "summary": "4 occurrences in step DA_CP_PLATFORM_REMINDER-220"
+        }
+      ]
+    },
+    {
+      "packageName": "SNPADM.PKG_DA_SUBSCRIPTION",
+      "directReferences": [
+        {
+          "line": 60,
+          "text": "from EDW.TRX_ATM A",
+          "stepId": "P_NEW_MERCHANTS-150",
+          "stepLine": 55,
+          "type": "DIRECT_TABLE_REFERENCE",
+          "occurrences": 1,
+          "allLines": [
+            60
+          ],
+          "summary": "Single occurrence"
+        },
+        {
+          "line": 344,
+          "text": "JOIN LOOKUP.LU_DA_SUBSCRIPTION_MRCHNT S ON A.TERMINAL_CARD_ACCEPTOR = S.MRCHNT_ID AND UPPER(REPLACE(TRMNL_LOC, '' '', '''')) LIKE ''%''||UPPER(REPLACE(S.MRCHNT_DESC, '' '', ''''))||''%''",
+          "stepId": "P_DA_SUBSCRIPTION-150",
+          "stepLine": 338,
+          "type": "DIRECT_ALIAS_COLUMN_REFERENCE",
+          "occurrences": 3,
+          "allLines": [
+            344,
+            349,
+            351
+          ],
+          "summary": "3 occurrences in step P_DA_SUBSCRIPTION-150"
+        }
+      ],
+      "indirectReferences": [
+        {
+          "line": 57,
+          "text": "select /*+ parallel(8) full(a)*/  distinct TERMINAL_CARD_ACCEPTOR as TRX_MRCHNT_ID, TRIM(TRANSLATE(REGEXP_REPLACE(UPPER(A.TRMNL_LOC), ''[^[:alnum:]]'', ''''), ''ĞÜŞİÖÇÒÕÚÂÃÅÀÁÄÆÈÉËÊÏÎÌÍÑÔÔÓØßÛÙ'',''GUSIOCOOUAAAAAAAEEEEIIIOOOOSUU'')) as MRCHNT_DESC",
+          "stepId": "P_NEW_MERCHANTS-150",
+          "stepLine": 55,
+          "type": "SELECT_ALIAS_CREATION",
+          "originalField": "TERMINAL_CARD_ACCEPTOR",
+          "aliasField": "TRX_MRCHNT_ID",
+          "occurrences": 3,
+          "allLines": [
+            59,
+            57,
+            57
+          ],
+          "summary": "3 occurrences in step P_NEW_MERCHANTS-150"
+        },
+        {
+          "line": 101,
+          "text": "select /*+ parallel(8) full(a)*/  distinct TRX_MRCHNT_ID as MRCHNT_ID, ''YOUTUBEPREMIUM'' as MRCHNT_DESC",
+          "stepId": "P_NEW_MERCHANTS-250",
+          "stepLine": 91,
+          "type": "ALIAS_USAGE",
+          "originalField": "TERMINAL_CARD_ACCEPTOR",
+          "aliasField": "TRX_MRCHNT_ID",
+          "tempTable": "TRX_ATM_LAST_6",
+          "sourceStep": "P_NEW_MERCHANTS-150",
+          "level": 1,
+          "occurrences": 20,
+          "allLines": [
+            101,
+            101,
+            112,
+            112,
+            131,
+            131,
+            150,
+            150,
+            169,
+            169,
+            188,
+            188,
+            207,
+            207,
+            226,
+            226,
+            245,
+            245,
+            264,
+            264
+          ],
+          "summary": "20 occurrences in step P_NEW_MERCHANTS-250"
+        },
+        {
+          "line": 340,
+          "text": "V_SQL_STR := '\n         CREATE TABLE DA_SUBS_DEBIT_LAST6_TMP AS\n         SELECT /*+ parallel(8)*/ \n              DISTINCT A.CUST_ID AS CUST_ID, \n              A.TERMINAL_CARD_ACCEPTOR AS TRX_MRCHNT_ID...",
+          "stepId": "P_DA_SUBSCRIPTION-150",
+          "stepLine": 338,
+          "type": "TEMP_TABLE_CREATION",
+          "originalField": "TERMINAL_CARD_ACCEPTOR",
+          "tempTable": "DA_SUBS_DEBIT_LAST6_TMP",
+          "level": 1,
+          "occurrences": 2,
+          "allLines": [
+            340,
+            340
+          ],
+          "summary": "2 occurrences in step P_DA_SUBSCRIPTION-150"
+        },
+        {
+          "line": 373,
+          "text": "GROUP BY CUST_ID, MRCHNT_DESC--, TRX_MRCHNT_ID",
+          "stepId": "P_DA_SUBSCRIPTION-200",
+          "stepLine": 363,
+          "type": "ALIAS_USAGE",
+          "originalField": "TERMINAL_CARD_ACCEPTOR",
+          "aliasField": "TRX_MRCHNT_ID",
+          "tempTable": "DA_SUBS_DEBIT_LAST6_TMP",
+          "sourceStep": "P_DA_SUBSCRIPTION-150",
+          "level": 1,
+          "occurrences": 3,
+          "allLines": [
+            373,
+            373,
+            373
+          ],
+          "summary": "3 occurrences in step P_DA_SUBSCRIPTION-200"
+        }
+      ]
+    }
+  ]
+}

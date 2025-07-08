@@ -1,0 +1,64 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+
+# Your rule content
+
+Project Description:
+This project focuses on analyzing jobs, procedures, and packages based on a logging table 
+used by a data warehouse team. The system hierarchy is:
+- Packages contain procedures
+- Procedures contain steps
+- Each package has a unique PROG_ID
+- Steps within the same procedure share a common prefix pattern (differ only by -10, -20, -30 suffix)
+
+Log Table Structure :
+- ID: Unique auto-increment identifier for each execution
+- PROG_ID: Package identifier
+- STEP_ID: Step identifier (follows pattern: <common_prefix>-<number>)
+- SQL_TEXT: SQL statement
+- SQL_FULL_TEXT: Complete SQL statement
+- START_TM: Execution start time
+- END_TM: Execution end time
+- DURATION: Execution duration
+- ROW_CNT: Number of affected rows
+- ST: Status
+- ERROR_TEXT: Error message if any
+- SESSION_ID: Database session identifier
+- SESSION_INFO: Additional session information
+
+
+Create script of table : CREATE TABLE EDW.EDW_PROC_LOG
+(
+  ID             NUMBER(20),
+  PROG_ID        NUMBER(10),
+  STEP_ID        VARCHAR2(100 BYTE),
+  SQL_TEXT       VARCHAR2(4000 BYTE),
+  SQL_FULL_TEXT  CLOB,
+  START_TM       DATE,
+  END_TM         DATE,
+  DURATION       NUMBER(10),
+  ROW_CNT        NUMBER(20),
+  ST             NUMBER(1),
+  ERROR_TEXT     VARCHAR2(4000 BYTE),
+  SESSION_ID     NUMBER(30),
+  SESSION_INFO   VARCHAR2(4000 BYTE)
+)
+LOB (SQL_FULL_TEXT) STORE AS BASICFILE (
+  TABLESPACE  TS_EDW01
+  ENABLE      STORAGE IN ROW
+  CHUNK       16384
+  RETENTION
+  NOCACHE
+  NOLOGGING)
+NOCOMPRESS 
+TABLESPACE TS_EDW01
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            BUFFER_POOL      DEFAULT
+           )
+PARTITION BY RANGE (START_TM)
