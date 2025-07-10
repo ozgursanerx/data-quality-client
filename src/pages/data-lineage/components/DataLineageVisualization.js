@@ -136,9 +136,9 @@ const DataLineageVisualization = ({ data, onNodeClick }) => {
           }
           return newSet
         })
-      } else if (nodeData.details && onNodeClick) {
-        // For step nodes with details, call the original onNodeClick
-        onNodeClick(nodeData)
+      } else if (nodeData.type === 'step' && nodeData.details && onNodeClick) {
+        // For step nodes with details, call the original onNodeClick with fullscreen state
+        onNodeClick(nodeData, isFullscreen)
       }
     }
 
@@ -240,7 +240,15 @@ const DataLineageVisualization = ({ data, onNodeClick }) => {
               indirectRefs: [],
             }
           }
-          procedureGroups[procedureName][ref.stepId].directRefs.push(ref)
+          // FIX: Extract individual references from the references array
+          if (ref.references && Array.isArray(ref.references)) {
+            ref.references.forEach(sqlRef => {
+              procedureGroups[procedureName][ref.stepId].directRefs.push(sqlRef)
+            })
+          } else {
+            // Fallback for old data structure
+            procedureGroups[procedureName][ref.stepId].directRefs.push(ref)
+          }
         })
 
         // Process indirect references
@@ -258,7 +266,15 @@ const DataLineageVisualization = ({ data, onNodeClick }) => {
               indirectRefs: [],
             }
           }
-          procedureGroups[procedureName][ref.stepId].indirectRefs.push(ref)
+          // FIX: Extract individual references from the references array
+          if (ref.references && Array.isArray(ref.references)) {
+            ref.references.forEach(sqlRef => {
+              procedureGroups[procedureName][ref.stepId].indirectRefs.push(sqlRef)
+            })
+          } else {
+            // Fallback for old data structure
+            procedureGroups[procedureName][ref.stepId].indirectRefs.push(ref)
+          }
         })
 
         // Create procedure nodes in a smaller circle around the package
@@ -313,56 +329,101 @@ const DataLineageVisualization = ({ data, onNodeClick }) => {
 
           // Show steps only if procedure is expanded
           if (expandedProcedures.has(procedureNodeId)) {
-            const stepEntries = Object.values(steps)
-            const stepRadius = 240
-            stepEntries.forEach((step, stepIndex) => {
-              const defaultStepPosition = getCircularPosition(
-                stepIndex,
-                stepEntries.length,
-                stepRadius,
-                procedurePosition.x + 100,
-                procedurePosition.y + 50
-              )
-              
-              const stepNodeId = `step-${pkgIndex}-${procedureIndex}-${stepIndex}`
-              // Use stored position if available, otherwise use calculated position
-              const stepPosition = nodePositions.get(stepNodeId) || {
-                x: defaultStepPosition.x - 80,
-                y: defaultStepPosition.y - 40
+            // Group steps by prefix and sort by suffix number
+            const stepsByPrefix = {}
+            
+            Object.values(steps).forEach(step => {
+              const match = step.stepId.match(/^(.+?)[-_](\d+)$/)
+              if (match) {
+                const [, prefix, suffix] = match
+                if (!stepsByPrefix[prefix]) {
+                  stepsByPrefix[prefix] = []
+                }
+                stepsByPrefix[prefix].push({
+                  ...step,
+                  prefix,
+                  suffix: parseInt(suffix, 10)
+                })
+              } else {
+                // Handle steps without suffix
+                if (!stepsByPrefix[step.stepId]) {
+                  stepsByPrefix[step.stepId] = []
+                }
+                stepsByPrefix[step.stepId].push({
+                  ...step,
+                  prefix: step.stepId,
+                  suffix: 0
+                })
               }
-              
-              const stepNode = {
-                id: stepNodeId,
-                type: 'custom',
-                position: stepPosition,
-                data: {
-                  id: stepNodeId,
-                  label: step.stepId,
-                  type: 'step',
-                  riskScore: 0,
-                  directRefs: step.directRefs.length,
-                  indirectRefs: step.indirectRefs.length,
-                  viewMode,
-                  details: {
-                    stepId: step.stepId,
-                    stepLine: step.stepLine,
-                    procedure: step.procedure,
-                    directReferences: step.directRefs,
-                    indirectReferences: step.indirectRefs,
-                  },
-                  onNodeClick: handleNodeExpansion,
-                },
-              }
-              nodes.push(stepNode)
+            })
 
-              // Edge from procedure to step
-              edges.push({
-                id: `procedure-${procedureNodeId}-to-${stepNodeId}`,
-                source: procedureNodeId,
-                target: stepNodeId,
-                type: 'smoothstep',
-                style: { strokeWidth: 1, stroke: '#9c27b0' },
-                label: viewMode === 'detailed' ? `${step.directRefs.length + step.indirectRefs.length}` : '',
+            // Sort steps within each prefix group by suffix number
+            Object.keys(stepsByPrefix).forEach(prefix => {
+              stepsByPrefix[prefix].sort((a, b) => a.suffix - b.suffix)
+            })
+
+            // Create step nodes with horizontal positioning
+            let globalStepIndex = 0
+            Object.entries(stepsByPrefix).forEach(([prefix, prefixSteps], prefixIndex) => {
+              prefixSteps.forEach((step, indexInGroup) => {
+                const stepNodeId = `step-${pkgIndex}-${procedureIndex}-${globalStepIndex}`
+                
+                // Position steps horizontally with 275px spacing
+                const stepPosition = nodePositions.get(stepNodeId) || {
+                  x: procedurePosition.x + 200 + (indexInGroup * 275),
+                  y: procedurePosition.y + 100 + (prefixIndex * 100)
+                }
+                
+                const stepNode = {
+                  id: stepNodeId,
+                  type: 'custom',
+                  position: stepPosition,
+                  data: {
+                    id: stepNodeId,
+                    label: step.stepId,
+                    type: 'step',
+                    riskScore: 0,
+                    directRefs: step.directRefs.length,
+                    indirectRefs: step.indirectRefs.length,
+                    viewMode,
+                    details: {
+                      stepId: step.stepId,
+                      stepLine: step.stepLine,
+                      procedure: step.procedure,
+                      directReferences: step.directRefs,
+                      indirectReferences: step.indirectRefs,
+                    },
+                    onNodeClick: handleNodeExpansion,
+                  },
+                }
+                nodes.push(stepNode)
+
+                // Create connections between steps
+                if (indexInGroup === 0) {
+                  // First step in group connects to procedure
+                  edges.push({
+                    id: `procedure-${procedureNodeId}-to-${stepNodeId}`,
+                    source: procedureNodeId,
+                    target: stepNodeId,
+                    type: 'smoothstep',
+                    style: { strokeWidth: 2, stroke: '#9c27b0' },
+                    label: viewMode === 'detailed' ? `${step.directRefs.length + step.indirectRefs.length}` : '',
+                  })
+                } else {
+                  // Subsequent steps connect to previous step
+                  const prevStepNodeId = `step-${pkgIndex}-${procedureIndex}-${globalStepIndex - 1}`
+                  edges.push({
+                    id: `step-${prevStepNodeId}-to-${stepNodeId}`,
+                    source: prevStepNodeId,
+                    target: stepNodeId,
+                    type: 'smoothstep',
+                    animated: true,
+                    style: { strokeWidth: 2, stroke: '#ff6b35' },
+                    label: viewMode === 'detailed' ? `${indexInGroup + 1}` : '',
+                  })
+                }
+
+                globalStepIndex++
               })
             })
           }
@@ -371,7 +432,7 @@ const DataLineageVisualization = ({ data, onNodeClick }) => {
     })
 
     return { nodes, edges }
-  }, [data, viewMode, showOnlyHighRisk, expandedPackages, expandedProcedures, onNodeClick, nodePositions])
+  }, [data, viewMode, showOnlyHighRisk, expandedPackages, expandedProcedures, onNodeClick, nodePositions, isFullscreen])
 
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes)
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges)
