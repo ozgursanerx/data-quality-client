@@ -1,0 +1,4719 @@
+{
+  "timestamp": "2025-07-10T07:49:14.021Z",
+  "target": {
+    "schema": "SNPADM",
+    "table": "EDW.DA_ACTION_DATA_HIST",
+    "column": "GENERAL_DT"
+  },
+  "summary": {
+    "totalPackages": 54,
+    "impactedPackages": 9,
+    "directReferences": 97,
+    "indirectReferences": 0,
+    "totalImpact": 97
+  },
+  "packageAnalysis": [
+    {
+      "packageName": "SNPADM.PKG_DA_CORP_CP_PATTERN_DATA",
+      "directReferences": [
+        {
+          "stepId": "P_DA_CORP_CP_PATTERN-1000",
+          "stepLine": 1197,
+          "procedure": "P_DA_CORP_CP_EXP_DT",
+          "occurrences": 13,
+          "references": [
+            {
+              "line": 1207,
+              "stepId": "P_DA_CORP_CP_PATTERN-1000",
+              "stepLine": 1197,
+              "procedure": "P_DA_CORP_CP_EXP_DT",
+              "type": "DIRECT_REFERENCE",
+              "text": "END GENERAL_DT"
+            },
+            {
+              "line": 1248,
+              "stepId": "P_DA_CORP_CP_PATTERN-1000",
+              "stepLine": 1197,
+              "procedure": "P_DA_CORP_CP_EXP_DT",
+              "type": "DIRECT_REFERENCE",
+              "text": "END GENERAL_DT"
+            },
+            {
+              "line": 1261,
+              "stepId": "P_DA_CORP_CP_PATTERN-1000",
+              "stepLine": 1197,
+              "procedure": "P_DA_CORP_CP_EXP_DT",
+              "type": "DIRECT_REFERENCE",
+              "text": "SELECT UNQ_KEY, AS_OF_DT, TRX_DT, GENERAL_DT, EXP_DT_CHR_ONL /*MTS-5703 - MTS-13233 Seçil Bayraktar*/"
+            },
+            {
+              "line": 1266,
+              "stepId": "P_DA_CORP_CP_PATTERN-1000",
+              "stepLine": 1197,
+              "procedure": "P_DA_CORP_CP_EXP_DT",
+              "type": "DIRECT_REFERENCE",
+              "text": "TMP_GENERAL_DT AS ( --3 dönemden 2 sinin tarih tipi aynı ise GENERAL_DT seçilir"
+            },
+            {
+              "line": 1267,
+              "stepId": "P_DA_CORP_CP_PATTERN-1000",
+              "stepLine": 1197,
+              "procedure": "P_DA_CORP_CP_EXP_DT",
+              "type": "DIRECT_REFERENCE",
+              "text": "SELECT UNQ_KEY, GENERAL_DT, COUNT(*)"
+            },
+            {
+              "line": 1269,
+              "stepId": "P_DA_CORP_CP_PATTERN-1000",
+              "stepLine": 1197,
+              "procedure": "P_DA_CORP_CP_EXP_DT",
+              "type": "DIRECT_REFERENCE",
+              "text": "GROUP BY UNQ_KEY, GENERAL_DT"
+            },
+            {
+              "line": 1272,
+              "stepId": "P_DA_CORP_CP_PATTERN-1000",
+              "stepLine": 1197,
+              "procedure": "P_DA_CORP_CP_EXP_DT",
+              "type": "DIRECT_REFERENCE",
+              "text": "TMP_DSS AS ( --General_dt e uyan işlemler arasındaki fark 5 günden az ise tarih düzenlidir, buradan kayıt gelmezse zaten tarih düzensizdir"
+            },
+            {
+              "line": 1274,
+              "stepId": "P_DA_CORP_CP_PATTERN-1000",
+              "stepLine": 1197,
+              "procedure": "P_DA_CORP_CP_EXP_DT",
+              "type": "DIRECT_REFERENCE",
+              "text": "FROM TMP_TRX_DAY A, TMP_GENERAL_DT B"
+            },
+            {
+              "line": 1276,
+              "stepId": "P_DA_CORP_CP_PATTERN-1000",
+              "stepLine": 1197,
+              "procedure": "P_DA_CORP_CP_EXP_DT",
+              "type": "DIRECT_REFERENCE",
+              "text": "AND A.GENERAL_DT = B.GENERAL_DT"
+            },
+            {
+              "line": 1282,
+              "stepId": "P_DA_CORP_CP_PATTERN-1000",
+              "stepLine": 1197,
+              "procedure": "P_DA_CORP_CP_EXP_DT",
+              "type": "DIRECT_REFERENCE",
+              "text": ",  CASE WHEN MAX(A.EXP_DT_CHR_ONL) IS NULL AND MAX(B.GENERAL_DT) IS NULL THEN MIN(TO_NUMBER(TO_CHAR(A.TRX_DT,''DD'')))"
+            },
+            {
+              "line": 1283,
+              "stepId": "P_DA_CORP_CP_PATTERN-1000",
+              "stepLine": 1197,
+              "procedure": "P_DA_CORP_CP_EXP_DT",
+              "type": "DIRECT_REFERENCE",
+              "text": "WHEN MAX(A.EXP_DT_CHR_ONL) IS NULL AND MAX(B.GENERAL_DT) IS NOT NULL THEN MIN(TO_NUMBER(TO_CHAR(DECODE(B.GENERAL_DT, null, CAST(null as DATE) ,A.TRX_DT),''DD'')))"
+            },
+            {
+              "line": 1291,
+              "stepId": "P_DA_CORP_CP_PATTERN-1000",
+              "stepLine": 1197,
+              "procedure": "P_DA_CORP_CP_EXP_DT",
+              "type": "DIRECT_REFERENCE",
+              "text": "FROM TMP_TRX_DAY A, TMP_GENERAL_DT B, TMP_DSS D"
+            },
+            {
+              "line": 1293,
+              "stepId": "P_DA_CORP_CP_PATTERN-1000",
+              "stepLine": 1197,
+              "procedure": "P_DA_CORP_CP_EXP_DT",
+              "type": "DIRECT_REFERENCE",
+              "text": "AND A.GENERAL_DT = B.GENERAL_DT(+)"
+            }
+          ]
+        }
+      ],
+      "indirectReferences": []
+    },
+    {
+      "packageName": "SNPADM.PKG_DA_CORP_ORDR_PATTERN_DATA",
+      "directReferences": [
+        {
+          "stepId": "P_DA_CORP_MNY_TRNSFR_PATTERN_ORDR-100",
+          "stepLine": 455,
+          "procedure": "P_DA_CORP_MNY_TRNSFR_PATTERN_ORDR",
+          "occurrences": 1,
+          "references": [
+            {
+              "line": 529,
+              "stepId": "P_DA_CORP_MNY_TRNSFR_PATTERN_ORDR-100",
+              "stepLine": 455,
+              "procedure": "P_DA_CORP_MNY_TRNSFR_PATTERN_ORDR",
+              "type": "DIRECT_REFERENCE",
+              "text": ", CAST(NULL AS VARCHAR2(10)) GENERAL_DT"
+            }
+          ]
+        },
+        {
+          "stepId": "P_DA_CORP_MNY_TRNSFR_PATTERN_ORDR-200",
+          "stepLine": 644,
+          "procedure": "P_DA_CORP_MNY_TRNSFR_PATTERN_ORDR",
+          "occurrences": 1,
+          "references": [
+            {
+              "line": 705,
+              "stepId": "P_DA_CORP_MNY_TRNSFR_PATTERN_ORDR-200",
+              "stepLine": 644,
+              "procedure": "P_DA_CORP_MNY_TRNSFR_PATTERN_ORDR",
+              "type": "DIRECT_REFERENCE",
+              "text": ", CAST(NULL AS VARCHAR2(10)) GENERAL_DT"
+            }
+          ]
+        },
+        {
+          "stepId": "P_DA_CORP_MNY_TRNSFR_PATTERN_ORDR-201",
+          "stepLine": 725,
+          "procedure": "P_DA_CORP_MNY_TRNSFR_PATTERN_ORDR",
+          "occurrences": 1,
+          "references": [
+            {
+              "line": 743,
+              "stepId": "P_DA_CORP_MNY_TRNSFR_PATTERN_ORDR-201",
+              "stepLine": 725,
+              "procedure": "P_DA_CORP_MNY_TRNSFR_PATTERN_ORDR",
+              "type": "DIRECT_REFERENCE",
+              "text": ", CAST(NULL AS VARCHAR2(10)) GENERAL_DT"
+            }
+          ]
+        },
+        {
+          "stepId": "P_DA_CORP_MNY_TRNSFR_PATTERN_ORDR-400",
+          "stepLine": 766,
+          "procedure": "P_DA_CORP_MNY_TRNSFR_PATTERN_ORDR",
+          "occurrences": 2,
+          "references": [
+            {
+              "line": 769,
+              "stepId": "P_DA_CORP_MNY_TRNSFR_PATTERN_ORDR-400",
+              "stepLine": 766,
+              "procedure": "P_DA_CORP_MNY_TRNSFR_PATTERN_ORDR",
+              "type": "DIRECT_REFERENCE",
+              "text": "(AS_OF_DT, MONEY_TRANSFER_TP, UNQ_KEY,BUCKET_DT, CUST_ID, AMT_ORG, AMT, DELETED_AMT, CCY_CODE,PAID_F, TRX_CNT, MULTI_TRX_DAY_CNT, MULTI_F, CURR_DT, GENERAL_DT, EXP_AMT, AMT_TP, PPN_DT"
+            },
+            {
+              "line": 772,
+              "stepId": "P_DA_CORP_MNY_TRNSFR_PATTERN_ORDR-400",
+              "stepLine": 766,
+              "procedure": "P_DA_CORP_MNY_TRNSFR_PATTERN_ORDR",
+              "type": "DIRECT_REFERENCE",
+              "text": ", MONEY_TRANSFER_TP, UNQ_KEY, BUCKET_DT, CUST_ID, AMT_ORG, AMT, DELETED_AMT, CCY_CODE, PAID_F, TRX_CNT, MULTI_TRX_DAY_CNT, MULTI_F, CURR_DT, GENERAL_DT, EXP_AMT, AMT_TP"
+            }
+          ]
+        },
+        {
+          "stepId": "P_DA_CORP_MNY_TRNSFR_PATTERN_ORDR-600",
+          "stepLine": 786,
+          "procedure": "P_DA_CORP_MNY_TRNSFR_PATTERN_ORDR",
+          "occurrences": 2,
+          "references": [
+            {
+              "line": 789,
+              "stepId": "P_DA_CORP_MNY_TRNSFR_PATTERN_ORDR-600",
+              "stepLine": 786,
+              "procedure": "P_DA_CORP_MNY_TRNSFR_PATTERN_ORDR",
+              "type": "DIRECT_REFERENCE",
+              "text": "(MONEY_TRANSFER_TP,AS_OF_DT, UNQ_KEY, CUST_ID, MULTI_F, GENERAL_DT, CCY_CODE, EXP_AMT"
+            },
+            {
+              "line": 803,
+              "stepId": "P_DA_CORP_MNY_TRNSFR_PATTERN_ORDR-600",
+              "stepLine": 786,
+              "procedure": "P_DA_CORP_MNY_TRNSFR_PATTERN_ORDR",
+              "type": "DIRECT_REFERENCE",
+              "text": "SELECT  /*+ PARALLEL(16)  */ MONEY_TRANSFER_TP, TO_DATE('''||P_AS_OF_DT||''',''YYYYMMDD'') AS_OF_DT, UNQ_KEY, CUST_ID, MULTI_F, GENERAL_DT, CCY_CODE"
+            }
+          ]
+        },
+        {
+          "stepId": "P_DA_CORP_MNY_TRNSFR_PATTERN_ORDR-655",
+          "stepLine": 835,
+          "procedure": "P_DA_CORP_MNY_TRNSFR_PATTERN_ORDR",
+          "occurrences": 2,
+          "references": [
+            {
+              "line": 838,
+              "stepId": "P_DA_CORP_MNY_TRNSFR_PATTERN_ORDR-655",
+              "stepLine": 835,
+              "procedure": "P_DA_CORP_MNY_TRNSFR_PATTERN_ORDR",
+              "type": "DIRECT_REFERENCE",
+              "text": "(MONEY_TRANSFER_TP,AS_OF_DT, UNQ_KEY, CUST_ID, MULTI_F, GENERAL_DT, CCY_CODE, EXP_AMT"
+            },
+            {
+              "line": 854,
+              "stepId": "P_DA_CORP_MNY_TRNSFR_PATTERN_ORDR-655",
+              "stepLine": 835,
+              "procedure": "P_DA_CORP_MNY_TRNSFR_PATTERN_ORDR",
+              "type": "DIRECT_REFERENCE",
+              "text": "SELECT /*+ PARALLEL(16)  */ MONEY_TRANSFER_TP, AS_OF_DT+1 AS_OF_DT, UNQ_KEY, CUST_ID, MULTI_F, GENERAL_DT, CCY_CODE, EXP_AMT"
+            }
+          ]
+        }
+      ],
+      "indirectReferences": []
+    },
+    {
+      "packageName": "SNPADM.PKG_DA_CORP_PATTERN",
+      "directReferences": [
+        {
+          "stepId": "UNKNOWN",
+          "stepLine": 61,
+          "procedure": "UNKNOWN",
+          "occurrences": 5,
+          "references": [
+            {
+              "line": 61,
+              "stepId": "UNKNOWN",
+              "stepLine": 61,
+              "procedure": "UNKNOWN",
+              "type": "DIRECT_REFERENCE",
+              "text": "V_GENERAL_DT VARCHAR2(10);"
+            },
+            {
+              "line": 63,
+              "stepId": "UNKNOWN",
+              "stepLine": 63,
+              "procedure": "UNKNOWN",
+              "type": "DIRECT_REFERENCE",
+              "text": "V_GENERAL_DT_ACTION_TMP VARCHAR2(10);"
+            },
+            {
+              "line": 64,
+              "stepId": "UNKNOWN",
+              "stepLine": 64,
+              "procedure": "UNKNOWN",
+              "type": "DIRECT_REFERENCE",
+              "text": "V_GENERAL_DT_ACTION_DATE DATE;"
+            },
+            {
+              "line": 66,
+              "stepId": "UNKNOWN",
+              "stepLine": 66,
+              "procedure": "UNKNOWN",
+              "type": "DIRECT_REFERENCE",
+              "text": "V_GENERAL_DT_ONL_TRX_DT DATE; /*MTS-17940 Seçil Bayraktar*/"
+            },
+            {
+              "line": 19,
+              "stepId": "UNKNOWN",
+              "stepLine": 19,
+              "procedure": "UNKNOWN",
+              "type": "DIRECT_REFERENCE",
+              "text": "PROCEDURE P_CORP_POST_PROCESS(P_AS_OF_DT DATE, P_UNQ_KEY VARCHAR2, P_AMT NUMBER, P_EXP_AMT NUMBER, P_LAST_TRX_OF_MONTH_F NUMBER, P_ONLINE_F NUMBER, P_TRX_SRC VARCHAR2, P_GENERAL_DT VARCHAR2); /*Seçil Bayraktar Epic: MTS-5703 - SubTask:MTS-10588*/"
+            }
+          ]
+        },
+        {
+          "stepId": "P_CORP_LOG_DATA",
+          "stepLine": 116,
+          "procedure": "P_CORP_LOG_DATA",
+          "occurrences": 14,
+          "references": [
+            {
+              "line": 140,
+              "stepId": "P_CORP_LOG_DATA",
+              "stepLine": 116,
+              "procedure": "P_CORP_LOG_DATA",
+              "type": "DIRECT_REFERENCE",
+              "text": "||  CASE WHEN V_GENERAL_DT_ACTION_TMP IS NOT NULL THEN ' GENERAL_DT_ACTION_TMP:' || V_GENERAL_DT_ACTION_TMP END"
+            },
+            {
+              "line": 141,
+              "stepId": "P_CORP_LOG_DATA",
+              "stepLine": 116,
+              "procedure": "P_CORP_LOG_DATA",
+              "type": "DIRECT_REFERENCE",
+              "text": "||  CASE WHEN V_GENERAL_DT_ACTION_DATE IS NOT NULL THEN ' GENERAL_DT_ACTION_DATE:' || V_GENERAL_DT_ACTION_DATE END"
+            },
+            {
+              "line": 144,
+              "stepId": "P_CORP_LOG_DATA",
+              "stepLine": 116,
+              "procedure": "P_CORP_LOG_DATA",
+              "type": "DIRECT_REFERENCE",
+              "text": "||  CASE WHEN V_GENERAL_DT_ONL_TRX_DT IS NOT NULL THEN ' GENERAL_DT_ONL_TRX_DT:' || V_GENERAL_DT_ONL_TRX_DT END /*MTS-17940 Seçil Bayraktar*/"
+            },
+            {
+              "line": 159,
+              "stepId": "P_CORP_LOG_DATA",
+              "stepLine": 116,
+              "procedure": "P_CORP_LOG_DATA",
+              "type": "DIRECT_REFERENCE",
+              "text": ", RULE_ID, PREV_RULE_ID, CURR_DT, GENERAL_DT, CURR_TD, PAST_TD, AMT_SIMILAR, EXP_AMT, AMT_TP, MULTI_F, PARAM"
+            },
+            {
+              "line": 163,
+              "stepId": "P_CORP_LOG_DATA",
+              "stepLine": 116,
+              "procedure": "P_CORP_LOG_DATA",
+              "type": "DIRECT_REFERENCE",
+              "text": ", :P_RULE_ID, :V_PREV_RULE_ID, :V_CURR_DT, :V_GENERAL_DT, :V_CURR_TD, :V_PAST_TD, :V_AMT_SIMILAR, :V_EXP_AMT, :V_AMT_TP, :V_MULTI_F, :V_PARAM"
+            },
+            {
+              "line": 167,
+              "stepId": "P_CORP_LOG_DATA",
+              "stepLine": 116,
+              "procedure": "P_CORP_LOG_DATA",
+              "type": "DIRECT_REFERENCE",
+              "text": ", P_RULE_ID, V_PREV_RULE_ID, V_CURR_DT, V_GENERAL_DT, V_CURR_TD, V_PAST_TD, V_AMT_SIMILAR, V_EXP_AMT, V_AMT_TP, V_MULTI_F, V_PARAM"
+            },
+            {
+              "line": 196,
+              "stepId": "P_CORP_LOG_DATA",
+              "stepLine": 116,
+              "procedure": "P_CORP_LOG_DATA",
+              "type": "DIRECT_REFERENCE",
+              "text": "GENERAL_DT VARCHAR2(3),"
+            },
+            {
+              "line": 239,
+              "stepId": "P_CORP_LOG_DATA",
+              "stepLine": 116,
+              "procedure": "P_CORP_LOG_DATA",
+              "type": "DIRECT_REFERENCE",
+              "text": ", GENERAL_DT"
+            },
+            {
+              "line": 313,
+              "stepId": "P_CORP_LOG_DATA",
+              "stepLine": 116,
+              "procedure": "P_CORP_LOG_DATA",
+              "type": "DIRECT_REFERENCE",
+              "text": "V_GENERAL_DT_ACTION_TMP := NULL;"
+            },
+            {
+              "line": 314,
+              "stepId": "P_CORP_LOG_DATA",
+              "stepLine": 116,
+              "procedure": "P_CORP_LOG_DATA",
+              "type": "DIRECT_REFERENCE",
+              "text": "V_GENERAL_DT_ACTION_DATE := NULL;"
+            },
+            {
+              "line": 316,
+              "stepId": "P_CORP_LOG_DATA",
+              "stepLine": 116,
+              "procedure": "P_CORP_LOG_DATA",
+              "type": "DIRECT_REFERENCE",
+              "text": "V_GENERAL_DT_ONL_TRX_DT := NULL; /*MTS-17940 Seçil Bayraktar*/"
+            },
+            {
+              "line": 320,
+              "stepId": "P_CORP_LOG_DATA",
+              "stepLine": 116,
+              "procedure": "P_CORP_LOG_DATA",
+              "type": "DIRECT_REFERENCE",
+              "text": "V_GENERAL_DT:= PKG_DA_UTILITY.F_GET_CURR_DT(V_TRX_DT,V_PRM_CURR_DT_LIMIT_DT_CNT);"
+            },
+            {
+              "line": 329,
+              "stepId": "P_CORP_LOG_DATA",
+              "stepLine": 116,
+              "procedure": "P_CORP_LOG_DATA",
+              "type": "DIRECT_REFERENCE",
+              "text": "V_GENERAL_DT:= TRX(I).GENERAL_DT;"
+            },
+            {
+              "line": 330,
+              "stepId": "P_CORP_LOG_DATA",
+              "stepLine": 116,
+              "procedure": "P_CORP_LOG_DATA",
+              "type": "DIRECT_REFERENCE",
+              "text": "V_GENERAL_DT_ONL_TRX_DT:= TRX(I).TRX_DT;"
+            }
+          ]
+        },
+        {
+          "stepId": "P_CORP_FILL_BUCKETS-100",
+          "stepLine": 402,
+          "procedure": "P_CORP_FILL_BUCKETS_CALC",
+          "occurrences": 2,
+          "references": [
+            {
+              "line": 409,
+              "stepId": "P_CORP_FILL_BUCKETS-100",
+              "stepLine": 402,
+              "procedure": "P_CORP_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": ", P.GENERAL_DT"
+            },
+            {
+              "line": 420,
+              "stepId": "P_CORP_FILL_BUCKETS-100",
+              "stepLine": 402,
+              "procedure": "P_CORP_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "INTO V_EXP_AMT, V_EXP_AMT_CALCULATED, V_AMT_TP, V_GENERAL_DT, V_MULTI_F,  V_EXP_DT_ORG"
+            }
+          ]
+        },
+        {
+          "stepId": "P_CORP_FILL_BUCKETS-500",
+          "stepLine": 729,
+          "procedure": "P_CORP_FILL_BUCKETS_CALC",
+          "occurrences": 51,
+          "references": [
+            {
+              "line": 737,
+              "stepId": "P_CORP_FILL_BUCKETS-500",
+              "stepLine": 729,
+              "procedure": "P_CORP_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "AND NOT (V_GENERAL_DT = 'AYB' AND V_PREV_RULE_ID MEMBER OF V_BACKWARD_RULES)   THEN  --Tarih açıklamasına göre max 1 ay geriye atılması ve arka arkaya çalışmaması kararı alındı"
+            },
+            {
+              "line": 741,
+              "stepId": "P_CORP_FILL_BUCKETS-500",
+              "stepLine": 729,
+              "procedure": "P_CORP_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "P_CORP_POST_PROCESS(V_AS_OF_DT, V_UNQ_KEY, V_AMT, V_EXP_AMT, V_LAST_TRX_OF_MONTH_F, P_ONLINE_F, V_TRX_SRC, V_GENERAL_DT) ;"
+            },
+            {
+              "line": 748,
+              "stepId": "P_CORP_FILL_BUCKETS-500",
+              "stepLine": 729,
+              "procedure": "P_CORP_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "P_CORP_POST_PROCESS(V_AS_OF_DT, V_UNQ_KEY, V_AMT, V_EXP_AMT, V_LAST_TRX_OF_MONTH_F, P_ONLINE_F, V_TRX_SRC, V_GENERAL_DT);"
+            },
+            {
+              "line": 750,
+              "stepId": "P_CORP_FILL_BUCKETS-500",
+              "stepLine": 729,
+              "procedure": "P_CORP_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "ELSIF (V_GENERAL_DT = 'AYS' AND  V_PREV_RULE_ID MEMBER OF V_FORWARD_RULES)   THEN  --İgnore rule"
+            },
+            {
+              "line": 753,
+              "stepId": "P_CORP_FILL_BUCKETS-500",
+              "stepLine": 729,
+              "procedure": "P_CORP_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "P_CORP_POST_PROCESS(V_AS_OF_DT, V_UNQ_KEY, V_AMT, V_EXP_AMT, V_LAST_TRX_OF_MONTH_F, P_ONLINE_F, V_TRX_SRC, V_GENERAL_DT);"
+            },
+            {
+              "line": 761,
+              "stepId": "P_CORP_FILL_BUCKETS-500",
+              "stepLine": 729,
+              "procedure": "P_CORP_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "P_CORP_POST_PROCESS(V_AS_OF_DT, V_UNQ_KEY, V_AMT, V_EXP_AMT, V_LAST_TRX_OF_MONTH_F, P_ONLINE_F, V_TRX_SRC, V_GENERAL_DT);"
+            },
+            {
+              "line": 767,
+              "stepId": "P_CORP_FILL_BUCKETS-500",
+              "stepLine": 729,
+              "procedure": "P_CORP_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "P_CORP_POST_PROCESS(V_AS_OF_DT, V_UNQ_KEY, V_AMT, V_EXP_AMT, V_LAST_TRX_OF_MONTH_F, P_ONLINE_F, V_TRX_SRC, V_GENERAL_DT);"
+            },
+            {
+              "line": 774,
+              "stepId": "P_CORP_FILL_BUCKETS-500",
+              "stepLine": 729,
+              "procedure": "P_CORP_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "P_CORP_POST_PROCESS(V_AS_OF_DT, V_UNQ_KEY, V_AMT, V_EXP_AMT, V_LAST_TRX_OF_MONTH_F, P_ONLINE_F, V_TRX_SRC, V_GENERAL_DT) ;"
+            },
+            {
+              "line": 791,
+              "stepId": "P_CORP_FILL_BUCKETS-500",
+              "stepLine": 729,
+              "procedure": "P_CORP_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "P_CORP_POST_PROCESS(V_AS_OF_DT, V_UNQ_KEY, V_AMT, V_EXP_AMT, V_LAST_TRX_OF_MONTH_F, P_ONLINE_F, V_TRX_SRC, V_GENERAL_DT); /*Seçil Bayraktar Epic: MTS-5703 - SubTask:MTS-10588*/"
+            },
+            {
+              "line": 804,
+              "stepId": "P_CORP_FILL_BUCKETS-500",
+              "stepLine": 729,
+              "procedure": "P_CORP_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "P_CORP_POST_PROCESS(V_AS_OF_DT, V_UNQ_KEY, V_AMT, V_EXP_AMT, V_LAST_TRX_OF_MONTH_F, P_ONLINE_F, V_TRX_SRC, V_GENERAL_DT) ;"
+            },
+            {
+              "line": 806,
+              "stepId": "P_CORP_FILL_BUCKETS-500",
+              "stepLine": 729,
+              "procedure": "P_CORP_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "ELSIF V_AMT_SIMILAR = 'TB' AND V_CURR_TD = 'TD' AND V_PAST_TD IN ('TA','TD') AND V_GENERAL_DT = 'AYS' AND V_CURR_DT = 'AYS' AND V_EMPTY_BUCKET_DT is null"
+            },
+            {
+              "line": 813,
+              "stepId": "P_CORP_FILL_BUCKETS-500",
+              "stepLine": 729,
+              "procedure": "P_CORP_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "P_CORP_POST_PROCESS(V_AS_OF_DT, V_UNQ_KEY, V_AMT, V_EXP_AMT, V_LAST_TRX_OF_MONTH_F, P_ONLINE_F, V_TRX_SRC, V_GENERAL_DT) ;"
+            },
+            {
+              "line": 816,
+              "stepId": "P_CORP_FILL_BUCKETS-500",
+              "stepLine": 729,
+              "procedure": "P_CORP_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "ELSIF V_AMT_SIMILAR = 'TB' AND V_CURR_TD = 'TD' AND V_GENERAL_DT || V_CURR_DT IN ('AYBAYS', 'AYBORT', 'ORTAYS') AND"
+            },
+            {
+              "line": 823,
+              "stepId": "P_CORP_FILL_BUCKETS-500",
+              "stepLine": 729,
+              "procedure": "P_CORP_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "P_CORP_POST_PROCESS(V_AS_OF_DT, V_UNQ_KEY, V_AMT, V_EXP_AMT, V_LAST_TRX_OF_MONTH_F, P_ONLINE_F, V_TRX_SRC, V_GENERAL_DT) ;"
+            },
+            {
+              "line": 830,
+              "stepId": "P_CORP_FILL_BUCKETS-500",
+              "stepLine": 729,
+              "procedure": "P_CORP_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "P_CORP_POST_PROCESS(V_AS_OF_DT, V_UNQ_KEY, V_AMT, V_EXP_AMT, V_LAST_TRX_OF_MONTH_F, P_ONLINE_F, V_TRX_SRC, V_GENERAL_DT) ;"
+            },
+            {
+              "line": 833,
+              "stepId": "P_CORP_FILL_BUCKETS-500",
+              "stepLine": 729,
+              "procedure": "P_CORP_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "AND ((V_GENERAL_DT IN ('AYB','ORT') AND V_CURR_DT IN ('AYB', 'ORT')) OR (V_GENERAL_DT IN ('AYS','ORT') AND V_CURR_DT IN ('AYS', 'ORT'))) --zaman benzer"
+            },
+            {
+              "line": 838,
+              "stepId": "P_CORP_FILL_BUCKETS-500",
+              "stepLine": 729,
+              "procedure": "P_CORP_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "P_CORP_POST_PROCESS(V_AS_OF_DT, V_UNQ_KEY, V_AMT, V_EXP_AMT, V_LAST_TRX_OF_MONTH_F, P_ONLINE_F, V_TRX_SRC, V_GENERAL_DT) ;"
+            },
+            {
+              "line": 844,
+              "stepId": "P_CORP_FILL_BUCKETS-500",
+              "stepLine": 729,
+              "procedure": "P_CORP_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "P_CORP_POST_PROCESS(V_AS_OF_DT, V_UNQ_KEY, V_AMT, V_EXP_AMT, V_LAST_TRX_OF_MONTH_F, P_ONLINE_F, V_TRX_SRC, V_GENERAL_DT) ;"
+            },
+            {
+              "line": 846,
+              "stepId": "P_CORP_FILL_BUCKETS-500",
+              "stepLine": 729,
+              "procedure": "P_CORP_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "ELSIF V_AMT_SIMILAR IN ('TBD1','TBD2','TBD3') AND V_CURR_TD = 'TD' AND V_PAST_TD IN ('TB', 'TD') AND V_GENERAL_DT IN ('AYB','ORT') AND V_CURR_DT = 'AYS' AND V_AMT_TP = 1 THEN  --Kural 3  / T+1 action 0"
+            },
+            {
+              "line": 850,
+              "stepId": "P_CORP_FILL_BUCKETS-500",
+              "stepLine": 729,
+              "procedure": "P_CORP_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "P_CORP_POST_PROCESS(V_AS_OF_DT, V_UNQ_KEY, V_AMT, V_EXP_AMT, V_LAST_TRX_OF_MONTH_F, P_ONLINE_F, V_TRX_SRC, V_GENERAL_DT) ;"
+            },
+            {
+              "line": 853,
+              "stepId": "P_CORP_FILL_BUCKETS-500",
+              "stepLine": 729,
+              "procedure": "P_CORP_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "ELSIF V_AMT_SIMILAR = 'TB' AND V_CURR_TD = 'TB' AND V_PAST_TD = 'TB' AND V_GENERAL_DT || V_CURR_DT IN ('AYSAYB', 'ORTAYB', 'AYSORT') AND"
+            },
+            {
+              "line": 859,
+              "stepId": "P_CORP_FILL_BUCKETS-500",
+              "stepLine": 729,
+              "procedure": "P_CORP_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "P_CORP_POST_PROCESS(V_AS_OF_DT, V_UNQ_KEY, V_AMT, V_EXP_AMT, V_LAST_TRX_OF_MONTH_F, P_ONLINE_F, V_TRX_SRC, V_GENERAL_DT) ;"
+            },
+            {
+              "line": 866,
+              "stepId": "P_CORP_FILL_BUCKETS-500",
+              "stepLine": 729,
+              "procedure": "P_CORP_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "P_CORP_POST_PROCESS(V_AS_OF_DT, V_UNQ_KEY, V_AMT, V_EXP_AMT, V_LAST_TRX_OF_MONTH_F, P_ONLINE_F, V_TRX_SRC, V_GENERAL_DT) ;"
+            },
+            {
+              "line": 868,
+              "stepId": "P_CORP_FILL_BUCKETS-500",
+              "stepLine": 729,
+              "procedure": "P_CORP_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "ELSIF V_AMT_SIMILAR = 'TB' AND V_CURR_TD = 'TD' AND V_PAST_TD IN ('TA','TD') AND V_GENERAL_DT = 'AYS' AND V_CURR_DT = 'AYS'"
+            },
+            {
+              "line": 873,
+              "stepId": "P_CORP_FILL_BUCKETS-500",
+              "stepLine": 729,
+              "procedure": "P_CORP_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "P_CORP_POST_PROCESS(V_AS_OF_DT, V_UNQ_KEY, V_AMT, V_EXP_AMT, V_LAST_TRX_OF_MONTH_F, P_ONLINE_F, V_TRX_SRC, V_GENERAL_DT) ;"
+            },
+            {
+              "line": 875,
+              "stepId": "P_CORP_FILL_BUCKETS-500",
+              "stepLine": 729,
+              "procedure": "P_CORP_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "ELSIF V_AMT_SIMILAR = 'TB' AND V_CURR_TD = 'TD' AND V_PAST_TD IN ('TA','TD') AND V_GENERAL_DT IN ('AYS') AND V_CURR_DT = 'AYS'"
+            },
+            {
+              "line": 879,
+              "stepId": "P_CORP_FILL_BUCKETS-500",
+              "stepLine": 729,
+              "procedure": "P_CORP_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "P_CORP_POST_PROCESS(V_AS_OF_DT, V_UNQ_KEY, V_AMT, V_EXP_AMT, V_LAST_TRX_OF_MONTH_F, P_ONLINE_F, V_TRX_SRC, V_GENERAL_DT) ;"
+            },
+            {
+              "line": 881,
+              "stepId": "P_CORP_FILL_BUCKETS-500",
+              "stepLine": 729,
+              "procedure": "P_CORP_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "ELSIF V_AMT_SIMILAR = 'TB' AND V_CURR_TD = 'TD' AND V_PAST_TD IN ('TA','TD') AND V_GENERAL_DT = 'AYS' AND V_CURR_DT = 'AYS'"
+            },
+            {
+              "line": 886,
+              "stepId": "P_CORP_FILL_BUCKETS-500",
+              "stepLine": 729,
+              "procedure": "P_CORP_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "P_CORP_POST_PROCESS(V_AS_OF_DT, V_UNQ_KEY, V_AMT, V_EXP_AMT, V_LAST_TRX_OF_MONTH_F, P_ONLINE_F, V_TRX_SRC, V_GENERAL_DT) ;"
+            },
+            {
+              "line": 893,
+              "stepId": "P_CORP_FILL_BUCKETS-500",
+              "stepLine": 729,
+              "procedure": "P_CORP_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "P_CORP_POST_PROCESS(V_AS_OF_DT, V_UNQ_KEY, V_AMT, V_EXP_AMT, V_LAST_TRX_OF_MONTH_F, P_ONLINE_F, V_TRX_SRC, V_GENERAL_DT) ;"
+            },
+            {
+              "line": 898,
+              "stepId": "P_CORP_FILL_BUCKETS-500",
+              "stepLine": 729,
+              "procedure": "P_CORP_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "P_CORP_POST_PROCESS(V_AS_OF_DT, V_UNQ_KEY, V_AMT, V_EXP_AMT, V_LAST_TRX_OF_MONTH_F, P_ONLINE_F, V_TRX_SRC, V_GENERAL_DT) ;"
+            },
+            {
+              "line": 900,
+              "stepId": "P_CORP_FILL_BUCKETS-500",
+              "stepLine": 729,
+              "procedure": "P_CORP_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "ELSIF V_AMT_SIMILAR IN ('TB','TB2') AND V_CURR_TD = 'TA' AND V_PAST_TD = 'TD' AND V_GENERAL_DT = 'AYS' AND V_AMT_INC > 0 THEN  --Kural 100 / T  action 3.1"
+            },
+            {
+              "line": 904,
+              "stepId": "P_CORP_FILL_BUCKETS-500",
+              "stepLine": 729,
+              "procedure": "P_CORP_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "P_CORP_POST_PROCESS(V_AS_OF_DT, V_UNQ_KEY, V_AMT, V_EXP_AMT, V_LAST_TRX_OF_MONTH_F, P_ONLINE_F, V_TRX_SRC, V_GENERAL_DT);"
+            },
+            {
+              "line": 906,
+              "stepId": "P_CORP_FILL_BUCKETS-500",
+              "stepLine": 729,
+              "procedure": "P_CORP_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "ELSIF V_AMT_SIMILAR = 'TB' AND V_CURR_TD = 'TA' AND V_PAST_TD = 'TD' AND V_GENERAL_DT = 'AYS'  THEN  --Kural 10  / T action 3.2"
+            },
+            {
+              "line": 910,
+              "stepId": "P_CORP_FILL_BUCKETS-500",
+              "stepLine": 729,
+              "procedure": "P_CORP_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "P_CORP_POST_PROCESS(V_AS_OF_DT, V_UNQ_KEY, V_AMT, V_EXP_AMT, V_LAST_TRX_OF_MONTH_F, P_ONLINE_F, V_TRX_SRC, V_GENERAL_DT) ;"
+            },
+            {
+              "line": 912,
+              "stepId": "P_CORP_FILL_BUCKETS-500",
+              "stepLine": 729,
+              "procedure": "P_CORP_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "ELSIF V_AMT_SIMILAR IN ('TB','TB2') AND V_CURR_TD = 'TA' AND V_PAST_TD IN ('TD') AND V_GENERAL_DT IN ('AYB', 'ORT') AND V_AMT_INC > 0 THEN  --Kural 110 / T action 3.1"
+            },
+            {
+              "line": 916,
+              "stepId": "P_CORP_FILL_BUCKETS-500",
+              "stepLine": 729,
+              "procedure": "P_CORP_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "P_CORP_POST_PROCESS(V_AS_OF_DT, V_UNQ_KEY, V_AMT, V_EXP_AMT, V_LAST_TRX_OF_MONTH_F, P_ONLINE_F, V_TRX_SRC, V_GENERAL_DT) ;"
+            },
+            {
+              "line": 918,
+              "stepId": "P_CORP_FILL_BUCKETS-500",
+              "stepLine": 729,
+              "procedure": "P_CORP_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "ELSIF V_AMT_SIMILAR = 'TB' AND V_CURR_TD = 'TA' AND V_PAST_TD = 'TD' AND V_GENERAL_DT IN ('AYB', 'ORT') THEN  --Kural 11 /  T action 3.2"
+            },
+            {
+              "line": 922,
+              "stepId": "P_CORP_FILL_BUCKETS-500",
+              "stepLine": 729,
+              "procedure": "P_CORP_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "P_CORP_POST_PROCESS(V_AS_OF_DT, V_UNQ_KEY, V_AMT, V_EXP_AMT, V_LAST_TRX_OF_MONTH_F, P_ONLINE_F, V_TRX_SRC, V_GENERAL_DT) ;"
+            },
+            {
+              "line": 928,
+              "stepId": "P_CORP_FILL_BUCKETS-500",
+              "stepLine": 729,
+              "procedure": "P_CORP_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "P_CORP_POST_PROCESS(V_AS_OF_DT, V_UNQ_KEY, V_AMT, V_EXP_AMT, V_LAST_TRX_OF_MONTH_F, P_ONLINE_F, V_TRX_SRC, V_GENERAL_DT) ;"
+            },
+            {
+              "line": 934,
+              "stepId": "P_CORP_FILL_BUCKETS-500",
+              "stepLine": 729,
+              "procedure": "P_CORP_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "P_CORP_POST_PROCESS(V_AS_OF_DT, V_UNQ_KEY, V_AMT, V_EXP_AMT, V_LAST_TRX_OF_MONTH_F, P_ONLINE_F, V_TRX_SRC, V_GENERAL_DT) ;"
+            },
+            {
+              "line": 941,
+              "stepId": "P_CORP_FILL_BUCKETS-500",
+              "stepLine": 729,
+              "procedure": "P_CORP_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "P_CORP_POST_PROCESS(V_AS_OF_DT, V_UNQ_KEY, V_AMT, V_EXP_AMT, V_LAST_TRX_OF_MONTH_F, P_ONLINE_F, V_TRX_SRC, V_GENERAL_DT) ;"
+            },
+            {
+              "line": 947,
+              "stepId": "P_CORP_FILL_BUCKETS-500",
+              "stepLine": 729,
+              "procedure": "P_CORP_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "P_CORP_POST_PROCESS(V_AS_OF_DT, V_UNQ_KEY, V_AMT, V_EXP_AMT, V_LAST_TRX_OF_MONTH_F, P_ONLINE_F, V_TRX_SRC, V_GENERAL_DT) ;"
+            },
+            {
+              "line": 953,
+              "stepId": "P_CORP_FILL_BUCKETS-500",
+              "stepLine": 729,
+              "procedure": "P_CORP_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "P_CORP_POST_PROCESS(V_AS_OF_DT, V_UNQ_KEY, V_AMT, V_EXP_AMT, V_LAST_TRX_OF_MONTH_F, P_ONLINE_F, V_TRX_SRC, V_GENERAL_DT) ;"
+            },
+            {
+              "line": 959,
+              "stepId": "P_CORP_FILL_BUCKETS-500",
+              "stepLine": 729,
+              "procedure": "P_CORP_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "P_CORP_POST_PROCESS(V_AS_OF_DT, V_UNQ_KEY, V_AMT, V_EXP_AMT, V_LAST_TRX_OF_MONTH_F, P_ONLINE_F, V_TRX_SRC, V_GENERAL_DT) ;"
+            },
+            {
+              "line": 965,
+              "stepId": "P_CORP_FILL_BUCKETS-500",
+              "stepLine": 729,
+              "procedure": "P_CORP_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "P_CORP_POST_PROCESS(V_AS_OF_DT, V_UNQ_KEY, V_AMT, V_EXP_AMT, V_LAST_TRX_OF_MONTH_F, P_ONLINE_F, V_TRX_SRC, V_GENERAL_DT) ;"
+            },
+            {
+              "line": 972,
+              "stepId": "P_CORP_FILL_BUCKETS-500",
+              "stepLine": 729,
+              "procedure": "P_CORP_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "P_CORP_POST_PROCESS(V_AS_OF_DT, V_UNQ_KEY, V_AMT, V_EXP_AMT, V_LAST_TRX_OF_MONTH_F, P_ONLINE_F, V_TRX_SRC, V_GENERAL_DT) ;"
+            },
+            {
+              "line": 982,
+              "stepId": "P_CORP_FILL_BUCKETS-500",
+              "stepLine": 729,
+              "procedure": "P_CORP_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "PROCEDURE P_CORP_POST_PROCESS(P_AS_OF_DT DATE, P_UNQ_KEY VARCHAR2, P_AMT NUMBER, P_EXP_AMT NUMBER, P_LAST_TRX_OF_MONTH_F NUMBER, P_ONLINE_F NUMBER, P_TRX_SRC VARCHAR2,P_GENERAL_DT VARCHAR2) IS /*Seçil Bayraktar Epic: MTS-5703 - SubTask:MTS-10588*/"
+            },
+            {
+              "line": 998,
+              "stepId": "P_CORP_FILL_BUCKETS-500",
+              "stepLine": 729,
+              "procedure": "P_CORP_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "P_T1_GENERAL_DT  VARCHAR2(10);"
+            },
+            {
+              "line": 999,
+              "stepId": "P_CORP_FILL_BUCKETS-500",
+              "stepLine": 729,
+              "procedure": "P_CORP_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "P_T2_GENERAL_DT  VARCHAR2(10);"
+            },
+            {
+              "line": 1000,
+              "stepId": "P_CORP_FILL_BUCKETS-500",
+              "stepLine": 729,
+              "procedure": "P_CORP_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "P_T3_GENERAL_DT  VARCHAR2(10);"
+            }
+          ]
+        },
+        {
+          "stepId": "P_CORP_POST_PROCESS-200",
+          "stepLine": 1022,
+          "procedure": "P_CORP_POST_PROCESS",
+          "occurrences": 23,
+          "references": [
+            {
+              "line": 1046,
+              "stepId": "P_CORP_POST_PROCESS-200",
+              "stepLine": 1022,
+              "procedure": "P_CORP_POST_PROCESS",
+              "type": "DIRECT_REFERENCE",
+              "text": "MAX(DECODE(BUCKET_DT, ADD_MONTHS(V_AS_OF_DT,-1), GENERAL_DT, null)) P_T1_GENERAL_DT,"
+            },
+            {
+              "line": 1047,
+              "stepId": "P_CORP_POST_PROCESS-200",
+              "stepLine": 1022,
+              "procedure": "P_CORP_POST_PROCESS",
+              "type": "DIRECT_REFERENCE",
+              "text": "MAX(DECODE(BUCKET_DT, ADD_MONTHS(V_AS_OF_DT,-2), GENERAL_DT, null)) P_T2_GENERAL_DT,"
+            },
+            {
+              "line": 1048,
+              "stepId": "P_CORP_POST_PROCESS-200",
+              "stepLine": 1022,
+              "procedure": "P_CORP_POST_PROCESS",
+              "type": "DIRECT_REFERENCE",
+              "text": "MAX(DECODE(BUCKET_DT, ADD_MONTHS(V_AS_OF_DT,-3), GENERAL_DT, null)) P_T3_GENERAL_DT"
+            },
+            {
+              "line": 1061,
+              "stepId": "P_CORP_POST_PROCESS-200",
+              "stepLine": 1022,
+              "procedure": "P_CORP_POST_PROCESS",
+              "type": "DIRECT_REFERENCE",
+              "text": "P_PAID_F, P_PAID_F_RSN,/* V_MULTI_TRX_DAY_CNT, */P_T1_GENERAL_DT, P_T2_GENERAL_DT, P_T3_GENERAL_DT /*Seçil Bayraktar MTS-11413*/"
+            },
+            {
+              "line": 1068,
+              "stepId": "P_CORP_POST_PROCESS-200",
+              "stepLine": 1022,
+              "procedure": "P_CORP_POST_PROCESS",
+              "type": "DIRECT_REFERENCE",
+              "text": "IF V_GENERAL_DT_ACTION_TMP IS NULL AND V_GENERAL_DT_ACTION_DATE IS NULL THEN"
+            },
+            {
+              "line": 1069,
+              "stepId": "P_CORP_POST_PROCESS-200",
+              "stepLine": 1022,
+              "procedure": "P_CORP_POST_PROCESS",
+              "type": "DIRECT_REFERENCE",
+              "text": "IF V_CURR_DT != V_GENERAL_DT AND V_CURR_DT = P_T1_CURR_DT AND P_TRX_SRC != 'ONL_TRX' AND /*Seçil Bayraktar Epic: MTS-5703 - SubTask:MTS-10588*/"
+            },
+            {
+              "line": 1070,
+              "stepId": "P_CORP_POST_PROCESS-200",
+              "stepLine": 1022,
+              "procedure": "P_CORP_POST_PROCESS",
+              "type": "DIRECT_REFERENCE",
+              "text": "(V_GENERAL_DT_ONL_TRX_DT IS NULL OR (V_TRX_DT >= TRUNC(ADD_MONTHS(V_GENERAL_DT_ONL_TRX_DT,8), 'MM') AND V_GENERAL_DT_ONL_TRX_DT IS NOT NULL)) THEN /*MTS-17940 Seçil Bayraktar*/"
+            },
+            {
+              "line": 1071,
+              "stepId": "P_CORP_POST_PROCESS-200",
+              "stepLine": 1022,
+              "procedure": "P_CORP_POST_PROCESS",
+              "type": "DIRECT_REFERENCE",
+              "text": "V_GENERAL_DT := V_CURR_DT;"
+            },
+            {
+              "line": 1072,
+              "stepId": "P_CORP_POST_PROCESS-200",
+              "stepLine": 1022,
+              "procedure": "P_CORP_POST_PROCESS",
+              "type": "DIRECT_REFERENCE",
+              "text": "ELSIF V_CURR_DT != V_GENERAL_DT AND P_T1_CURR_DT IS NULL AND V_CURR_DT = P_T2_CURR_DT AND P_TRX_SRC != 'ONL_TRX' AND /*Seçil Bayraktar Epic: MTS-5703 - SubTask:MTS-10588*/"
+            },
+            {
+              "line": 1073,
+              "stepId": "P_CORP_POST_PROCESS-200",
+              "stepLine": 1022,
+              "procedure": "P_CORP_POST_PROCESS",
+              "type": "DIRECT_REFERENCE",
+              "text": "(V_GENERAL_DT_ONL_TRX_DT IS NULL OR (V_TRX_DT >= TRUNC(ADD_MONTHS(V_GENERAL_DT_ONL_TRX_DT,8), 'MM') AND V_GENERAL_DT_ONL_TRX_DT IS NOT NULL)) THEN /*MTS-17940 Seçil Bayraktar*/"
+            },
+            {
+              "line": 1074,
+              "stepId": "P_CORP_POST_PROCESS-200",
+              "stepLine": 1022,
+              "procedure": "P_CORP_POST_PROCESS",
+              "type": "DIRECT_REFERENCE",
+              "text": "V_GENERAL_DT := V_CURR_DT;"
+            },
+            {
+              "line": 1076,
+              "stepId": "P_CORP_POST_PROCESS-200",
+              "stepLine": 1022,
+              "procedure": "P_CORP_POST_PROCESS",
+              "type": "DIRECT_REFERENCE",
+              "text": "ELSIF P_TRX_SRC = 'ONL_TRX' OR (P_TRX_SRC != 'ONL_TRX' AND V_TRX_DT < TRUNC(ADD_MONTHS(V_GENERAL_DT_ONL_TRX_DT,8), 'MM') AND V_GENERAL_DT_ONL_TRX_DT IS NOT NULL) THEN"
+            },
+            {
+              "line": 1077,
+              "stepId": "P_CORP_POST_PROCESS-200",
+              "stepLine": 1022,
+              "procedure": "P_CORP_POST_PROCESS",
+              "type": "DIRECT_REFERENCE",
+              "text": "V_GENERAL_DT := P_GENERAL_DT;"
+            },
+            {
+              "line": 1081,
+              "stepId": "P_CORP_POST_PROCESS-200",
+              "stepLine": 1022,
+              "procedure": "P_CORP_POST_PROCESS",
+              "type": "DIRECT_REFERENCE",
+              "text": "IF V_TRX_DT <= ADD_MONTHS(V_GENERAL_DT_ACTION_DATE, 5) AND V_GENERAL_DT_ACTION_TMP IS NOT NULL THEN"
+            },
+            {
+              "line": 1082,
+              "stepId": "P_CORP_POST_PROCESS-200",
+              "stepLine": 1022,
+              "procedure": "P_CORP_POST_PROCESS",
+              "type": "DIRECT_REFERENCE",
+              "text": "V_GENERAL_DT := V_GENERAL_DT_ACTION_TMP;"
+            },
+            {
+              "line": 1084,
+              "stepId": "P_CORP_POST_PROCESS-200",
+              "stepLine": 1022,
+              "procedure": "P_CORP_POST_PROCESS",
+              "type": "DIRECT_REFERENCE",
+              "text": "V_GENERAL_DT_ACTION_TMP := NULL;"
+            },
+            {
+              "line": 1085,
+              "stepId": "P_CORP_POST_PROCESS-200",
+              "stepLine": 1022,
+              "procedure": "P_CORP_POST_PROCESS",
+              "type": "DIRECT_REFERENCE",
+              "text": "V_GENERAL_DT_ACTION_DATE := NULL;"
+            },
+            {
+              "line": 1090,
+              "stepId": "P_CORP_POST_PROCESS-200",
+              "stepLine": 1022,
+              "procedure": "P_CORP_POST_PROCESS",
+              "type": "DIRECT_REFERENCE",
+              "text": "IF P_TRX_SRC = 'ONL_TRX' AND P_GENERAL_DT IS NOT NULL THEN"
+            },
+            {
+              "line": 1091,
+              "stepId": "P_CORP_POST_PROCESS-200",
+              "stepLine": 1022,
+              "procedure": "P_CORP_POST_PROCESS",
+              "type": "DIRECT_REFERENCE",
+              "text": "V_GENERAL_DT := P_GENERAL_DT;"
+            },
+            {
+              "line": 1160,
+              "stepId": "P_CORP_POST_PROCESS-200",
+              "stepLine": 1022,
+              "procedure": "P_CORP_POST_PROCESS",
+              "type": "DIRECT_REFERENCE",
+              "text": "(P_T1_GENERAL_DT = P_T1_CURR_DT) OR --Son ay (AS_OF_DT - 1 ay) gerçekleşen curr_dt, son ay (AS_OF_DT - 1 ay) hesaplanan general_dt ile eşleşiyor mu"
+            },
+            {
+              "line": 1161,
+              "stepId": "P_CORP_POST_PROCESS-200",
+              "stepLine": 1022,
+              "procedure": "P_CORP_POST_PROCESS",
+              "type": "DIRECT_REFERENCE",
+              "text": "(P_T2_CURR_DT IS NOT NULL AND P_T3_CURR_DT IS NOT NULL AND P_T1_GENERAL_DT = P_T2_CURR_DT AND P_T1_GENERAL_DT = P_T3_CURR_DT) OR"
+            },
+            {
+              "line": 1165,
+              "stepId": "P_CORP_POST_PROCESS-200",
+              "stepLine": 1022,
+              "procedure": "P_CORP_POST_PROCESS",
+              "type": "DIRECT_REFERENCE",
+              "text": "(P_T1_GENERAL_DT = P_T2_CURR_DT OR  P_T1_GENERAL_DT = P_T3_CURR_DT)"
+            },
+            {
+              "line": 1171,
+              "stepId": "P_CORP_POST_PROCESS-200",
+              "stepLine": 1022,
+              "procedure": "P_CORP_POST_PROCESS",
+              "type": "DIRECT_REFERENCE",
+              "text": "(P_T2_GENERAL_DT = NVL(P_T2_CURR_DT,'###') OR P_T2_GENERAL_DT = NVL(P_T3_CURR_DT,'###')) THEN"
+            }
+          ]
+        },
+        {
+          "stepId": "P_CORP_POST_PROCESS-300",
+          "stepLine": 1187,
+          "procedure": "P_CORP_POST_PROCESS",
+          "occurrences": 2,
+          "references": [
+            {
+              "line": 1194,
+              "stepId": "P_CORP_POST_PROCESS-300",
+              "stepLine": 1187,
+              "procedure": "P_CORP_POST_PROCESS",
+              "type": "DIRECT_REFERENCE",
+              "text": "A.GENERAL_DT = NVL(:V_GENERAL_DT, A.GENERAL_DT),"
+            },
+            {
+              "line": 1206,
+              "stepId": "P_CORP_POST_PROCESS-300",
+              "stepLine": 1187,
+              "procedure": "P_CORP_POST_PROCESS",
+              "type": "DIRECT_REFERENCE",
+              "text": "USING V_MULTI_F, V_CURR_DT, V_GENERAL_DT, V_EXP_AMT_CALCULATED, V_AMT_TP, P_PAID_F, P_PAID_F, P_TRX_SRC, V_DATE_TP, P_AS_OF_DT, P_UNQ_KEY, V_MONEY_TRANSFER_TP;  /*Seçil Bayraktar Epic: MTS-5703 - SubTask:MTS-10588*/"
+            }
+          ]
+        },
+        {
+          "stepId": "P_CORP_POST_BUCKET_CALC-100",
+          "stepLine": 1239,
+          "procedure": "P_CORP_POST_BUCKET_CALC",
+          "occurrences": 2,
+          "references": [
+            {
+              "line": 1273,
+              "stepId": "P_CORP_POST_BUCKET_CALC-100",
+              "stepLine": 1239,
+              "procedure": "P_CORP_POST_BUCKET_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "V_GENERAL_DT := null;"
+            },
+            {
+              "line": 1280,
+              "stepId": "P_CORP_POST_BUCKET_CALC-100",
+              "stepLine": 1239,
+              "procedure": "P_CORP_POST_BUCKET_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "P_CORP_POST_PROCESS(UPDATE_TRX(I).BUCKET_DT, UPDATE_TRX(I).UNQ_KEY, UPDATE_TRX(I).AMT, UPDATE_TRX(I).EXP_AMT, 1, 0, UPDATE_TRX(I).TRX_SRC, V_GENERAL_DT); /*Seçil Bayraktar Epic: MTS-5703 - SubTask:MTS-10588*/"
+            }
+          ]
+        },
+        {
+          "stepId": "P_CORP_FILL_BUCKETS_CALC-600",
+          "stepLine": 1289,
+          "procedure": "P_CORP_POST_BUCKET_CALC",
+          "occurrences": 1,
+          "references": [
+            {
+              "line": 1293,
+              "stepId": "P_CORP_FILL_BUCKETS_CALC-600",
+              "stepLine": 1289,
+              "procedure": "P_CORP_POST_BUCKET_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": ", GENERAL_DT = null"
+            }
+          ]
+        }
+      ],
+      "indirectReferences": []
+    },
+    {
+      "packageName": "SNPADM.PKG_DA_CORP_PATTERN_DATA",
+      "directReferences": [
+        {
+          "stepId": "P_DA_CORP_MNY_TRNSFR_CREATE_TRX-100",
+          "stepLine": 1163,
+          "procedure": "P_DA_CORP_MNY_TRNSFR_CREATE_TRX",
+          "occurrences": 1,
+          "references": [
+            {
+              "line": 1198,
+              "stepId": "P_DA_CORP_MNY_TRNSFR_CREATE_TRX-100",
+              "stepLine": 1163,
+              "procedure": "P_DA_CORP_MNY_TRNSFR_CREATE_TRX",
+              "type": "DIRECT_REFERENCE",
+              "text": ", CAST(NULL AS VARCHAR2(3)) GENERAL_DT"
+            }
+          ]
+        },
+        {
+          "stepId": "P_DA_CORP_MNY_TRNSFR_CREATE_TRX-200",
+          "stepLine": 1220,
+          "procedure": "P_DA_CORP_MNY_TRNSFR_CREATE_TRX",
+          "occurrences": 1,
+          "references": [
+            {
+              "line": 1266,
+              "stepId": "P_DA_CORP_MNY_TRNSFR_CREATE_TRX-200",
+              "stepLine": 1220,
+              "procedure": "P_DA_CORP_MNY_TRNSFR_CREATE_TRX",
+              "type": "DIRECT_REFERENCE",
+              "text": ", A.GENERAL_DT"
+            }
+          ]
+        },
+        {
+          "stepId": "P_DA_CORP_MNY_TRNSFR_CREATE_TRX-300",
+          "stepLine": 1294,
+          "procedure": "P_DA_CORP_MNY_TRNSFR_CREATE_TRX",
+          "occurrences": 1,
+          "references": [
+            {
+              "line": 1322,
+              "stepId": "P_DA_CORP_MNY_TRNSFR_CREATE_TRX-300",
+              "stepLine": 1294,
+              "procedure": "P_DA_CORP_MNY_TRNSFR_CREATE_TRX",
+              "type": "DIRECT_REFERENCE",
+              "text": ", A.CRITERIA2 GENERAL_DT"
+            }
+          ]
+        },
+        {
+          "stepId": "P_DA_CORP_MNY_TRNSFR_CREATE_BUCKET-600",
+          "stepLine": 1644,
+          "procedure": "P_DA_CORP_MNY_TRNSFR_CREATE_BUCKET",
+          "occurrences": 1,
+          "references": [
+            {
+              "line": 1681,
+              "stepId": "P_DA_CORP_MNY_TRNSFR_CREATE_BUCKET-600",
+              "stepLine": 1644,
+              "procedure": "P_DA_CORP_MNY_TRNSFR_CREATE_BUCKET",
+              "type": "DIRECT_REFERENCE",
+              "text": ", CAST(NULL AS VARCHAR2(10)) GENERAL_DT"
+            }
+          ]
+        },
+        {
+          "stepId": "P_DA_CORP_MNY_TRNSFR_CREATE_BUCKET-1300",
+          "stepLine": 1758,
+          "procedure": "P_DA_CORP_MNY_TRNSFR_CREATE_BUCKET",
+          "occurrences": 2,
+          "references": [
+            {
+              "line": 1764,
+              "stepId": "P_DA_CORP_MNY_TRNSFR_CREATE_BUCKET-1300",
+              "stepLine": 1758,
+              "procedure": "P_DA_CORP_MNY_TRNSFR_CREATE_BUCKET",
+              "type": "DIRECT_REFERENCE",
+              "text": ", AMT, CCY_CODE, ACTION_TP, ACTION_PARAM, ORG_MONEY_TRANSFER_TP, EN_F, TRX_SRC,GENERAL_DT,EXP_AMT,AMT_TP,DATE_TP,EXP_DT_SRC)"
+            },
+            {
+              "line": 1779,
+              "stepId": "P_DA_CORP_MNY_TRNSFR_CREATE_BUCKET-1300",
+              "stepLine": 1758,
+              "procedure": "P_DA_CORP_MNY_TRNSFR_CREATE_BUCKET",
+              "type": "DIRECT_REFERENCE",
+              "text": ", GENERAL_DT"
+            }
+          ]
+        },
+        {
+          "stepId": "P_DA_CORP_MNY_TRNSFR_BUCKET_INS-100",
+          "stepLine": 1946,
+          "procedure": "P_DA_CORP_MNY_TRNSFR_BUCKET_INS",
+          "occurrences": 2,
+          "references": [
+            {
+              "line": 1949,
+              "stepId": "P_DA_CORP_MNY_TRNSFR_BUCKET_INS-100",
+              "stepLine": 1946,
+              "procedure": "P_DA_CORP_MNY_TRNSFR_BUCKET_INS",
+              "type": "DIRECT_REFERENCE",
+              "text": "(AS_OF_DT, MONEY_TRANSFER_TP, UNQ_KEY,BUCKET_DT, CUST_ID, AMT_ORG, AMT, DELETED_AMT, CCY_CODE,PAID_F, TRX_CNT, MULTI_TRX_DAY_CNT, MULTI_F, CURR_DT, GENERAL_DT, EXP_AMT, AMT_TP, PPN_DT"
+            },
+            {
+              "line": 1952,
+              "stepId": "P_DA_CORP_MNY_TRNSFR_BUCKET_INS-100",
+              "stepLine": 1946,
+              "procedure": "P_DA_CORP_MNY_TRNSFR_BUCKET_INS",
+              "type": "DIRECT_REFERENCE",
+              "text": ", MONEY_TRANSFER_TP, UNQ_KEY, BUCKET_DT, CUST_ID, AMT_ORG, AMT, DELETED_AMT, CCY_CODE, PAID_F, TRX_CNT, MULTI_TRX_DAY_CNT, MULTI_F, CURR_DT, GENERAL_DT, EXP_AMT, AMT_TP"
+            }
+          ]
+        },
+        {
+          "stepId": "P_DA_CORP_MNY_TRNSFR_PATTERN-70",
+          "stepLine": 2062,
+          "procedure": "P_DA_CORP_MNY_TRNSFR_PATTERN",
+          "occurrences": 2,
+          "references": [
+            {
+              "line": 2066,
+              "stepId": "P_DA_CORP_MNY_TRNSFR_PATTERN-70",
+              "stepLine": 2062,
+              "procedure": "P_DA_CORP_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": "SELECT UNQ_KEY, CUST_ID, BUCKET_DT, AMT_ORG, AMT, EXP_AMT, AMT_TP, MULTI_F, GENERAL_DT,MONEY_TRANSFER_TP"
+            },
+            {
+              "line": 2079,
+              "stepId": "P_DA_CORP_MNY_TRNSFR_PATTERN-70",
+              "stepLine": 2062,
+              "procedure": "P_DA_CORP_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": ", CAST(NULL AS VARCHAR2(5)) GENERAL_DT_ONL /*Seçil Bayraktar MTS-17385*/"
+            }
+          ]
+        },
+        {
+          "stepId": "P_DA_CORP_MNY_TRNSFR_PATTERN-80",
+          "stepLine": 2089,
+          "procedure": "P_DA_CORP_MNY_TRNSFR_PATTERN",
+          "occurrences": 2,
+          "references": [
+            {
+              "line": 2093,
+              "stepId": "P_DA_CORP_MNY_TRNSFR_PATTERN-80",
+              "stepLine": 2089,
+              "procedure": "P_DA_CORP_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": "SELECT UNQ_KEY, CUST_ID, BUCKET_DT, AMT_ORG, AMT, EXP_AMT, AMT_TP, MULTI_F, GENERAL_DT,MONEY_TRANSFER_TP"
+            },
+            {
+              "line": 2106,
+              "stepId": "P_DA_CORP_MNY_TRNSFR_PATTERN-80",
+              "stepLine": 2089,
+              "procedure": "P_DA_CORP_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": ", CAST(NULL AS VARCHAR2(5)) GENERAL_DT_ONL /*Seçil Bayraktar MTS-17385*/"
+            }
+          ]
+        },
+        {
+          "stepId": "P_DA_CORP_MNY_TRNSFR_PATTERN-100",
+          "stepLine": 2119,
+          "procedure": "P_DA_CORP_MNY_TRNSFR_PATTERN",
+          "occurrences": 6,
+          "references": [
+            {
+              "line": 2131,
+              "stepId": "P_DA_CORP_MNY_TRNSFR_PATTERN-100",
+              "stepLine": 2119,
+              "procedure": "P_DA_CORP_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": "SELECT UNQ_KEY, CUST_ID, BUCKET_DT, AMT_ORG, AMT, EXP_AMT, AMT_TP, MULTI_F, GENERAL_DT,MONEY_TRANSFER_TP"
+            },
+            {
+              "line": 2135,
+              "stepId": "P_DA_CORP_MNY_TRNSFR_PATTERN-100",
+              "stepLine": 2119,
+              "procedure": "P_DA_CORP_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": ", GENERAL_DT_ONL /*Seçil Bayraktar MTS-17385*/"
+            },
+            {
+              "line": 2138,
+              "stepId": "P_DA_CORP_MNY_TRNSFR_PATTERN-100",
+              "stepLine": 2119,
+              "procedure": "P_DA_CORP_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": "SELECT UNQ_KEY, CUST_ID, BUCKET_DT, AMT_ORG, AMT, EXP_AMT, AMT_TP, MULTI_F, GENERAL_DT,MONEY_TRANSFER_TP"
+            },
+            {
+              "line": 2142,
+              "stepId": "P_DA_CORP_MNY_TRNSFR_PATTERN-100",
+              "stepLine": 2119,
+              "procedure": "P_DA_CORP_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": ", GENERAL_DT_ONL /*Seçil Bayraktar MTS-17385*/"
+            },
+            {
+              "line": 2148,
+              "stepId": "P_DA_CORP_MNY_TRNSFR_PATTERN-100",
+              "stepLine": 2119,
+              "procedure": "P_DA_CORP_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": ", A.GENERAL_DT"
+            },
+            {
+              "line": 2162,
+              "stepId": "P_DA_CORP_MNY_TRNSFR_PATTERN-100",
+              "stepLine": 2119,
+              "procedure": "P_DA_CORP_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": ", A.GENERAL_DT_ONL /*Seçil Bayraktar MTS-17385*/"
+            }
+          ]
+        },
+        {
+          "stepId": "P_DA_CORP_MNY_TRNSFR_PATTERN-205",
+          "stepLine": 2171,
+          "procedure": "P_DA_CORP_MNY_TRNSFR_PATTERN",
+          "occurrences": 16,
+          "references": [
+            {
+              "line": 2188,
+              "stepId": "P_DA_CORP_MNY_TRNSFR_PATTERN-205",
+              "stepLine": 2171,
+              "procedure": "P_DA_CORP_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": "TMP_GENERAL_DT_MATCH AS ("
+            },
+            {
+              "line": 2193,
+              "stepId": "P_DA_CORP_MNY_TRNSFR_PATTERN-205",
+              "stepLine": 2171,
+              "procedure": "P_DA_CORP_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": ", B.GENERAL_DT"
+            },
+            {
+              "line": 2204,
+              "stepId": "P_DA_CORP_MNY_TRNSFR_PATTERN-205",
+              "stepLine": 2171,
+              "procedure": "P_DA_CORP_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": "AND A.CURR_DT =  B.GENERAL_DT"
+            },
+            {
+              "line": 2208,
+              "stepId": "P_DA_CORP_MNY_TRNSFR_PATTERN-205",
+              "stepLine": 2171,
+              "procedure": "P_DA_CORP_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": "TMP_GENERAL_DT_NOT_MATCH AS ( --Son 3 aydaki hiçbir CURR_DT GENERAL_DT ile işleşmiyor ise son ayın CURR_DT bilgisini GENERAL_DT olarak al"
+            },
+            {
+              "line": 2209,
+              "stepId": "P_DA_CORP_MNY_TRNSFR_PATTERN-205",
+              "stepLine": 2171,
+              "procedure": "P_DA_CORP_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": "SELECT /*+ FULL(A) */A.UNQ_KEY, A.CURR_DT GENERAL_DT"
+            },
+            {
+              "line": 2221,
+              "stepId": "P_DA_CORP_MNY_TRNSFR_PATTERN-205",
+              "stepLine": 2171,
+              "procedure": "P_DA_CORP_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": "TMP_GENERAL_DT_NOT_MATCH_ROWS AS (    --İlk kümeye girmeyen kayıtları bir üstte bulunan yeni GENERAL_DT ile tekrar hesapla"
+            },
+            {
+              "line": 2226,
+              "stepId": "P_DA_CORP_MNY_TRNSFR_PATTERN-205",
+              "stepLine": 2171,
+              "procedure": "P_DA_CORP_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": ", B.GENERAL_DT"
+            },
+            {
+              "line": 2229,
+              "stepId": "P_DA_CORP_MNY_TRNSFR_PATTERN-205",
+              "stepLine": 2171,
+              "procedure": "P_DA_CORP_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": ", TMP_GENERAL_DT_NOT_MATCH B"
+            },
+            {
+              "line": 2237,
+              "stepId": "P_DA_CORP_MNY_TRNSFR_PATTERN-205",
+              "stepLine": 2171,
+              "procedure": "P_DA_CORP_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": "AND A.CURR_DT =  B.GENERAL_DT"
+            },
+            {
+              "line": 2239,
+              "stepId": "P_DA_CORP_MNY_TRNSFR_PATTERN-205",
+              "stepLine": 2171,
+              "procedure": "P_DA_CORP_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": "AND A.UNQ_KEY NOT IN (SELECT UNQ_KEY FROM TMP_GENERAL_DT_MATCH)"
+            },
+            {
+              "line": 2244,
+              "stepId": "P_DA_CORP_MNY_TRNSFR_PATTERN-205",
+              "stepLine": 2171,
+              "procedure": "P_DA_CORP_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": "SELECT 1 MATCH_F, A.* FROM TMP_GENERAL_DT_MATCH A"
+            },
+            {
+              "line": 2246,
+              "stepId": "P_DA_CORP_MNY_TRNSFR_PATTERN-205",
+              "stepLine": 2171,
+              "procedure": "P_DA_CORP_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": "SELECT 0 MATCH_F, A.* FROM TMP_GENERAL_DT_NOT_MATCH_ROWS A"
+            },
+            {
+              "line": 2267,
+              "stepId": "P_DA_CORP_MNY_TRNSFR_PATTERN-205",
+              "stepLine": 2171,
+              "procedure": "P_DA_CORP_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": "WHEN MAX(A.MATCH_F) = 0 THEN 2 --Son 3 aydaki hiçbir CURR_DT GENERAL_DT ile işleşmiyor ise"
+            },
+            {
+              "line": 2299,
+              "stepId": "P_DA_CORP_MNY_TRNSFR_PATTERN-205",
+              "stepLine": 2171,
+              "procedure": "P_DA_CORP_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": ", CASE WHEN MAX(P.GENERAL_DT_ONL) IS NOT NULL AND"
+            },
+            {
+              "line": 2302,
+              "stepId": "P_DA_CORP_MNY_TRNSFR_PATTERN-205",
+              "stepLine": 2171,
+              "procedure": "P_DA_CORP_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": "THEN MAX(P.GENERAL_DT_ONL)"
+            },
+            {
+              "line": 2304,
+              "stepId": "P_DA_CORP_MNY_TRNSFR_PATTERN-205",
+              "stepLine": 2171,
+              "procedure": "P_DA_CORP_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": "END AS GENERAL_DT"
+            }
+          ]
+        },
+        {
+          "stepId": "P_DA_CORP_MNY_TRNSFR_PATTERN-210",
+          "stepLine": 2321,
+          "procedure": "P_DA_CORP_MNY_TRNSFR_PATTERN",
+          "occurrences": 6,
+          "references": [
+            {
+              "line": 2357,
+              "stepId": "P_DA_CORP_MNY_TRNSFR_PATTERN-210",
+              "stepLine": 2321,
+              "procedure": "P_DA_CORP_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": ", GENERAL_DT_TMP /*Seçil Bayraktar MTS-5516 SubTask MTS-5512 28.09.2020*/"
+            },
+            {
+              "line": 2366,
+              "stepId": "P_DA_CORP_MNY_TRNSFR_PATTERN-210",
+              "stepLine": 2321,
+              "procedure": "P_DA_CORP_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": "END AS GENERAL_DT_TMP"
+            },
+            {
+              "line": 2419,
+              "stepId": "P_DA_CORP_MNY_TRNSFR_PATTERN-210",
+              "stepLine": 2321,
+              "procedure": "P_DA_CORP_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": ", CASE WHEN O.GENERAL_DT IS NULL AND A.GENERAL_DT_TMP IS NOT NULL THEN A.GENERAL_DT_TMP"
+            },
+            {
+              "line": 2420,
+              "stepId": "P_DA_CORP_MNY_TRNSFR_PATTERN-210",
+              "stepLine": 2321,
+              "procedure": "P_DA_CORP_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": "WHEN O.GENERAL_DT IS NULL AND A.GENERAL_DT_TMP IS NULL THEN"
+            },
+            {
+              "line": 2422,
+              "stepId": "P_DA_CORP_MNY_TRNSFR_PATTERN-210",
+              "stepLine": 2321,
+              "procedure": "P_DA_CORP_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": "ELSE NVL(O.GENERAL_DT,PKG_DA_UTILITY.F_GET_CURR_DT(O.EXP_DT,'||V_PRM_CURR_DT_LIMIT_DT_CNT||'))"
+            },
+            {
+              "line": 2423,
+              "stepId": "P_DA_CORP_MNY_TRNSFR_PATTERN-210",
+              "stepLine": 2321,
+              "procedure": "P_DA_CORP_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": "END GENERAL_DT"
+            }
+          ]
+        },
+        {
+          "stepId": "P_DA_CORP_MNY_TRNSFR_PATTERN-910",
+          "stepLine": 3046,
+          "procedure": "P_DA_CORP_MNY_TRNSFR_PATTERN",
+          "occurrences": 2,
+          "references": [
+            {
+              "line": 3052,
+              "stepId": "P_DA_CORP_MNY_TRNSFR_PATTERN-910",
+              "stepLine": 3046,
+              "procedure": "P_DA_CORP_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": "WHERE A.GENERAL_DT IS NOT NULL"
+            },
+            {
+              "line": 3061,
+              "stepId": "P_DA_CORP_MNY_TRNSFR_PATTERN-910",
+              "stepLine": 3046,
+              "procedure": "P_DA_CORP_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": "AND ACT.GENERAL_DT != NVL(E.GENERAL_DT,A.GENERAL_DT)"
+            }
+          ]
+        },
+        {
+          "stepId": "P_DA_CORP_MNY_TRNSFR_PATTERN-1000",
+          "stepLine": 3162,
+          "procedure": "P_DA_CORP_MNY_TRNSFR_PATTERN",
+          "occurrences": 1,
+          "references": [
+            {
+              "line": 3179,
+              "stepId": "P_DA_CORP_MNY_TRNSFR_PATTERN-1000",
+              "stepLine": 3162,
+              "procedure": "P_DA_CORP_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": ", A.UNQ_KEY, A.CUST_ID, A.MULTI_F, E.GENERAL_DT /*Seçil Bayraktar MTS-17385*/"
+            }
+          ]
+        },
+        {
+          "stepId": "P_DA_CORP_MNY_TRNSFR_PATTERN-1200",
+          "stepLine": 3490,
+          "procedure": "P_DA_CORP_MNY_TRNSFR_PATTERN",
+          "occurrences": 2,
+          "references": [
+            {
+              "line": 3493,
+              "stepId": "P_DA_CORP_MNY_TRNSFR_PATTERN-1200",
+              "stepLine": 3490,
+              "procedure": "P_DA_CORP_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": "(MONEY_TRANSFER_TP,AS_OF_DT, UNQ_KEY, CUST_ID, MULTI_F, GENERAL_DT, CCY_CODE, EXP_AMT"
+            },
+            {
+              "line": 3508,
+              "stepId": "P_DA_CORP_MNY_TRNSFR_PATTERN-1200",
+              "stepLine": 3490,
+              "procedure": "P_DA_CORP_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": "SELECT  /*+ PARALLEL(16)  */  '''||P_MONEY_TRANSFER_TP||''', TO_DATE('''||P_AS_OF_DT||''',''YYYYMMDD'') AS_OF_DT, UNQ_KEY, CUST_ID, MULTI_F, GENERAL_DT, CCY_CODE"
+            }
+          ]
+        }
+      ],
+      "indirectReferences": []
+    },
+    {
+      "packageName": "SNPADM.PKG_DA_CP_PATTERN_DATA",
+      "directReferences": [
+        {
+          "stepId": "P_DA_CP_PATTERN-1000",
+          "stepLine": 952,
+          "procedure": "P_DA_CP_EXP_DT",
+          "occurrences": 15,
+          "references": [
+            {
+              "line": 962,
+              "stepId": "P_DA_CP_PATTERN-1000",
+              "stepLine": 952,
+              "procedure": "P_DA_CP_EXP_DT",
+              "type": "DIRECT_REFERENCE",
+              "text": "END GENERAL_DT"
+            },
+            {
+              "line": 979,
+              "stepId": "P_DA_CP_PATTERN-1000",
+              "stepLine": 952,
+              "procedure": "P_DA_CP_EXP_DT",
+              "type": "DIRECT_REFERENCE",
+              "text": "END GENERAL_DT"
+            },
+            {
+              "line": 990,
+              "stepId": "P_DA_CP_PATTERN-1000",
+              "stepLine": 952,
+              "procedure": "P_DA_CP_EXP_DT",
+              "type": "DIRECT_REFERENCE",
+              "text": "END GENERAL_DT"
+            },
+            {
+              "line": 1003,
+              "stepId": "P_DA_CP_PATTERN-1000",
+              "stepLine": 952,
+              "procedure": "P_DA_CP_EXP_DT",
+              "type": "DIRECT_REFERENCE",
+              "text": "END GENERAL_DT"
+            },
+            {
+              "line": 1016,
+              "stepId": "P_DA_CP_PATTERN-1000",
+              "stepLine": 952,
+              "procedure": "P_DA_CP_EXP_DT",
+              "type": "DIRECT_REFERENCE",
+              "text": "SELECT UNQ_KEY, AS_OF_DT, TRX_DT, GENERAL_DT, EXP_DT_CHR_ONL /*MTS-5703 - MTS-13233 Seçil Bayraktar*/"
+            },
+            {
+              "line": 1021,
+              "stepId": "P_DA_CP_PATTERN-1000",
+              "stepLine": 952,
+              "procedure": "P_DA_CP_EXP_DT",
+              "type": "DIRECT_REFERENCE",
+              "text": "TMP_GENERAL_DT AS ( --3 dönemden 2 sinin tarih tipi aynı ise GENERAL_DT seçilir"
+            },
+            {
+              "line": 1022,
+              "stepId": "P_DA_CP_PATTERN-1000",
+              "stepLine": 952,
+              "procedure": "P_DA_CP_EXP_DT",
+              "type": "DIRECT_REFERENCE",
+              "text": "SELECT UNQ_KEY, GENERAL_DT, COUNT(*)"
+            },
+            {
+              "line": 1024,
+              "stepId": "P_DA_CP_PATTERN-1000",
+              "stepLine": 952,
+              "procedure": "P_DA_CP_EXP_DT",
+              "type": "DIRECT_REFERENCE",
+              "text": "GROUP BY UNQ_KEY, GENERAL_DT"
+            },
+            {
+              "line": 1027,
+              "stepId": "P_DA_CP_PATTERN-1000",
+              "stepLine": 952,
+              "procedure": "P_DA_CP_EXP_DT",
+              "type": "DIRECT_REFERENCE",
+              "text": "TMP_DSS AS ( --General_dt e uyan işlemler arasındaki fark 5 günden az ise tarih düzenlidir, buradan kayıt gelmezse zaten tarih düzensizdir"
+            },
+            {
+              "line": 1029,
+              "stepId": "P_DA_CP_PATTERN-1000",
+              "stepLine": 952,
+              "procedure": "P_DA_CP_EXP_DT",
+              "type": "DIRECT_REFERENCE",
+              "text": "FROM TMP_TRX_DAY A, TMP_GENERAL_DT B"
+            },
+            {
+              "line": 1031,
+              "stepId": "P_DA_CP_PATTERN-1000",
+              "stepLine": 952,
+              "procedure": "P_DA_CP_EXP_DT",
+              "type": "DIRECT_REFERENCE",
+              "text": "AND A.GENERAL_DT = B.GENERAL_DT"
+            },
+            {
+              "line": 1037,
+              "stepId": "P_DA_CP_PATTERN-1000",
+              "stepLine": 952,
+              "procedure": "P_DA_CP_EXP_DT",
+              "type": "DIRECT_REFERENCE",
+              "text": ",  CASE WHEN MAX(A.EXP_DT_CHR_ONL) IS NULL AND MAX(B.GENERAL_DT) IS NULL THEN MIN(TO_NUMBER(TO_CHAR(A.TRX_DT,''DD'')))"
+            },
+            {
+              "line": 1038,
+              "stepId": "P_DA_CP_PATTERN-1000",
+              "stepLine": 952,
+              "procedure": "P_DA_CP_EXP_DT",
+              "type": "DIRECT_REFERENCE",
+              "text": "WHEN MAX(A.EXP_DT_CHR_ONL) IS NULL AND MAX(B.GENERAL_DT) IS NOT NULL THEN MIN(TO_NUMBER(TO_CHAR(DECODE(B.GENERAL_DT, null, CAST(null as DATE) ,A.TRX_DT),''DD'')))"
+            },
+            {
+              "line": 1046,
+              "stepId": "P_DA_CP_PATTERN-1000",
+              "stepLine": 952,
+              "procedure": "P_DA_CP_EXP_DT",
+              "type": "DIRECT_REFERENCE",
+              "text": "FROM TMP_TRX_DAY A, TMP_GENERAL_DT B, TMP_DSS D"
+            },
+            {
+              "line": 1048,
+              "stepId": "P_DA_CP_PATTERN-1000",
+              "stepLine": 952,
+              "procedure": "P_DA_CP_EXP_DT",
+              "type": "DIRECT_REFERENCE",
+              "text": "AND A.GENERAL_DT = B.GENERAL_DT(+)"
+            }
+          ]
+        }
+      ],
+      "indirectReferences": []
+    },
+    {
+      "packageName": "SNPADM.PKG_DA_INCOMING_PATTERN",
+      "directReferences": [
+        {
+          "stepId": "UNKNOWN",
+          "stepLine": 61,
+          "procedure": "UNKNOWN",
+          "occurrences": 3,
+          "references": [
+            {
+              "line": 61,
+              "stepId": "UNKNOWN",
+              "stepLine": 61,
+              "procedure": "UNKNOWN",
+              "type": "DIRECT_REFERENCE",
+              "text": "V_GENERAL_DT VARCHAR2(10);"
+            },
+            {
+              "line": 63,
+              "stepId": "UNKNOWN",
+              "stepLine": 63,
+              "procedure": "UNKNOWN",
+              "type": "DIRECT_REFERENCE",
+              "text": "V_GENERAL_DT_ACTION_TMP VARCHAR2(10);"
+            },
+            {
+              "line": 64,
+              "stepId": "UNKNOWN",
+              "stepLine": 64,
+              "procedure": "UNKNOWN",
+              "type": "DIRECT_REFERENCE",
+              "text": "V_GENERAL_DT_ACTION_DATE DATE;"
+            }
+          ]
+        },
+        {
+          "stepId": "P_FILL_BUCKETS_CALC-100",
+          "stepLine": 190,
+          "procedure": "P_FILL_BUCKETS_CALC",
+          "occurrences": 3,
+          "references": [
+            {
+              "line": 272,
+              "stepId": "P_FILL_BUCKETS_CALC-100",
+              "stepLine": 190,
+              "procedure": "P_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "V_GENERAL_DT_ACTION_TMP := NULL;"
+            },
+            {
+              "line": 273,
+              "stepId": "P_FILL_BUCKETS_CALC-100",
+              "stepLine": 190,
+              "procedure": "P_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "V_GENERAL_DT_ACTION_DATE := NULL;"
+            },
+            {
+              "line": 275,
+              "stepId": "P_FILL_BUCKETS_CALC-100",
+              "stepLine": 190,
+              "procedure": "P_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "V_GENERAL_DT:= PKG_DA_UTILITY.F_GET_CURR_DT(V_TRX_DT,V_PRM_CURR_DT_LIMIT_DT_CNT);"
+            }
+          ]
+        },
+        {
+          "stepId": "P_INC_FILL_BUCKETS-100",
+          "stepLine": 353,
+          "procedure": "P_FILL_BUCKETS_CALC",
+          "occurrences": 2,
+          "references": [
+            {
+              "line": 361,
+              "stepId": "P_INC_FILL_BUCKETS-100",
+              "stepLine": 353,
+              "procedure": "P_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": ", GENERAL_DT"
+            },
+            {
+              "line": 368,
+              "stepId": "P_INC_FILL_BUCKETS-100",
+              "stepLine": 353,
+              "procedure": "P_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "EXECUTE IMMEDIATE V_SQL_STR INTO V_EXP_AMT, V_EXP_AMT_CALCULATED, V_AMT_TP, V_GENERAL_DT, V_MULTI_F,  V_EXP_DT_ORG USING V_UNQ_KEY, V_MONEY_TRANSFER_TP ;"
+            }
+          ]
+        },
+        {
+          "stepId": "P_INC_FILL_BUCKETS-300",
+          "stepLine": 546,
+          "procedure": "P_FILL_BUCKETS_CALC",
+          "occurrences": 4,
+          "references": [
+            {
+              "line": 548,
+              "stepId": "P_INC_FILL_BUCKETS-300",
+              "stepLine": 546,
+              "procedure": "P_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "V_CURR_DT := V_GENERAL_DT; --Actionın TRX_DT bilgisi ay sonuna çekilmiş olabilr. Bu da GENERAL_DT yi bozar. Bu sebeple atama yapıldı."
+            },
+            {
+              "line": 584,
+              "stepId": "P_INC_FILL_BUCKETS-300",
+              "stepLine": 546,
+              "procedure": "P_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "V_GENERAL_DT := PKG_DA_UTILITY.F_GET_CURR_DT(TO_DATE(V_ACTION_PARAM,'YYYYMMDD'),V_PRM_CURR_DT_LIMIT_DT_CNT);      --Aksiyon olarak EXP_DT değişikliği geldiyse GENERAL_DT kuralları beklenmeden değişiklik yapılır."
+            },
+            {
+              "line": 585,
+              "stepId": "P_INC_FILL_BUCKETS-300",
+              "stepLine": 546,
+              "procedure": "P_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "V_GENERAL_DT_ACTION_TMP := V_GENERAL_DT;"
+            },
+            {
+              "line": 586,
+              "stepId": "P_INC_FILL_BUCKETS-300",
+              "stepLine": 546,
+              "procedure": "P_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "V_GENERAL_DT_ACTION_DATE := V_TRX_DT;"
+            }
+          ]
+        },
+        {
+          "stepId": "P_INC_FILL_BUCKETS-500",
+          "stepLine": 667,
+          "procedure": "P_FILL_BUCKETS_CALC",
+          "occurrences": 17,
+          "references": [
+            {
+              "line": 673,
+              "stepId": "P_INC_FILL_BUCKETS-500",
+              "stepLine": 667,
+              "procedure": "P_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "AND NOT (V_GENERAL_DT = 'AYB' AND V_PREV_RULE_ID MEMBER OF V_BACKWARD_RULES)   THEN  --Tarih açıklamasına göre max 1 ay geriye atılması ve arka arkaya çalışmaması kararı alındı"
+            },
+            {
+              "line": 686,
+              "stepId": "P_INC_FILL_BUCKETS-500",
+              "stepLine": 667,
+              "procedure": "P_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "ELSIF (V_GENERAL_DT = 'AYS' AND  V_PREV_RULE_ID MEMBER OF V_FORWARD_RULES)   THEN  --İgnore rule"
+            },
+            {
+              "line": 718,
+              "stepId": "P_INC_FILL_BUCKETS-500",
+              "stepLine": 667,
+              "procedure": "P_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "ELSIF V_AMT_SIMILAR = 'TB' AND V_CURR_TD = 'TD' AND V_PAST_TD IN ('TA','TD') AND V_GENERAL_DT = 'AYS' AND V_CURR_DT = 'AYS' AND V_EMPTY_BUCKET_DT is null"
+            },
+            {
+              "line": 727,
+              "stepId": "P_INC_FILL_BUCKETS-500",
+              "stepLine": 667,
+              "procedure": "P_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "ELSIF V_AMT_SIMILAR = 'TB' AND V_CURR_TD = 'TD' AND V_GENERAL_DT || V_CURR_DT IN ('AYBAYS', 'AYBORT', 'ORTAYS') AND  --Seda A.T. 20211110 MTS-14740"
+            },
+            {
+              "line": 750,
+              "stepId": "P_INC_FILL_BUCKETS-500",
+              "stepLine": 667,
+              "procedure": "P_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "AND ((V_GENERAL_DT IN ('AYB','ORT') AND V_CURR_DT IN ('AYB', 'ORT')) OR (V_GENERAL_DT IN ('AYS','ORT') AND V_CURR_DT IN ('AYS', 'ORT'))) --zaman benzer"
+            },
+            {
+              "line": 763,
+              "stepId": "P_INC_FILL_BUCKETS-500",
+              "stepLine": 667,
+              "procedure": "P_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "ELSIF V_AMT_SIMILAR IN ('TBD1','TBD2','TBD3') AND V_CURR_TD = 'TD' AND V_PAST_TD IN ('TB', 'TD') AND V_GENERAL_DT IN ('AYB','ORT') AND V_CURR_DT = 'AYS' AND V_AMT_TP = 1 THEN  --Kural 3  / T+1 action 0"
+            },
+            {
+              "line": 769,
+              "stepId": "P_INC_FILL_BUCKETS-500",
+              "stepLine": 667,
+              "procedure": "P_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "ELSIF V_AMT_SIMILAR = 'TB' AND V_CURR_TD = 'TB' AND V_PAST_TD = 'TB' AND V_GENERAL_DT || V_CURR_DT IN ('AYSAYB', 'ORTAYB', 'AYSORT') AND --Seda A.T. 20211110 MTS-14740"
+            },
+            {
+              "line": 785,
+              "stepId": "P_INC_FILL_BUCKETS-500",
+              "stepLine": 667,
+              "procedure": "P_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "ELSIF V_AMT_SIMILAR = 'TB' AND V_CURR_TD = 'TD' AND V_PAST_TD IN ('TA','TD') AND V_GENERAL_DT = 'AYS' AND V_CURR_DT = 'AYS'"
+            },
+            {
+              "line": 792,
+              "stepId": "P_INC_FILL_BUCKETS-500",
+              "stepLine": 667,
+              "procedure": "P_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "ELSIF V_AMT_SIMILAR = 'TB' AND V_CURR_TD = 'TD' AND V_PAST_TD IN ('TA','TD') AND V_GENERAL_DT IN ('AYS') AND V_CURR_DT = 'AYS'"
+            },
+            {
+              "line": 798,
+              "stepId": "P_INC_FILL_BUCKETS-500",
+              "stepLine": 667,
+              "procedure": "P_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "ELSIF V_AMT_SIMILAR = 'TB' AND V_CURR_TD = 'TD' AND V_PAST_TD IN ('TA','TD') AND V_GENERAL_DT = 'AYS' AND V_CURR_DT = 'AYS'"
+            },
+            {
+              "line": 817,
+              "stepId": "P_INC_FILL_BUCKETS-500",
+              "stepLine": 667,
+              "procedure": "P_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "ELSIF V_AMT_SIMILAR IN ('TB','TB2') AND V_CURR_TD = 'TA' AND V_PAST_TD = 'TD' AND V_GENERAL_DT = 'AYS' AND V_AMT_INC > 0 THEN  --Kural 100 / T  action 3.1"
+            },
+            {
+              "line": 823,
+              "stepId": "P_INC_FILL_BUCKETS-500",
+              "stepLine": 667,
+              "procedure": "P_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "ELSIF V_AMT_SIMILAR = 'TB' AND V_CURR_TD = 'TA' AND V_PAST_TD = 'TD' AND V_GENERAL_DT = 'AYS'  THEN  --Kural 10  / T action 3.2"
+            },
+            {
+              "line": 829,
+              "stepId": "P_INC_FILL_BUCKETS-500",
+              "stepLine": 667,
+              "procedure": "P_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "ELSIF V_AMT_SIMILAR IN ('TB','TB2') AND V_CURR_TD = 'TA' AND V_PAST_TD IN ('TD') AND V_GENERAL_DT IN ('AYB', 'ORT') AND V_AMT_INC > 0 THEN  --Kural 110 / T action 3.1"
+            },
+            {
+              "line": 835,
+              "stepId": "P_INC_FILL_BUCKETS-500",
+              "stepLine": 667,
+              "procedure": "P_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "ELSIF V_AMT_SIMILAR = 'TB' AND V_CURR_TD = 'TA' AND V_PAST_TD = 'TD' AND V_GENERAL_DT IN ('AYB', 'ORT') THEN  --Kural 11 /  T action 3.2"
+            },
+            {
+              "line": 906,
+              "stepId": "P_INC_FILL_BUCKETS-500",
+              "stepLine": 667,
+              "procedure": "P_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "P_T1_GENERAL_DT  VARCHAR2(10); --Seda A.T. 20211110 MTS-14740"
+            },
+            {
+              "line": 907,
+              "stepId": "P_INC_FILL_BUCKETS-500",
+              "stepLine": 667,
+              "procedure": "P_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "P_T2_GENERAL_DT  VARCHAR2(10); --Seda A.T. 20211110 MTS-14740"
+            },
+            {
+              "line": 908,
+              "stepId": "P_INC_FILL_BUCKETS-500",
+              "stepLine": 667,
+              "procedure": "P_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "P_T3_GENERAL_DT  VARCHAR2(10); --Seda A.T. 20211110 MTS-14740"
+            }
+          ]
+        },
+        {
+          "stepId": "P_POST_PROCESS-200",
+          "stepLine": 928,
+          "procedure": "P_POST_PROCESS",
+          "occurrences": 17,
+          "references": [
+            {
+              "line": 950,
+              "stepId": "P_POST_PROCESS-200",
+              "stepLine": 928,
+              "procedure": "P_POST_PROCESS",
+              "type": "DIRECT_REFERENCE",
+              "text": "MAX(DECODE(BUCKET_DT, ADD_MONTHS(V_AS_OF_DT,-1), GENERAL_DT, null)) P_T1_GENERAL_DT, --Seda A.T. 20211110 MTS-14740"
+            },
+            {
+              "line": 951,
+              "stepId": "P_POST_PROCESS-200",
+              "stepLine": 928,
+              "procedure": "P_POST_PROCESS",
+              "type": "DIRECT_REFERENCE",
+              "text": "MAX(DECODE(BUCKET_DT, ADD_MONTHS(V_AS_OF_DT,-2), GENERAL_DT, null)) P_T2_GENERAL_DT, --Seda A.T. 20211110 MTS-14740"
+            },
+            {
+              "line": 952,
+              "stepId": "P_POST_PROCESS-200",
+              "stepLine": 928,
+              "procedure": "P_POST_PROCESS",
+              "type": "DIRECT_REFERENCE",
+              "text": "MAX(DECODE(BUCKET_DT, ADD_MONTHS(V_AS_OF_DT,-3), GENERAL_DT, null)) P_T3_GENERAL_DT --Seda A.T. 20211110 MTS-14740"
+            },
+            {
+              "line": 966,
+              "stepId": "P_POST_PROCESS-200",
+              "stepLine": 928,
+              "procedure": "P_POST_PROCESS",
+              "type": "DIRECT_REFERENCE",
+              "text": "P_T1_GENERAL_DT, P_T2_GENERAL_DT, P_T3_GENERAL_DT --Seda A.T. 20211110 MTS-14740"
+            },
+            {
+              "line": 971,
+              "stepId": "P_POST_PROCESS-200",
+              "stepLine": 928,
+              "procedure": "P_POST_PROCESS",
+              "type": "DIRECT_REFERENCE",
+              "text": "IF V_GENERAL_DT_ACTION_TMP IS NULL AND V_GENERAL_DT_ACTION_DATE IS NULL THEN"
+            },
+            {
+              "line": 972,
+              "stepId": "P_POST_PROCESS-200",
+              "stepLine": 928,
+              "procedure": "P_POST_PROCESS",
+              "type": "DIRECT_REFERENCE",
+              "text": "IF V_CURR_DT != V_GENERAL_DT AND V_CURR_DT = P_T1_CURR_DT THEN"
+            },
+            {
+              "line": 973,
+              "stepId": "P_POST_PROCESS-200",
+              "stepLine": 928,
+              "procedure": "P_POST_PROCESS",
+              "type": "DIRECT_REFERENCE",
+              "text": "V_GENERAL_DT := V_CURR_DT;"
+            },
+            {
+              "line": 974,
+              "stepId": "P_POST_PROCESS-200",
+              "stepLine": 928,
+              "procedure": "P_POST_PROCESS",
+              "type": "DIRECT_REFERENCE",
+              "text": "ELSIF V_CURR_DT != V_GENERAL_DT AND P_T1_CURR_DT IS NULL AND V_CURR_DT = P_T2_CURR_DT THEN"
+            },
+            {
+              "line": 975,
+              "stepId": "P_POST_PROCESS-200",
+              "stepLine": 928,
+              "procedure": "P_POST_PROCESS",
+              "type": "DIRECT_REFERENCE",
+              "text": "V_GENERAL_DT := V_CURR_DT;"
+            },
+            {
+              "line": 978,
+              "stepId": "P_POST_PROCESS-200",
+              "stepLine": 928,
+              "procedure": "P_POST_PROCESS",
+              "type": "DIRECT_REFERENCE",
+              "text": "IF V_TRX_DT <= ADD_MONTHS(V_GENERAL_DT_ACTION_DATE, 5) and V_GENERAL_DT_ACTION_TMP IS NOT NULL THEN"
+            },
+            {
+              "line": 979,
+              "stepId": "P_POST_PROCESS-200",
+              "stepLine": 928,
+              "procedure": "P_POST_PROCESS",
+              "type": "DIRECT_REFERENCE",
+              "text": "V_GENERAL_DT := V_GENERAL_DT_ACTION_TMP;"
+            },
+            {
+              "line": 981,
+              "stepId": "P_POST_PROCESS-200",
+              "stepLine": 928,
+              "procedure": "P_POST_PROCESS",
+              "type": "DIRECT_REFERENCE",
+              "text": "V_GENERAL_DT_ACTION_TMP := NULL;"
+            },
+            {
+              "line": 982,
+              "stepId": "P_POST_PROCESS-200",
+              "stepLine": 928,
+              "procedure": "P_POST_PROCESS",
+              "type": "DIRECT_REFERENCE",
+              "text": "V_GENERAL_DT_ACTION_DATE := NULL;"
+            },
+            {
+              "line": 1041,
+              "stepId": "P_POST_PROCESS-200",
+              "stepLine": 928,
+              "procedure": "P_POST_PROCESS",
+              "type": "DIRECT_REFERENCE",
+              "text": "(P_T1_GENERAL_DT = P_T1_CURR_DT) OR --Son ay (AS_OF_DT - 1 ay) gerçekleşen curr_dt, son ay (AS_OF_DT - 1 ay) hesaplanan general_dt ile eşleşiyor mu"
+            },
+            {
+              "line": 1042,
+              "stepId": "P_POST_PROCESS-200",
+              "stepLine": 928,
+              "procedure": "P_POST_PROCESS",
+              "type": "DIRECT_REFERENCE",
+              "text": "(P_T2_CURR_DT IS NOT NULL AND P_T3_CURR_DT IS NOT NULL AND P_T1_GENERAL_DT = P_T2_CURR_DT AND P_T1_GENERAL_DT = P_T3_CURR_DT) OR"
+            },
+            {
+              "line": 1046,
+              "stepId": "P_POST_PROCESS-200",
+              "stepLine": 928,
+              "procedure": "P_POST_PROCESS",
+              "type": "DIRECT_REFERENCE",
+              "text": "(P_T1_GENERAL_DT = P_T2_CURR_DT OR  P_T1_GENERAL_DT = P_T3_CURR_DT)"
+            },
+            {
+              "line": 1052,
+              "stepId": "P_POST_PROCESS-200",
+              "stepLine": 928,
+              "procedure": "P_POST_PROCESS",
+              "type": "DIRECT_REFERENCE",
+              "text": "(P_T2_GENERAL_DT = NVL(P_T2_CURR_DT,'###') OR P_T2_GENERAL_DT = NVL(P_T3_CURR_DT,'###')) THEN"
+            }
+          ]
+        },
+        {
+          "stepId": "P_POST_PROCESS-300",
+          "stepLine": 1067,
+          "procedure": "P_POST_PROCESS",
+          "occurrences": 2,
+          "references": [
+            {
+              "line": 1074,
+              "stepId": "P_POST_PROCESS-300",
+              "stepLine": 1067,
+              "procedure": "P_POST_PROCESS",
+              "type": "DIRECT_REFERENCE",
+              "text": "A.GENERAL_DT = NVL(:V_GENERAL_DT, A.GENERAL_DT),"
+            },
+            {
+              "line": 1085,
+              "stepId": "P_POST_PROCESS-300",
+              "stepLine": 1067,
+              "procedure": "P_POST_PROCESS",
+              "type": "DIRECT_REFERENCE",
+              "text": "USING V_MULTI_F, V_CURR_DT, V_GENERAL_DT, V_EXP_AMT_CALCULATED, V_AMT_TP, P_PAID_F, P_PAID_F,"
+            }
+          ]
+        },
+        {
+          "stepId": "P_INC_POST_BUCKET_CALC-100",
+          "stepLine": 1129,
+          "procedure": "P_POST_BUCKET_CALC",
+          "occurrences": 1,
+          "references": [
+            {
+              "line": 1159,
+              "stepId": "P_INC_POST_BUCKET_CALC-100",
+              "stepLine": 1129,
+              "procedure": "P_POST_BUCKET_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "V_GENERAL_DT := null;"
+            }
+          ]
+        },
+        {
+          "stepId": "P_INC_POST_BUCKET_CALC-600",
+          "stepLine": 1174,
+          "procedure": "P_POST_BUCKET_CALC",
+          "occurrences": 1,
+          "references": [
+            {
+              "line": 1178,
+              "stepId": "P_INC_POST_BUCKET_CALC-600",
+              "stepLine": 1174,
+              "procedure": "P_POST_BUCKET_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": ", GENERAL_DT = null"
+            }
+          ]
+        },
+        {
+          "stepId": "P_INC_LOG_DATA",
+          "stepLine": 1789,
+          "procedure": "P_LOG_DATA",
+          "occurrences": 11,
+          "references": [
+            {
+              "line": 1811,
+              "stepId": "P_INC_LOG_DATA",
+              "stepLine": 1789,
+              "procedure": "P_LOG_DATA",
+              "type": "DIRECT_REFERENCE",
+              "text": "||  CASE WHEN V_GENERAL_DT_ACTION_TMP IS NOT NULL THEN ' V_GENERAL_DT_ACTION_TMP:' || V_GENERAL_DT_ACTION_TMP END /*Seçil Bayraktar MTS-5516 SubTask MTS-5512 28.09.2020*/"
+            },
+            {
+              "line": 1812,
+              "stepId": "P_INC_LOG_DATA",
+              "stepLine": 1789,
+              "procedure": "P_LOG_DATA",
+              "type": "DIRECT_REFERENCE",
+              "text": "||  CASE WHEN V_GENERAL_DT_ACTION_DATE IS NOT NULL THEN ' V_GENERAL_DT_ACTION_DATE:' || V_GENERAL_DT_ACTION_DATE END /*Seçil Bayraktar MTS-5516 SubTask MTS-5512 28.09.2020*/"
+            },
+            {
+              "line": 1834,
+              "stepId": "P_INC_LOG_DATA",
+              "stepLine": 1789,
+              "procedure": "P_LOG_DATA",
+              "type": "DIRECT_REFERENCE",
+              "text": ", TRX_DT, TRX_TM, CURR_DT, GENERAL_DT, PAID_F_2_BUCKET_DT"
+            },
+            {
+              "line": 1847,
+              "stepId": "P_INC_LOG_DATA",
+              "stepLine": 1789,
+              "procedure": "P_LOG_DATA",
+              "type": "DIRECT_REFERENCE",
+              "text": ", :V_TRX_DT, :V_TRX_TM, :V_CURR_DT, :V_GENERAL_DT, :V_PAID_F_2_BUCKET_DT"
+            },
+            {
+              "line": 1859,
+              "stepId": "P_INC_LOG_DATA",
+              "stepLine": 1789,
+              "procedure": "P_LOG_DATA",
+              "type": "DIRECT_REFERENCE",
+              "text": ", V_TRX_DT, V_TRX_TM, V_CURR_DT, V_GENERAL_DT, V_PAID_F_2_BUCKET_DT"
+            },
+            {
+              "line": 1876,
+              "stepId": "P_INC_LOG_DATA",
+              "stepLine": 1789,
+              "procedure": "P_LOG_DATA",
+              "type": "DIRECT_REFERENCE",
+              "text": ", TRX_DT, TRX_TM, CURR_DT, GENERAL_DT, PAID_F_2_BUCKET_DT"
+            },
+            {
+              "line": 1887,
+              "stepId": "P_INC_LOG_DATA",
+              "stepLine": 1789,
+              "procedure": "P_LOG_DATA",
+              "type": "DIRECT_REFERENCE",
+              "text": ", :V_TRX_DT, :V_TRX_TM, :V_CURR_DT, :V_GENERAL_DT, :V_PAID_F_2_BUCKET_DT"
+            },
+            {
+              "line": 1897,
+              "stepId": "P_INC_LOG_DATA",
+              "stepLine": 1789,
+              "procedure": "P_LOG_DATA",
+              "type": "DIRECT_REFERENCE",
+              "text": ", V_TRX_DT, V_TRX_TM, V_CURR_DT, V_GENERAL_DT, V_PAID_F_2_BUCKET_DT"
+            },
+            {
+              "line": 1912,
+              "stepId": "P_INC_LOG_DATA",
+              "stepLine": 1789,
+              "procedure": "P_LOG_DATA",
+              "type": "DIRECT_REFERENCE",
+              "text": ", TRX_DT, TRX_TM, CURR_DT, GENERAL_DT, PAID_F_2_BUCKET_DT"
+            },
+            {
+              "line": 1925,
+              "stepId": "P_INC_LOG_DATA",
+              "stepLine": 1789,
+              "procedure": "P_LOG_DATA",
+              "type": "DIRECT_REFERENCE",
+              "text": ", :V_TRX_DT, :V_TRX_TM, :V_CURR_DT, :V_GENERAL_DT, :V_PAID_F_2_BUCKET_DT"
+            },
+            {
+              "line": 1937,
+              "stepId": "P_INC_LOG_DATA",
+              "stepLine": 1789,
+              "procedure": "P_LOG_DATA",
+              "type": "DIRECT_REFERENCE",
+              "text": ", V_TRX_DT, V_TRX_TM, V_CURR_DT, V_GENERAL_DT, V_PAID_F_2_BUCKET_DT"
+            }
+          ]
+        }
+      ],
+      "indirectReferences": []
+    },
+    {
+      "packageName": "SNPADM.PKG_DA_INCOMING_PATTERN_DATA",
+      "directReferences": [
+        {
+          "stepId": "P_DA_INC_MNY_TRNSFR_CREATE_BUCKET-600-||P_MONEY_TRANSFER_TP",
+          "stepLine": 2292,
+          "procedure": "P_DA_MNY_TRNSFR_CREATE_BUCKET",
+          "occurrences": 1,
+          "references": [
+            {
+              "line": 2327,
+              "stepId": "P_DA_INC_MNY_TRNSFR_CREATE_BUCKET-600-||P_MONEY_TRANSFER_TP",
+              "stepLine": 2292,
+              "procedure": "P_DA_MNY_TRNSFR_CREATE_BUCKET",
+              "type": "DIRECT_REFERENCE",
+              "text": ", CAST(NULL AS VARCHAR2(10)) GENERAL_DT"
+            }
+          ]
+        },
+        {
+          "stepId": "P_INC_DA_MNY_TRNSFR_BUCKET_INS-110-||P_MONEY_TRANSFER_TP",
+          "stepLine": 2679,
+          "procedure": "P_DA_MNY_TRNSFR_BUCKET_INS",
+          "occurrences": 2,
+          "references": [
+            {
+              "line": 2683,
+              "stepId": "P_INC_DA_MNY_TRNSFR_BUCKET_INS-110-||P_MONEY_TRANSFER_TP",
+              "stepLine": 2679,
+              "procedure": "P_DA_MNY_TRNSFR_BUCKET_INS",
+              "type": "DIRECT_REFERENCE",
+              "text": "(AS_OF_DT, MONEY_TRANSFER_TP, UNQ_KEY, BUCKET_DT, CUST_ID, AMT_ORG, AMT, DELETED_AMT, CCY_CODE, PAID_F, TRX_CNT, MULTI_TRX_DAY_CNT, MULTI_F, CURR_DT, GENERAL_DT, EXP_AMT, AMT_TP"
+            },
+            {
+              "line": 2687,
+              "stepId": "P_INC_DA_MNY_TRNSFR_BUCKET_INS-110-||P_MONEY_TRANSFER_TP",
+              "stepLine": 2679,
+              "procedure": "P_DA_MNY_TRNSFR_BUCKET_INS",
+              "type": "DIRECT_REFERENCE",
+              "text": ", MONEY_TRANSFER_TP, UNQ_KEY, BUCKET_DT, CUST_ID, AMT_ORG, AMT, DELETED_AMT, CCY_CODE, PAID_F, TRX_CNT, MULTI_TRX_DAY_CNT, MULTI_F, CURR_DT, GENERAL_DT, EXP_AMT, AMT_TP"
+            }
+          ]
+        },
+        {
+          "stepId": "P_DA_INC_MNY_TRNSFR_PATTERN-100-||P_MONEY_TRANSFER_TP",
+          "stepLine": 2824,
+          "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+          "occurrences": 2,
+          "references": [
+            {
+              "line": 2843,
+              "stepId": "P_DA_INC_MNY_TRNSFR_PATTERN-100-||P_MONEY_TRANSFER_TP",
+              "stepLine": 2824,
+              "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": "SELECT /*+ MATERIALIZE PARALLEL(8) */ UNQ_KEY, CUST_ID, BUCKET_DT, AMT_ORG, AMT, EXP_AMT, AMT_TP, MULTI_F, GENERAL_DT,MONEY_TRANSFER_TP"
+            },
+            {
+              "line": 2855,
+              "stepId": "P_DA_INC_MNY_TRNSFR_PATTERN-100-||P_MONEY_TRANSFER_TP",
+              "stepLine": 2824,
+              "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": ", A.GENERAL_DT"
+            }
+          ]
+        },
+        {
+          "stepId": "P_DA_INC_MNY_TRNSFR_PATTERN-202-||P_MONEY_TRANSFER_TP",
+          "stepLine": 2884,
+          "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+          "occurrences": 4,
+          "references": [
+            {
+              "line": 2885,
+              "stepId": "P_DA_INC_MNY_TRNSFR_PATTERN-202-||P_MONEY_TRANSFER_TP",
+              "stepLine": 2884,
+              "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": "SNPADM.PKG_EDW_UTILITY.P_DROP_TABLE('DA_INC_PATTRN_GENERAL_DT_MATCH_'||P_MONEY_TRANSFER_TP||'_TMP');"
+            },
+            {
+              "line": 2887,
+              "stepId": "P_DA_INC_MNY_TRNSFR_PATTERN-202-||P_MONEY_TRANSFER_TP",
+              "stepLine": 2884,
+              "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": "CREATE TABLE DA_INC_PATTRN_GENERAL_DT_MATCH_'||P_MONEY_TRANSFER_TP||'_TMP PARALLEL 8 PCTFREE 0 AS"
+            },
+            {
+              "line": 2892,
+              "stepId": "P_DA_INC_MNY_TRNSFR_PATTERN-202-||P_MONEY_TRANSFER_TP",
+              "stepLine": 2884,
+              "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": ", B.GENERAL_DT"
+            },
+            {
+              "line": 2903,
+              "stepId": "P_DA_INC_MNY_TRNSFR_PATTERN-202-||P_MONEY_TRANSFER_TP",
+              "stepLine": 2884,
+              "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": "AND A.CURR_DT =  B.GENERAL_DT"
+            }
+          ]
+        },
+        {
+          "stepId": "P_DA_INC_MNY_TRNSFR_PATTERN-203-||P_MONEY_TRANSFER_TP",
+          "stepLine": 2908,
+          "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+          "occurrences": 3,
+          "references": [
+            {
+              "line": 2910,
+              "stepId": "P_DA_INC_MNY_TRNSFR_PATTERN-203-||P_MONEY_TRANSFER_TP",
+              "stepLine": 2908,
+              "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": "SNPADM.PKG_EDW_UTILITY.P_DROP_TABLE('DA_INC_PATTRN_GENERAL_DT_NOT_MATCH_'||P_MONEY_TRANSFER_TP||'_TMP');"
+            },
+            {
+              "line": 2912,
+              "stepId": "P_DA_INC_MNY_TRNSFR_PATTERN-203-||P_MONEY_TRANSFER_TP",
+              "stepLine": 2908,
+              "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": "CREATE TABLE DA_INC_PATTRN_GENERAL_DT_NOT_MATCH_'||P_MONEY_TRANSFER_TP||'_TMP PARALLEL 8 PCTFREE 0 AS"
+            },
+            {
+              "line": 2913,
+              "stepId": "P_DA_INC_MNY_TRNSFR_PATTERN-203-||P_MONEY_TRANSFER_TP",
+              "stepLine": 2908,
+              "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": "SELECT /*+ FULL(A) */A.UNQ_KEY, A.CURR_DT GENERAL_DT"
+            }
+          ]
+        },
+        {
+          "stepId": "P_DA_INC_MNY_TRNSFR_PATTERN-204-||P_MONEY_TRANSFER_TP",
+          "stepLine": 2925,
+          "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+          "occurrences": 6,
+          "references": [
+            {
+              "line": 2927,
+              "stepId": "P_DA_INC_MNY_TRNSFR_PATTERN-204-||P_MONEY_TRANSFER_TP",
+              "stepLine": 2925,
+              "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": "SNPADM.PKG_EDW_UTILITY.P_DROP_TABLE('DA_INC_PATTRN_GENERAL_DT_NOT_MATCH_ROWS_'||P_MONEY_TRANSFER_TP||'_TMP');"
+            },
+            {
+              "line": 2929,
+              "stepId": "P_DA_INC_MNY_TRNSFR_PATTERN-204-||P_MONEY_TRANSFER_TP",
+              "stepLine": 2925,
+              "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": "CREATE TABLE DA_INC_PATTRN_GENERAL_DT_NOT_MATCH_ROWS_'||P_MONEY_TRANSFER_TP||'_TMP PARALLEL 8 PCTFREE 0 AS"
+            },
+            {
+              "line": 2934,
+              "stepId": "P_DA_INC_MNY_TRNSFR_PATTERN-204-||P_MONEY_TRANSFER_TP",
+              "stepLine": 2925,
+              "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": ", B.GENERAL_DT"
+            },
+            {
+              "line": 2937,
+              "stepId": "P_DA_INC_MNY_TRNSFR_PATTERN-204-||P_MONEY_TRANSFER_TP",
+              "stepLine": 2925,
+              "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": ", DA_INC_PATTRN_GENERAL_DT_NOT_MATCH_'||P_MONEY_TRANSFER_TP||'_TMP B"
+            },
+            {
+              "line": 2943,
+              "stepId": "P_DA_INC_MNY_TRNSFR_PATTERN-204-||P_MONEY_TRANSFER_TP",
+              "stepLine": 2925,
+              "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": "AND A.CURR_DT =  B.GENERAL_DT"
+            },
+            {
+              "line": 2945,
+              "stepId": "P_DA_INC_MNY_TRNSFR_PATTERN-204-||P_MONEY_TRANSFER_TP",
+              "stepLine": 2925,
+              "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": "AND A.UNQ_KEY NOT IN (SELECT UNQ_KEY FROM DA_INC_PATTRN_GENERAL_DT_MATCH_'||P_MONEY_TRANSFER_TP||'_TMP)"
+            }
+          ]
+        },
+        {
+          "stepId": "P_DA_INC_MNY_TRNSFR_PATTERN-205-||P_MONEY_TRANSFER_TP",
+          "stepLine": 2951,
+          "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+          "occurrences": 3,
+          "references": [
+            {
+              "line": 2956,
+              "stepId": "P_DA_INC_MNY_TRNSFR_PATTERN-205-||P_MONEY_TRANSFER_TP",
+              "stepLine": 2951,
+              "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": "SELECT 1 MATCH_F, A.* FROM DA_INC_PATTRN_GENERAL_DT_MATCH_'||P_MONEY_TRANSFER_TP||'_TMP A"
+            },
+            {
+              "line": 2958,
+              "stepId": "P_DA_INC_MNY_TRNSFR_PATTERN-205-||P_MONEY_TRANSFER_TP",
+              "stepLine": 2951,
+              "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": "SELECT 0 MATCH_F, A.* FROM DA_INC_PATTRN_GENERAL_DT_NOT_MATCH_ROWS_'||P_MONEY_TRANSFER_TP||'_TMP A"
+            },
+            {
+              "line": 2977,
+              "stepId": "P_DA_INC_MNY_TRNSFR_PATTERN-205-||P_MONEY_TRANSFER_TP",
+              "stepLine": 2951,
+              "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": ", CASE WHEN MAX(A.MATCH_F) = 0 THEN 2 --Son 3 aydaki hiçbir CURR_DT GENERAL_DT ile işleşmiyor ise"
+            }
+          ]
+        },
+        {
+          "stepId": "P_DA_INC_MNY_TRNSFR_PATTERN-210-||P_MONEY_TRANSFER_TP",
+          "stepLine": 2999,
+          "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+          "occurrences": 3,
+          "references": [
+            {
+              "line": 3035,
+              "stepId": "P_DA_INC_MNY_TRNSFR_PATTERN-210-||P_MONEY_TRANSFER_TP",
+              "stepLine": 2999,
+              "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": ", GENERAL_DT_TMP"
+            },
+            {
+              "line": 3043,
+              "stepId": "P_DA_INC_MNY_TRNSFR_PATTERN-210-||P_MONEY_TRANSFER_TP",
+              "stepLine": 2999,
+              "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": "END AS GENERAL_DT_TMP"
+            },
+            {
+              "line": 3070,
+              "stepId": "P_DA_INC_MNY_TRNSFR_PATTERN-210-||P_MONEY_TRANSFER_TP",
+              "stepLine": 2999,
+              "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": ", A.GENERAL_DT_TMP"
+            }
+          ]
+        },
+        {
+          "stepId": "P_DA_INC_MNY_TRNSFR_PATTERN-1000-||P_MONEY_TRANSFER_TP",
+          "stepLine": 3347,
+          "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+          "occurrences": 1,
+          "references": [
+            {
+              "line": 3360,
+              "stepId": "P_DA_INC_MNY_TRNSFR_PATTERN-1000-||P_MONEY_TRANSFER_TP",
+              "stepLine": 3347,
+              "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": ", NVL(E.GENERAL_DT_TMP,A.GENERAL_DT) GENERAL_DT"
+            }
+          ]
+        },
+        {
+          "stepId": "P_DA_INC_MNY_TRNSFR_PATTERN-1400-||P_MONEY_TRANSFER_TP",
+          "stepLine": 3611,
+          "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+          "occurrences": 2,
+          "references": [
+            {
+              "line": 3616,
+              "stepId": "P_DA_INC_MNY_TRNSFR_PATTERN-1400-||P_MONEY_TRANSFER_TP",
+              "stepLine": 3611,
+              "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": ", MULTI_F, GENERAL_DT"
+            },
+            {
+              "line": 3637,
+              "stepId": "P_DA_INC_MNY_TRNSFR_PATTERN-1400-||P_MONEY_TRANSFER_TP",
+              "stepLine": 3611,
+              "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": ", MULTI_F, GENERAL_DT"
+            }
+          ]
+        }
+      ],
+      "indirectReferences": []
+    },
+    {
+      "packageName": "SNPADM.PKG_DA_PATTERN",
+      "directReferences": [
+        {
+          "stepId": "UNKNOWN",
+          "stepLine": 61,
+          "procedure": "UNKNOWN",
+          "occurrences": 5,
+          "references": [
+            {
+              "line": 61,
+              "stepId": "UNKNOWN",
+              "stepLine": 61,
+              "procedure": "UNKNOWN",
+              "type": "DIRECT_REFERENCE",
+              "text": "V_GENERAL_DT            VARCHAR2(10);"
+            },
+            {
+              "line": 63,
+              "stepId": "UNKNOWN",
+              "stepLine": 63,
+              "procedure": "UNKNOWN",
+              "type": "DIRECT_REFERENCE",
+              "text": "V_GENERAL_DT_ACTION_TMP VARCHAR2(10);"
+            },
+            {
+              "line": 64,
+              "stepId": "UNKNOWN",
+              "stepLine": 64,
+              "procedure": "UNKNOWN",
+              "type": "DIRECT_REFERENCE",
+              "text": "V_GENERAL_DT_ACTION_DATE DATE;"
+            },
+            {
+              "line": 66,
+              "stepId": "UNKNOWN",
+              "stepLine": 66,
+              "procedure": "UNKNOWN",
+              "type": "DIRECT_REFERENCE",
+              "text": "V_GENERAL_DT_ONL_TRX_DT DATE; /*MTS-17940 Seçil Bayraktar*/"
+            },
+            {
+              "line": 20,
+              "stepId": "UNKNOWN",
+              "stepLine": 20,
+              "procedure": "UNKNOWN",
+              "type": "DIRECT_REFERENCE",
+              "text": "PROCEDURE P_POST_PROCESS(P_AS_OF_DT DATE, P_UNQ_KEY VARCHAR2, P_AMT NUMBER, P_EXP_AMT NUMBER, P_LAST_TRX_OF_MONTH_F NUMBER, P_ONLINE_F NUMBER, P_TRX_SRC VARCHAR2, P_GENERAL_DT VARCHAR2); /*Seçil Bayraktar Epic: MTS-5703 - SubTask:MTS-10588*/"
+            }
+          ]
+        },
+        {
+          "stepId": "P_LOG_DATA",
+          "stepLine": 119,
+          "procedure": "P_LOG_DATA",
+          "occurrences": 15,
+          "references": [
+            {
+              "line": 143,
+              "stepId": "P_LOG_DATA",
+              "stepLine": 119,
+              "procedure": "P_LOG_DATA",
+              "type": "DIRECT_REFERENCE",
+              "text": "||  CASE WHEN V_GENERAL_DT_ACTION_TMP IS NOT NULL THEN ' GENERAL_DT_ACTION_TMP:' || V_GENERAL_DT_ACTION_TMP END"
+            },
+            {
+              "line": 144,
+              "stepId": "P_LOG_DATA",
+              "stepLine": 119,
+              "procedure": "P_LOG_DATA",
+              "type": "DIRECT_REFERENCE",
+              "text": "||  CASE WHEN V_GENERAL_DT_ACTION_DATE IS NOT NULL THEN ' GENERAL_DT_ACTION_DATE:' || V_GENERAL_DT_ACTION_DATE END"
+            },
+            {
+              "line": 147,
+              "stepId": "P_LOG_DATA",
+              "stepLine": 119,
+              "procedure": "P_LOG_DATA",
+              "type": "DIRECT_REFERENCE",
+              "text": "||  CASE WHEN V_GENERAL_DT_ONL_TRX_DT IS NOT NULL THEN ' GENERAL_DT_ONL_TRX_DT:' || V_GENERAL_DT_ONL_TRX_DT END /*MTS-17940 Seçil Bayraktar*/"
+            },
+            {
+              "line": 161,
+              "stepId": "P_LOG_DATA",
+              "stepLine": 119,
+              "procedure": "P_LOG_DATA",
+              "type": "DIRECT_REFERENCE",
+              "text": ", RULE_ID, PREV_RULE_ID, CURR_DT, GENERAL_DT, CURR_TD, PAST_TD, AMT_SIMILAR, EXP_AMT, AMT_TP, MULTI_F, PARAM"
+            },
+            {
+              "line": 165,
+              "stepId": "P_LOG_DATA",
+              "stepLine": 119,
+              "procedure": "P_LOG_DATA",
+              "type": "DIRECT_REFERENCE",
+              "text": ", :P_RULE_ID, :V_PREV_RULE_ID, :V_CURR_DT, :V_GENERAL_DT, :V_CURR_TD, :V_PAST_TD, :V_AMT_SIMILAR, :V_EXP_AMT, :V_AMT_TP, :V_MULTI_F, :V_PARAM"
+            },
+            {
+              "line": 169,
+              "stepId": "P_LOG_DATA",
+              "stepLine": 119,
+              "procedure": "P_LOG_DATA",
+              "type": "DIRECT_REFERENCE",
+              "text": ", P_RULE_ID, V_PREV_RULE_ID, V_CURR_DT, V_GENERAL_DT, V_CURR_TD, V_PAST_TD, V_AMT_SIMILAR, V_EXP_AMT, V_AMT_TP, V_MULTI_F, V_PARAM"
+            },
+            {
+              "line": 206,
+              "stepId": "P_LOG_DATA",
+              "stepLine": 119,
+              "procedure": "P_LOG_DATA",
+              "type": "DIRECT_REFERENCE",
+              "text": "GENERAL_DT VARCHAR2(3),"
+            },
+            {
+              "line": 249,
+              "stepId": "P_LOG_DATA",
+              "stepLine": 119,
+              "procedure": "P_LOG_DATA",
+              "type": "DIRECT_REFERENCE",
+              "text": ", GENERAL_DT"
+            },
+            {
+              "line": 325,
+              "stepId": "P_LOG_DATA",
+              "stepLine": 119,
+              "procedure": "P_LOG_DATA",
+              "type": "DIRECT_REFERENCE",
+              "text": "V_GENERAL_DT_ACTION_TMP := NULL;"
+            },
+            {
+              "line": 326,
+              "stepId": "P_LOG_DATA",
+              "stepLine": 119,
+              "procedure": "P_LOG_DATA",
+              "type": "DIRECT_REFERENCE",
+              "text": "V_GENERAL_DT_ACTION_DATE := NULL;"
+            },
+            {
+              "line": 328,
+              "stepId": "P_LOG_DATA",
+              "stepLine": 119,
+              "procedure": "P_LOG_DATA",
+              "type": "DIRECT_REFERENCE",
+              "text": "V_GENERAL_DT_ONL_TRX_DT := NULL; /*MTS-17940 Seçil Bayraktar*/"
+            },
+            {
+              "line": 331,
+              "stepId": "P_LOG_DATA",
+              "stepLine": 119,
+              "procedure": "P_LOG_DATA",
+              "type": "DIRECT_REFERENCE",
+              "text": "V_GENERAL_DT:= F_GET_CURR_DT(V_TRX_DT);"
+            },
+            {
+              "line": 339,
+              "stepId": "P_LOG_DATA",
+              "stepLine": 119,
+              "procedure": "P_LOG_DATA",
+              "type": "DIRECT_REFERENCE",
+              "text": "V_GENERAL_DT:= TRX(I).GENERAL_DT;"
+            },
+            {
+              "line": 340,
+              "stepId": "P_LOG_DATA",
+              "stepLine": 119,
+              "procedure": "P_LOG_DATA",
+              "type": "DIRECT_REFERENCE",
+              "text": "V_GENERAL_DT_ONL_TRX_DT:= TRX(I).TRX_DT;"
+            },
+            {
+              "line": 345,
+              "stepId": "P_LOG_DATA",
+              "stepLine": 119,
+              "procedure": "P_LOG_DATA",
+              "type": "DIRECT_REFERENCE",
+              "text": "V_GENERAL_DT:= TRX(I).GENERAL_DT;"
+            }
+          ]
+        },
+        {
+          "stepId": "P_FILL_BUCKETS-100",
+          "stepLine": 420,
+          "procedure": "P_FILL_BUCKETS_CALC",
+          "occurrences": 2,
+          "references": [
+            {
+              "line": 427,
+              "stepId": "P_FILL_BUCKETS-100",
+              "stepLine": 420,
+              "procedure": "P_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": ", P.GENERAL_DT"
+            },
+            {
+              "line": 438,
+              "stepId": "P_FILL_BUCKETS-100",
+              "stepLine": 420,
+              "procedure": "P_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "INTO V_EXP_AMT, V_EXP_AMT_CALCULATED, V_AMT_TP, V_GENERAL_DT, V_MULTI_F,  V_EXP_DT_ORG"
+            }
+          ]
+        },
+        {
+          "stepId": "P_FILL_BUCKETS-420",
+          "stepLine": 592,
+          "procedure": "P_FILL_BUCKETS_CALC",
+          "occurrences": 16,
+          "references": [
+            {
+              "line": 598,
+              "stepId": "P_FILL_BUCKETS-420",
+              "stepLine": 592,
+              "procedure": "P_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "V_CURR_DT := V_GENERAL_DT; --Actionın TRX_DT bilgisi ay sonuna çekilmiş olabilr. Bu da GENERAL_DT yi bozar. Bu sebeple atama yapıldı."
+            },
+            {
+              "line": 606,
+              "stepId": "P_FILL_BUCKETS-420",
+              "stepLine": 592,
+              "procedure": "P_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "P_POST_PROCESS(V_AS_OF_DT, V_UNQ_KEY, V_AMT, V_EXP_AMT, V_LAST_TRX_OF_MONTH_F, P_ONLINE_F, V_TRX_SRC, V_GENERAL_DT) ;"
+            },
+            {
+              "line": 612,
+              "stepId": "P_FILL_BUCKETS-420",
+              "stepLine": 592,
+              "procedure": "P_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "P_POST_PROCESS(V_AS_OF_DT, V_UNQ_KEY, V_AMT, V_EXP_AMT, V_LAST_TRX_OF_MONTH_F, P_ONLINE_F, V_TRX_SRC, V_GENERAL_DT) ;"
+            },
+            {
+              "line": 618,
+              "stepId": "P_FILL_BUCKETS-420",
+              "stepLine": 592,
+              "procedure": "P_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "P_POST_PROCESS(V_AS_OF_DT, V_UNQ_KEY, V_AMT, V_EXP_AMT, V_LAST_TRX_OF_MONTH_F, P_ONLINE_F, V_TRX_SRC, V_GENERAL_DT) ;"
+            },
+            {
+              "line": 624,
+              "stepId": "P_FILL_BUCKETS-420",
+              "stepLine": 592,
+              "procedure": "P_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "P_POST_PROCESS(V_AS_OF_DT, V_UNQ_KEY, V_AMT, V_EXP_AMT, V_LAST_TRX_OF_MONTH_F, P_ONLINE_F, V_TRX_SRC, V_GENERAL_DT) ;"
+            },
+            {
+              "line": 630,
+              "stepId": "P_FILL_BUCKETS-420",
+              "stepLine": 592,
+              "procedure": "P_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "P_POST_PROCESS(V_AS_OF_DT, V_UNQ_KEY, V_AMT, V_EXP_AMT, V_LAST_TRX_OF_MONTH_F, P_ONLINE_F, V_TRX_SRC, V_GENERAL_DT) ;"
+            },
+            {
+              "line": 636,
+              "stepId": "P_FILL_BUCKETS-420",
+              "stepLine": 592,
+              "procedure": "P_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "P_POST_PROCESS(V_AS_OF_DT, V_UNQ_KEY, V_AMT, V_EXP_AMT, V_LAST_TRX_OF_MONTH_F, P_ONLINE_F, V_TRX_SRC, V_GENERAL_DT) ;"
+            },
+            {
+              "line": 642,
+              "stepId": "P_FILL_BUCKETS-420",
+              "stepLine": 592,
+              "procedure": "P_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "P_POST_PROCESS(V_AS_OF_DT, V_UNQ_KEY, V_AMT, V_EXP_AMT, V_LAST_TRX_OF_MONTH_F, P_ONLINE_F, V_TRX_SRC, V_GENERAL_DT) ;"
+            },
+            {
+              "line": 647,
+              "stepId": "P_FILL_BUCKETS-420",
+              "stepLine": 592,
+              "procedure": "P_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "V_GENERAL_DT := F_GET_CURR_DT(TO_DATE(V_ACTION_PARAM,'YYYYMMDD'));      --Aksiyon olarak EXP_DT değişikliği geldiyse GENERAL_DT kuralları beklenmeden değişiklik yapılır."
+            },
+            {
+              "line": 648,
+              "stepId": "P_FILL_BUCKETS-420",
+              "stepLine": 592,
+              "procedure": "P_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "V_GENERAL_DT_ACTION_TMP := V_GENERAL_DT;"
+            },
+            {
+              "line": 649,
+              "stepId": "P_FILL_BUCKETS-420",
+              "stepLine": 592,
+              "procedure": "P_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "V_GENERAL_DT_ACTION_DATE := V_TRX_DT;"
+            },
+            {
+              "line": 651,
+              "stepId": "P_FILL_BUCKETS-420",
+              "stepLine": 592,
+              "procedure": "P_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "P_POST_PROCESS(V_AS_OF_DT, V_UNQ_KEY, V_AMT, V_EXP_AMT, V_LAST_TRX_OF_MONTH_F, P_ONLINE_F, V_TRX_SRC, V_GENERAL_DT);"
+            },
+            {
+              "line": 658,
+              "stepId": "P_FILL_BUCKETS-420",
+              "stepLine": 592,
+              "procedure": "P_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "P_POST_PROCESS(V_AS_OF_DT, V_UNQ_KEY, V_AMT, V_EXP_AMT, V_LAST_TRX_OF_MONTH_F, P_ONLINE_F, V_TRX_SRC, V_GENERAL_DT) ;"
+            },
+            {
+              "line": 664,
+              "stepId": "P_FILL_BUCKETS-420",
+              "stepLine": 592,
+              "procedure": "P_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "P_POST_PROCESS(V_AS_OF_DT, V_UNQ_KEY, V_AMT, V_EXP_AMT, V_LAST_TRX_OF_MONTH_F, P_ONLINE_F, V_TRX_SRC, V_GENERAL_DT) ;"
+            },
+            {
+              "line": 671,
+              "stepId": "P_FILL_BUCKETS-420",
+              "stepLine": 592,
+              "procedure": "P_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "P_POST_PROCESS(V_AS_OF_DT, V_UNQ_KEY, V_AMT, V_EXP_AMT, V_LAST_TRX_OF_MONTH_F, P_ONLINE_F, V_TRX_SRC, V_GENERAL_DT) ;"
+            },
+            {
+              "line": 677,
+              "stepId": "P_FILL_BUCKETS-420",
+              "stepLine": 592,
+              "procedure": "P_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "P_POST_PROCESS(V_AS_OF_DT, V_UNQ_KEY, V_AMT, V_EXP_AMT, V_LAST_TRX_OF_MONTH_F, P_ONLINE_F, V_TRX_SRC, V_GENERAL_DT) ;"
+            }
+          ]
+        },
+        {
+          "stepId": "P_FILL_BUCKETS-500",
+          "stepLine": 741,
+          "procedure": "P_FILL_BUCKETS_CALC",
+          "occurrences": 51,
+          "references": [
+            {
+              "line": 749,
+              "stepId": "P_FILL_BUCKETS-500",
+              "stepLine": 741,
+              "procedure": "P_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "AND NOT (V_GENERAL_DT = 'AYB' AND V_PREV_RULE_ID MEMBER OF V_BACKWARD_RULES)   THEN  --Tarih açıklamasına göre max 1 ay geriye atılması ve arka arkaya çalışmaması kararı alındı"
+            },
+            {
+              "line": 753,
+              "stepId": "P_FILL_BUCKETS-500",
+              "stepLine": 741,
+              "procedure": "P_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "P_POST_PROCESS(V_AS_OF_DT, V_UNQ_KEY, V_AMT, V_EXP_AMT, V_LAST_TRX_OF_MONTH_F, P_ONLINE_F, V_TRX_SRC, V_GENERAL_DT) ;"
+            },
+            {
+              "line": 760,
+              "stepId": "P_FILL_BUCKETS-500",
+              "stepLine": 741,
+              "procedure": "P_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "P_POST_PROCESS(V_AS_OF_DT, V_UNQ_KEY, V_AMT, V_EXP_AMT, V_LAST_TRX_OF_MONTH_F, P_ONLINE_F, V_TRX_SRC, V_GENERAL_DT);"
+            },
+            {
+              "line": 762,
+              "stepId": "P_FILL_BUCKETS-500",
+              "stepLine": 741,
+              "procedure": "P_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "ELSIF (V_GENERAL_DT = 'AYS' AND  V_PREV_RULE_ID MEMBER OF V_FORWARD_RULES)   THEN  --İgnore rule"
+            },
+            {
+              "line": 765,
+              "stepId": "P_FILL_BUCKETS-500",
+              "stepLine": 741,
+              "procedure": "P_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "P_POST_PROCESS(V_AS_OF_DT, V_UNQ_KEY, V_AMT, V_EXP_AMT, V_LAST_TRX_OF_MONTH_F, P_ONLINE_F, V_TRX_SRC, V_GENERAL_DT);"
+            },
+            {
+              "line": 773,
+              "stepId": "P_FILL_BUCKETS-500",
+              "stepLine": 741,
+              "procedure": "P_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "P_POST_PROCESS(V_AS_OF_DT, V_UNQ_KEY, V_AMT, V_EXP_AMT, V_LAST_TRX_OF_MONTH_F, P_ONLINE_F, V_TRX_SRC, V_GENERAL_DT);"
+            },
+            {
+              "line": 779,
+              "stepId": "P_FILL_BUCKETS-500",
+              "stepLine": 741,
+              "procedure": "P_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "P_POST_PROCESS(V_AS_OF_DT, V_UNQ_KEY, V_AMT, V_EXP_AMT, V_LAST_TRX_OF_MONTH_F, P_ONLINE_F, V_TRX_SRC, V_GENERAL_DT);"
+            },
+            {
+              "line": 786,
+              "stepId": "P_FILL_BUCKETS-500",
+              "stepLine": 741,
+              "procedure": "P_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "P_POST_PROCESS(V_AS_OF_DT, V_UNQ_KEY, V_AMT, V_EXP_AMT, V_LAST_TRX_OF_MONTH_F, P_ONLINE_F, V_TRX_SRC, V_GENERAL_DT) ;"
+            },
+            {
+              "line": 803,
+              "stepId": "P_FILL_BUCKETS-500",
+              "stepLine": 741,
+              "procedure": "P_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "P_POST_PROCESS(V_AS_OF_DT, V_UNQ_KEY, V_AMT, V_EXP_AMT, V_LAST_TRX_OF_MONTH_F, P_ONLINE_F, V_TRX_SRC, V_GENERAL_DT); /*Seçil Bayraktar Epic: MTS-5703 - SubTask:MTS-10588*/"
+            },
+            {
+              "line": 816,
+              "stepId": "P_FILL_BUCKETS-500",
+              "stepLine": 741,
+              "procedure": "P_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "P_POST_PROCESS(V_AS_OF_DT, V_UNQ_KEY, V_AMT, V_EXP_AMT, V_LAST_TRX_OF_MONTH_F, P_ONLINE_F, V_TRX_SRC, V_GENERAL_DT) ;"
+            },
+            {
+              "line": 818,
+              "stepId": "P_FILL_BUCKETS-500",
+              "stepLine": 741,
+              "procedure": "P_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "ELSIF V_AMT_SIMILAR = 'TB' AND V_CURR_TD = 'TD' AND V_PAST_TD IN ('TA','TD') AND V_GENERAL_DT = 'AYS' AND V_CURR_DT = 'AYS' AND V_EMPTY_BUCKET_DT is null"
+            },
+            {
+              "line": 825,
+              "stepId": "P_FILL_BUCKETS-500",
+              "stepLine": 741,
+              "procedure": "P_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "P_POST_PROCESS(V_AS_OF_DT, V_UNQ_KEY, V_AMT, V_EXP_AMT, V_LAST_TRX_OF_MONTH_F, P_ONLINE_F, V_TRX_SRC, V_GENERAL_DT) ;"
+            },
+            {
+              "line": 828,
+              "stepId": "P_FILL_BUCKETS-500",
+              "stepLine": 741,
+              "procedure": "P_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "ELSIF V_AMT_SIMILAR = 'TB' AND V_CURR_TD = 'TD' AND V_GENERAL_DT || V_CURR_DT IN ('AYBAYS', 'AYBORT', 'ORTAYS') AND"
+            },
+            {
+              "line": 835,
+              "stepId": "P_FILL_BUCKETS-500",
+              "stepLine": 741,
+              "procedure": "P_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "P_POST_PROCESS(V_AS_OF_DT, V_UNQ_KEY, V_AMT, V_EXP_AMT, V_LAST_TRX_OF_MONTH_F, P_ONLINE_F, V_TRX_SRC, V_GENERAL_DT) ;"
+            },
+            {
+              "line": 842,
+              "stepId": "P_FILL_BUCKETS-500",
+              "stepLine": 741,
+              "procedure": "P_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "P_POST_PROCESS(V_AS_OF_DT, V_UNQ_KEY, V_AMT, V_EXP_AMT, V_LAST_TRX_OF_MONTH_F, P_ONLINE_F, V_TRX_SRC, V_GENERAL_DT) ;"
+            },
+            {
+              "line": 845,
+              "stepId": "P_FILL_BUCKETS-500",
+              "stepLine": 741,
+              "procedure": "P_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "AND ((V_GENERAL_DT IN ('AYB','ORT') AND V_CURR_DT IN ('AYB', 'ORT')) OR (V_GENERAL_DT IN ('AYS','ORT') AND V_CURR_DT IN ('AYS', 'ORT'))) --zaman benzer"
+            },
+            {
+              "line": 850,
+              "stepId": "P_FILL_BUCKETS-500",
+              "stepLine": 741,
+              "procedure": "P_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "P_POST_PROCESS(V_AS_OF_DT, V_UNQ_KEY, V_AMT, V_EXP_AMT, V_LAST_TRX_OF_MONTH_F, P_ONLINE_F, V_TRX_SRC, V_GENERAL_DT) ;"
+            },
+            {
+              "line": 856,
+              "stepId": "P_FILL_BUCKETS-500",
+              "stepLine": 741,
+              "procedure": "P_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "P_POST_PROCESS(V_AS_OF_DT, V_UNQ_KEY, V_AMT, V_EXP_AMT, V_LAST_TRX_OF_MONTH_F, P_ONLINE_F, V_TRX_SRC, V_GENERAL_DT) ;"
+            },
+            {
+              "line": 858,
+              "stepId": "P_FILL_BUCKETS-500",
+              "stepLine": 741,
+              "procedure": "P_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "ELSIF V_AMT_SIMILAR IN ('TBD1','TBD2','TBD3') AND V_CURR_TD = 'TD' AND V_PAST_TD IN ('TB', 'TD') AND V_GENERAL_DT IN ('AYB','ORT') AND V_CURR_DT = 'AYS' AND V_AMT_TP = 1 THEN  --Kural 3  / T+1 action 0"
+            },
+            {
+              "line": 862,
+              "stepId": "P_FILL_BUCKETS-500",
+              "stepLine": 741,
+              "procedure": "P_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "P_POST_PROCESS(V_AS_OF_DT, V_UNQ_KEY, V_AMT, V_EXP_AMT, V_LAST_TRX_OF_MONTH_F, P_ONLINE_F, V_TRX_SRC, V_GENERAL_DT) ;"
+            },
+            {
+              "line": 865,
+              "stepId": "P_FILL_BUCKETS-500",
+              "stepLine": 741,
+              "procedure": "P_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "ELSIF V_AMT_SIMILAR = 'TB' AND V_CURR_TD = 'TB' AND V_PAST_TD = 'TB' AND V_GENERAL_DT || V_CURR_DT IN ('AYSAYB', 'ORTAYB', 'AYSORT') AND"
+            },
+            {
+              "line": 871,
+              "stepId": "P_FILL_BUCKETS-500",
+              "stepLine": 741,
+              "procedure": "P_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "P_POST_PROCESS(V_AS_OF_DT, V_UNQ_KEY, V_AMT, V_EXP_AMT, V_LAST_TRX_OF_MONTH_F, P_ONLINE_F, V_TRX_SRC, V_GENERAL_DT) ;"
+            },
+            {
+              "line": 878,
+              "stepId": "P_FILL_BUCKETS-500",
+              "stepLine": 741,
+              "procedure": "P_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "P_POST_PROCESS(V_AS_OF_DT, V_UNQ_KEY, V_AMT, V_EXP_AMT, V_LAST_TRX_OF_MONTH_F, P_ONLINE_F, V_TRX_SRC, V_GENERAL_DT) ;"
+            },
+            {
+              "line": 880,
+              "stepId": "P_FILL_BUCKETS-500",
+              "stepLine": 741,
+              "procedure": "P_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "ELSIF V_AMT_SIMILAR = 'TB' AND V_CURR_TD = 'TD' AND V_PAST_TD IN ('TA','TD') AND V_GENERAL_DT = 'AYS' AND V_CURR_DT = 'AYS'"
+            },
+            {
+              "line": 885,
+              "stepId": "P_FILL_BUCKETS-500",
+              "stepLine": 741,
+              "procedure": "P_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "P_POST_PROCESS(V_AS_OF_DT, V_UNQ_KEY, V_AMT, V_EXP_AMT, V_LAST_TRX_OF_MONTH_F, P_ONLINE_F, V_TRX_SRC, V_GENERAL_DT) ;"
+            },
+            {
+              "line": 887,
+              "stepId": "P_FILL_BUCKETS-500",
+              "stepLine": 741,
+              "procedure": "P_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "ELSIF V_AMT_SIMILAR = 'TB' AND V_CURR_TD = 'TD' AND V_PAST_TD IN ('TA','TD') AND V_GENERAL_DT IN ('AYS') AND V_CURR_DT = 'AYS'"
+            },
+            {
+              "line": 891,
+              "stepId": "P_FILL_BUCKETS-500",
+              "stepLine": 741,
+              "procedure": "P_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "P_POST_PROCESS(V_AS_OF_DT, V_UNQ_KEY, V_AMT, V_EXP_AMT, V_LAST_TRX_OF_MONTH_F, P_ONLINE_F, V_TRX_SRC, V_GENERAL_DT) ;"
+            },
+            {
+              "line": 893,
+              "stepId": "P_FILL_BUCKETS-500",
+              "stepLine": 741,
+              "procedure": "P_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "ELSIF V_AMT_SIMILAR = 'TB' AND V_CURR_TD = 'TD' AND V_PAST_TD IN ('TA','TD') AND V_GENERAL_DT = 'AYS' AND V_CURR_DT = 'AYS'"
+            },
+            {
+              "line": 898,
+              "stepId": "P_FILL_BUCKETS-500",
+              "stepLine": 741,
+              "procedure": "P_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "P_POST_PROCESS(V_AS_OF_DT, V_UNQ_KEY, V_AMT, V_EXP_AMT, V_LAST_TRX_OF_MONTH_F, P_ONLINE_F, V_TRX_SRC, V_GENERAL_DT) ;"
+            },
+            {
+              "line": 905,
+              "stepId": "P_FILL_BUCKETS-500",
+              "stepLine": 741,
+              "procedure": "P_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "P_POST_PROCESS(V_AS_OF_DT, V_UNQ_KEY, V_AMT, V_EXP_AMT, V_LAST_TRX_OF_MONTH_F, P_ONLINE_F, V_TRX_SRC, V_GENERAL_DT) ;"
+            },
+            {
+              "line": 910,
+              "stepId": "P_FILL_BUCKETS-500",
+              "stepLine": 741,
+              "procedure": "P_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "P_POST_PROCESS(V_AS_OF_DT, V_UNQ_KEY, V_AMT, V_EXP_AMT, V_LAST_TRX_OF_MONTH_F, P_ONLINE_F, V_TRX_SRC, V_GENERAL_DT) ;"
+            },
+            {
+              "line": 912,
+              "stepId": "P_FILL_BUCKETS-500",
+              "stepLine": 741,
+              "procedure": "P_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "ELSIF V_AMT_SIMILAR IN ('TB','TB2') AND V_CURR_TD = 'TA' AND V_PAST_TD = 'TD' AND V_GENERAL_DT = 'AYS' AND V_AMT_INC > 0 THEN  --Kural 100 / T  action 3.1"
+            },
+            {
+              "line": 916,
+              "stepId": "P_FILL_BUCKETS-500",
+              "stepLine": 741,
+              "procedure": "P_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "P_POST_PROCESS(V_AS_OF_DT, V_UNQ_KEY, V_AMT, V_EXP_AMT, V_LAST_TRX_OF_MONTH_F, P_ONLINE_F, V_TRX_SRC, V_GENERAL_DT);"
+            },
+            {
+              "line": 918,
+              "stepId": "P_FILL_BUCKETS-500",
+              "stepLine": 741,
+              "procedure": "P_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "ELSIF V_AMT_SIMILAR = 'TB' AND V_CURR_TD = 'TA' AND V_PAST_TD = 'TD' AND V_GENERAL_DT = 'AYS'  THEN  --Kural 10  / T action 3.2"
+            },
+            {
+              "line": 922,
+              "stepId": "P_FILL_BUCKETS-500",
+              "stepLine": 741,
+              "procedure": "P_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "P_POST_PROCESS(V_AS_OF_DT, V_UNQ_KEY, V_AMT, V_EXP_AMT, V_LAST_TRX_OF_MONTH_F, P_ONLINE_F, V_TRX_SRC, V_GENERAL_DT) ;"
+            },
+            {
+              "line": 924,
+              "stepId": "P_FILL_BUCKETS-500",
+              "stepLine": 741,
+              "procedure": "P_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "ELSIF V_AMT_SIMILAR IN ('TB','TB2') AND V_CURR_TD = 'TA' AND V_PAST_TD IN ('TD') AND V_GENERAL_DT IN ('AYB', 'ORT') AND V_AMT_INC > 0 THEN  --Kural 110 / T action 3.1"
+            },
+            {
+              "line": 928,
+              "stepId": "P_FILL_BUCKETS-500",
+              "stepLine": 741,
+              "procedure": "P_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "P_POST_PROCESS(V_AS_OF_DT, V_UNQ_KEY, V_AMT, V_EXP_AMT, V_LAST_TRX_OF_MONTH_F, P_ONLINE_F, V_TRX_SRC, V_GENERAL_DT) ;"
+            },
+            {
+              "line": 930,
+              "stepId": "P_FILL_BUCKETS-500",
+              "stepLine": 741,
+              "procedure": "P_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "ELSIF V_AMT_SIMILAR = 'TB' AND V_CURR_TD = 'TA' AND V_PAST_TD = 'TD' AND V_GENERAL_DT IN ('AYB', 'ORT') THEN  --Kural 11 /  T action 3.2"
+            },
+            {
+              "line": 934,
+              "stepId": "P_FILL_BUCKETS-500",
+              "stepLine": 741,
+              "procedure": "P_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "P_POST_PROCESS(V_AS_OF_DT, V_UNQ_KEY, V_AMT, V_EXP_AMT, V_LAST_TRX_OF_MONTH_F, P_ONLINE_F, V_TRX_SRC, V_GENERAL_DT) ;"
+            },
+            {
+              "line": 940,
+              "stepId": "P_FILL_BUCKETS-500",
+              "stepLine": 741,
+              "procedure": "P_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "P_POST_PROCESS(V_AS_OF_DT, V_UNQ_KEY, V_AMT, V_EXP_AMT, V_LAST_TRX_OF_MONTH_F, P_ONLINE_F, V_TRX_SRC, V_GENERAL_DT) ;"
+            },
+            {
+              "line": 946,
+              "stepId": "P_FILL_BUCKETS-500",
+              "stepLine": 741,
+              "procedure": "P_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "P_POST_PROCESS(V_AS_OF_DT, V_UNQ_KEY, V_AMT, V_EXP_AMT, V_LAST_TRX_OF_MONTH_F, P_ONLINE_F, V_TRX_SRC, V_GENERAL_DT) ;"
+            },
+            {
+              "line": 953,
+              "stepId": "P_FILL_BUCKETS-500",
+              "stepLine": 741,
+              "procedure": "P_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "P_POST_PROCESS(V_AS_OF_DT, V_UNQ_KEY, V_AMT, V_EXP_AMT, V_LAST_TRX_OF_MONTH_F, P_ONLINE_F, V_TRX_SRC, V_GENERAL_DT) ;"
+            },
+            {
+              "line": 959,
+              "stepId": "P_FILL_BUCKETS-500",
+              "stepLine": 741,
+              "procedure": "P_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "P_POST_PROCESS(V_AS_OF_DT, V_UNQ_KEY, V_AMT, V_EXP_AMT, V_LAST_TRX_OF_MONTH_F, P_ONLINE_F, V_TRX_SRC, V_GENERAL_DT) ;"
+            },
+            {
+              "line": 965,
+              "stepId": "P_FILL_BUCKETS-500",
+              "stepLine": 741,
+              "procedure": "P_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "P_POST_PROCESS(V_AS_OF_DT, V_UNQ_KEY, V_AMT, V_EXP_AMT, V_LAST_TRX_OF_MONTH_F, P_ONLINE_F, V_TRX_SRC, V_GENERAL_DT) ;"
+            },
+            {
+              "line": 971,
+              "stepId": "P_FILL_BUCKETS-500",
+              "stepLine": 741,
+              "procedure": "P_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "P_POST_PROCESS(V_AS_OF_DT, V_UNQ_KEY, V_AMT, V_EXP_AMT, V_LAST_TRX_OF_MONTH_F, P_ONLINE_F, V_TRX_SRC, V_GENERAL_DT) ;"
+            },
+            {
+              "line": 977,
+              "stepId": "P_FILL_BUCKETS-500",
+              "stepLine": 741,
+              "procedure": "P_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "P_POST_PROCESS(V_AS_OF_DT, V_UNQ_KEY, V_AMT, V_EXP_AMT, V_LAST_TRX_OF_MONTH_F, P_ONLINE_F, V_TRX_SRC, V_GENERAL_DT) ;"
+            },
+            {
+              "line": 984,
+              "stepId": "P_FILL_BUCKETS-500",
+              "stepLine": 741,
+              "procedure": "P_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "P_POST_PROCESS(V_AS_OF_DT, V_UNQ_KEY, V_AMT, V_EXP_AMT, V_LAST_TRX_OF_MONTH_F, P_ONLINE_F, V_TRX_SRC, V_GENERAL_DT) ;"
+            },
+            {
+              "line": 994,
+              "stepId": "P_FILL_BUCKETS-500",
+              "stepLine": 741,
+              "procedure": "P_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "PROCEDURE P_POST_PROCESS(P_AS_OF_DT DATE, P_UNQ_KEY VARCHAR2, P_AMT NUMBER, P_EXP_AMT NUMBER, P_LAST_TRX_OF_MONTH_F NUMBER, P_ONLINE_F NUMBER, P_TRX_SRC VARCHAR2,P_GENERAL_DT VARCHAR2) IS /*Seçil Bayraktar Epic: MTS-5703 - SubTask:MTS-10588*/"
+            },
+            {
+              "line": 1010,
+              "stepId": "P_FILL_BUCKETS-500",
+              "stepLine": 741,
+              "procedure": "P_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "P_T1_GENERAL_DT     VARCHAR2(10);"
+            },
+            {
+              "line": 1011,
+              "stepId": "P_FILL_BUCKETS-500",
+              "stepLine": 741,
+              "procedure": "P_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "P_T2_GENERAL_DT     VARCHAR2(10);"
+            },
+            {
+              "line": 1012,
+              "stepId": "P_FILL_BUCKETS-500",
+              "stepLine": 741,
+              "procedure": "P_FILL_BUCKETS_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "P_T3_GENERAL_DT     VARCHAR2(10);"
+            }
+          ]
+        },
+        {
+          "stepId": "P_POST_PROCESS-200",
+          "stepLine": 1039,
+          "procedure": "P_POST_PROCESS",
+          "occurrences": 23,
+          "references": [
+            {
+              "line": 1063,
+              "stepId": "P_POST_PROCESS-200",
+              "stepLine": 1039,
+              "procedure": "P_POST_PROCESS",
+              "type": "DIRECT_REFERENCE",
+              "text": "MAX(DECODE(BUCKET_DT, ADD_MONTHS(V_AS_OF_DT,-1), GENERAL_DT, null)) P_T1_GENERAL_DT,"
+            },
+            {
+              "line": 1064,
+              "stepId": "P_POST_PROCESS-200",
+              "stepLine": 1039,
+              "procedure": "P_POST_PROCESS",
+              "type": "DIRECT_REFERENCE",
+              "text": "MAX(DECODE(BUCKET_DT, ADD_MONTHS(V_AS_OF_DT,-2), GENERAL_DT, null)) P_T2_GENERAL_DT,"
+            },
+            {
+              "line": 1065,
+              "stepId": "P_POST_PROCESS-200",
+              "stepLine": 1039,
+              "procedure": "P_POST_PROCESS",
+              "type": "DIRECT_REFERENCE",
+              "text": "MAX(DECODE(BUCKET_DT, ADD_MONTHS(V_AS_OF_DT,-3), GENERAL_DT, null)) P_T3_GENERAL_DT"
+            },
+            {
+              "line": 1078,
+              "stepId": "P_POST_PROCESS-200",
+              "stepLine": 1039,
+              "procedure": "P_POST_PROCESS",
+              "type": "DIRECT_REFERENCE",
+              "text": "P_PAID_F, P_PAID_F_RSN,/* V_MULTI_TRX_DAY_CNT, */P_T1_GENERAL_DT, P_T2_GENERAL_DT, P_T3_GENERAL_DT /*Seçil Bayraktar MTS-11413*/"
+            },
+            {
+              "line": 1084,
+              "stepId": "P_POST_PROCESS-200",
+              "stepLine": 1039,
+              "procedure": "P_POST_PROCESS",
+              "type": "DIRECT_REFERENCE",
+              "text": "IF V_GENERAL_DT_ACTION_TMP IS NULL AND V_GENERAL_DT_ACTION_DATE IS NULL THEN"
+            },
+            {
+              "line": 1085,
+              "stepId": "P_POST_PROCESS-200",
+              "stepLine": 1039,
+              "procedure": "P_POST_PROCESS",
+              "type": "DIRECT_REFERENCE",
+              "text": "IF V_CURR_DT != V_GENERAL_DT AND V_CURR_DT = P_T1_CURR_DT AND P_TRX_SRC != 'ONL_TRX' AND /*Seçil Bayraktar Epic: MTS-5703 - SubTask:MTS-10588*/"
+            },
+            {
+              "line": 1086,
+              "stepId": "P_POST_PROCESS-200",
+              "stepLine": 1039,
+              "procedure": "P_POST_PROCESS",
+              "type": "DIRECT_REFERENCE",
+              "text": "(V_GENERAL_DT_ONL_TRX_DT IS NULL OR (V_TRX_DT >= TRUNC(ADD_MONTHS(V_GENERAL_DT_ONL_TRX_DT,8), 'MM') AND V_GENERAL_DT_ONL_TRX_DT IS NOT NULL)) THEN /*MTS-17940 Seçil Bayraktar*/"
+            },
+            {
+              "line": 1087,
+              "stepId": "P_POST_PROCESS-200",
+              "stepLine": 1039,
+              "procedure": "P_POST_PROCESS",
+              "type": "DIRECT_REFERENCE",
+              "text": "V_GENERAL_DT := V_CURR_DT;"
+            },
+            {
+              "line": 1088,
+              "stepId": "P_POST_PROCESS-200",
+              "stepLine": 1039,
+              "procedure": "P_POST_PROCESS",
+              "type": "DIRECT_REFERENCE",
+              "text": "ELSIF V_CURR_DT != V_GENERAL_DT AND P_T1_CURR_DT IS NULL AND V_CURR_DT = P_T2_CURR_DT AND P_TRX_SRC != 'ONL_TRX' AND /*Seçil Bayraktar Epic: MTS-5703 - SubTask:MTS-10588*/"
+            },
+            {
+              "line": 1089,
+              "stepId": "P_POST_PROCESS-200",
+              "stepLine": 1039,
+              "procedure": "P_POST_PROCESS",
+              "type": "DIRECT_REFERENCE",
+              "text": "(V_GENERAL_DT_ONL_TRX_DT IS NULL OR (V_TRX_DT >= TRUNC(ADD_MONTHS(V_GENERAL_DT_ONL_TRX_DT,8), 'MM') AND V_GENERAL_DT_ONL_TRX_DT IS NOT NULL)) THEN /*MTS-17940 Seçil Bayraktar*/"
+            },
+            {
+              "line": 1090,
+              "stepId": "P_POST_PROCESS-200",
+              "stepLine": 1039,
+              "procedure": "P_POST_PROCESS",
+              "type": "DIRECT_REFERENCE",
+              "text": "V_GENERAL_DT := V_CURR_DT;"
+            },
+            {
+              "line": 1092,
+              "stepId": "P_POST_PROCESS-200",
+              "stepLine": 1039,
+              "procedure": "P_POST_PROCESS",
+              "type": "DIRECT_REFERENCE",
+              "text": "ELSIF P_TRX_SRC = 'ONL_TRX' OR (P_TRX_SRC != 'ONL_TRX' AND V_TRX_DT < TRUNC(ADD_MONTHS(V_GENERAL_DT_ONL_TRX_DT,8), 'MM') AND V_GENERAL_DT_ONL_TRX_DT IS NOT NULL) THEN"
+            },
+            {
+              "line": 1093,
+              "stepId": "P_POST_PROCESS-200",
+              "stepLine": 1039,
+              "procedure": "P_POST_PROCESS",
+              "type": "DIRECT_REFERENCE",
+              "text": "V_GENERAL_DT := P_GENERAL_DT;"
+            },
+            {
+              "line": 1097,
+              "stepId": "P_POST_PROCESS-200",
+              "stepLine": 1039,
+              "procedure": "P_POST_PROCESS",
+              "type": "DIRECT_REFERENCE",
+              "text": "IF V_TRX_DT <= ADD_MONTHS(V_GENERAL_DT_ACTION_DATE, 5) AND V_GENERAL_DT_ACTION_TMP IS NOT NULL THEN"
+            },
+            {
+              "line": 1098,
+              "stepId": "P_POST_PROCESS-200",
+              "stepLine": 1039,
+              "procedure": "P_POST_PROCESS",
+              "type": "DIRECT_REFERENCE",
+              "text": "V_GENERAL_DT := V_GENERAL_DT_ACTION_TMP;"
+            },
+            {
+              "line": 1100,
+              "stepId": "P_POST_PROCESS-200",
+              "stepLine": 1039,
+              "procedure": "P_POST_PROCESS",
+              "type": "DIRECT_REFERENCE",
+              "text": "V_GENERAL_DT_ACTION_TMP := NULL;"
+            },
+            {
+              "line": 1101,
+              "stepId": "P_POST_PROCESS-200",
+              "stepLine": 1039,
+              "procedure": "P_POST_PROCESS",
+              "type": "DIRECT_REFERENCE",
+              "text": "V_GENERAL_DT_ACTION_DATE := NULL;"
+            },
+            {
+              "line": 1106,
+              "stepId": "P_POST_PROCESS-200",
+              "stepLine": 1039,
+              "procedure": "P_POST_PROCESS",
+              "type": "DIRECT_REFERENCE",
+              "text": "IF P_TRX_SRC = 'ONL_TRX' AND P_GENERAL_DT IS NOT NULL THEN"
+            },
+            {
+              "line": 1107,
+              "stepId": "P_POST_PROCESS-200",
+              "stepLine": 1039,
+              "procedure": "P_POST_PROCESS",
+              "type": "DIRECT_REFERENCE",
+              "text": "V_GENERAL_DT := P_GENERAL_DT;"
+            },
+            {
+              "line": 1179,
+              "stepId": "P_POST_PROCESS-200",
+              "stepLine": 1039,
+              "procedure": "P_POST_PROCESS",
+              "type": "DIRECT_REFERENCE",
+              "text": "(P_T1_GENERAL_DT = P_T1_CURR_DT) OR --Son ay (AS_OF_DT - 1 ay) gerçekleşen curr_dt, son ay (AS_OF_DT - 1 ay) hesaplanan general_dt ile eşleşiyor mu"
+            },
+            {
+              "line": 1180,
+              "stepId": "P_POST_PROCESS-200",
+              "stepLine": 1039,
+              "procedure": "P_POST_PROCESS",
+              "type": "DIRECT_REFERENCE",
+              "text": "(P_T2_CURR_DT IS NOT NULL AND P_T3_CURR_DT IS NOT NULL AND P_T1_GENERAL_DT = P_T2_CURR_DT AND P_T1_GENERAL_DT = P_T3_CURR_DT) OR"
+            },
+            {
+              "line": 1184,
+              "stepId": "P_POST_PROCESS-200",
+              "stepLine": 1039,
+              "procedure": "P_POST_PROCESS",
+              "type": "DIRECT_REFERENCE",
+              "text": "(P_T1_GENERAL_DT = P_T2_CURR_DT OR  P_T1_GENERAL_DT = P_T3_CURR_DT)"
+            },
+            {
+              "line": 1190,
+              "stepId": "P_POST_PROCESS-200",
+              "stepLine": 1039,
+              "procedure": "P_POST_PROCESS",
+              "type": "DIRECT_REFERENCE",
+              "text": "(P_T2_GENERAL_DT = NVL(P_T2_CURR_DT,'###') OR P_T2_GENERAL_DT = NVL(P_T3_CURR_DT,'###')) THEN"
+            }
+          ]
+        },
+        {
+          "stepId": "P_POST_PROCESS-300",
+          "stepLine": 1206,
+          "procedure": "P_POST_PROCESS",
+          "occurrences": 2,
+          "references": [
+            {
+              "line": 1213,
+              "stepId": "P_POST_PROCESS-300",
+              "stepLine": 1206,
+              "procedure": "P_POST_PROCESS",
+              "type": "DIRECT_REFERENCE",
+              "text": "A.GENERAL_DT = NVL(:V_GENERAL_DT, A.GENERAL_DT),"
+            },
+            {
+              "line": 1225,
+              "stepId": "P_POST_PROCESS-300",
+              "stepLine": 1206,
+              "procedure": "P_POST_PROCESS",
+              "type": "DIRECT_REFERENCE",
+              "text": "USING V_MULTI_F, V_CURR_DT, V_GENERAL_DT, V_EXP_AMT_CALCULATED, V_AMT_TP, P_PAID_F, P_PAID_F, P_TRX_SRC, V_DATE_TP, P_AS_OF_DT, P_UNQ_KEY, V_MONEY_TRANSFER_TP;  /*Seçil Bayraktar Epic: MTS-5703 - SubTask:MTS-10588*/"
+            }
+          ]
+        },
+        {
+          "stepId": "P_POST_BUCKET_CALC-100",
+          "stepLine": 1257,
+          "procedure": "P_POST_BUCKET_CALC",
+          "occurrences": 2,
+          "references": [
+            {
+              "line": 1291,
+              "stepId": "P_POST_BUCKET_CALC-100",
+              "stepLine": 1257,
+              "procedure": "P_POST_BUCKET_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "V_GENERAL_DT := null;"
+            },
+            {
+              "line": 1298,
+              "stepId": "P_POST_BUCKET_CALC-100",
+              "stepLine": 1257,
+              "procedure": "P_POST_BUCKET_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": "P_POST_PROCESS(UPDATE_TRX(I).BUCKET_DT, UPDATE_TRX(I).UNQ_KEY, UPDATE_TRX(I).AMT, UPDATE_TRX(I).EXP_AMT, 1, 0, UPDATE_TRX(I).TRX_SRC, V_GENERAL_DT); /*Seçil Bayraktar Epic: MTS-5703 - SubTask:MTS-10588*/"
+            }
+          ]
+        },
+        {
+          "stepId": "P_FILL_BUCKETS_CALC-600",
+          "stepLine": 1306,
+          "procedure": "P_POST_BUCKET_CALC",
+          "occurrences": 1,
+          "references": [
+            {
+              "line": 1310,
+              "stepId": "P_FILL_BUCKETS_CALC-600",
+              "stepLine": 1306,
+              "procedure": "P_POST_BUCKET_CALC",
+              "type": "DIRECT_REFERENCE",
+              "text": ", GENERAL_DT = null"
+            }
+          ]
+        },
+        {
+          "stepId": "P_UPDATE_BUCKET_ACTION_14",
+          "stepLine": 1950,
+          "procedure": "P_UPDATE_BUCKET_ACTION_14",
+          "occurrences": 3,
+          "references": [
+            {
+              "line": 1953,
+              "stepId": "P_UPDATE_BUCKET_ACTION_14",
+              "stepLine": 1950,
+              "procedure": "P_UPDATE_BUCKET_ACTION_14",
+              "type": "DIRECT_REFERENCE",
+              "text": "IF V_GENERAL_DT IS NOT NULL THEN"
+            },
+            {
+              "line": 1963,
+              "stepId": "P_UPDATE_BUCKET_ACTION_14",
+              "stepLine": 1950,
+              "procedure": "P_UPDATE_BUCKET_ACTION_14",
+              "type": "DIRECT_REFERENCE",
+              "text": "AND NVL(A.GENERAL_DT,'' '') = :V_GENERAL_DT"
+            },
+            {
+              "line": 1966,
+              "stepId": "P_UPDATE_BUCKET_ACTION_14",
+              "stepLine": 1950,
+              "procedure": "P_UPDATE_BUCKET_ACTION_14",
+              "type": "DIRECT_REFERENCE",
+              "text": "USING P_AMT, P_AMT, P_PAID_F_RSN, P_AS_OF_DT, P_UNQ_KEY, V_MONEY_TRANSFER_TP, V_GENERAL_DT;"
+            }
+          ]
+        }
+      ],
+      "indirectReferences": []
+    },
+    {
+      "packageName": "SNPADM.PKG_DA_PATTERN_DATA",
+      "directReferences": [
+        {
+          "stepId": "P_DA_MNY_TRNSFR_PATTERN_ORDR-100",
+          "stepLine": 1172,
+          "procedure": "P_DA_MNY_TRNSFR_PATTERN_ORDR",
+          "occurrences": 1,
+          "references": [
+            {
+              "line": 1306,
+              "stepId": "P_DA_MNY_TRNSFR_PATTERN_ORDR-100",
+              "stepLine": 1172,
+              "procedure": "P_DA_MNY_TRNSFR_PATTERN_ORDR",
+              "type": "DIRECT_REFERENCE",
+              "text": ", CAST(NULL AS VARCHAR2(10)) GENERAL_DT"
+            }
+          ]
+        },
+        {
+          "stepId": "P_DA_MNY_TRNSFR_PATTERN_ORDR-200",
+          "stepLine": 1468,
+          "procedure": "P_DA_MNY_TRNSFR_PATTERN_ORDR",
+          "occurrences": 1,
+          "references": [
+            {
+              "line": 1650,
+              "stepId": "P_DA_MNY_TRNSFR_PATTERN_ORDR-200",
+              "stepLine": 1468,
+              "procedure": "P_DA_MNY_TRNSFR_PATTERN_ORDR",
+              "type": "DIRECT_REFERENCE",
+              "text": ", CAST(NULL AS VARCHAR2(10)) GENERAL_DT"
+            }
+          ]
+        },
+        {
+          "stepId": "P_DA_MNY_TRNSFR_PATTERN_ORDR-201",
+          "stepLine": 1693,
+          "procedure": "P_DA_MNY_TRNSFR_PATTERN_ORDR",
+          "occurrences": 1,
+          "references": [
+            {
+              "line": 1711,
+              "stepId": "P_DA_MNY_TRNSFR_PATTERN_ORDR-201",
+              "stepLine": 1693,
+              "procedure": "P_DA_MNY_TRNSFR_PATTERN_ORDR",
+              "type": "DIRECT_REFERENCE",
+              "text": ", CAST(NULL AS VARCHAR2(10)) GENERAL_DT"
+            }
+          ]
+        },
+        {
+          "stepId": "P_DA_MNY_TRNSFR_PATTERN_ORDR-400",
+          "stepLine": 1734,
+          "procedure": "P_DA_MNY_TRNSFR_PATTERN_ORDR",
+          "occurrences": 2,
+          "references": [
+            {
+              "line": 1737,
+              "stepId": "P_DA_MNY_TRNSFR_PATTERN_ORDR-400",
+              "stepLine": 1734,
+              "procedure": "P_DA_MNY_TRNSFR_PATTERN_ORDR",
+              "type": "DIRECT_REFERENCE",
+              "text": "(AS_OF_DT, MONEY_TRANSFER_TP, UNQ_KEY,BUCKET_DT, CUST_ID, AMT_ORG, AMT, DELETED_AMT, CCY_CODE,PAID_F, TRX_CNT, MULTI_TRX_DAY_CNT, MULTI_F, CURR_DT, GENERAL_DT, EXP_AMT, AMT_TP, PPN_DT"
+            },
+            {
+              "line": 1740,
+              "stepId": "P_DA_MNY_TRNSFR_PATTERN_ORDR-400",
+              "stepLine": 1734,
+              "procedure": "P_DA_MNY_TRNSFR_PATTERN_ORDR",
+              "type": "DIRECT_REFERENCE",
+              "text": ", MONEY_TRANSFER_TP, UNQ_KEY, BUCKET_DT, CUST_ID, AMT_ORG, AMT, DELETED_AMT, CCY_CODE, PAID_F, TRX_CNT, MULTI_TRX_DAY_CNT, MULTI_F, CURR_DT, GENERAL_DT, EXP_AMT, AMT_TP"
+            }
+          ]
+        },
+        {
+          "stepId": "P_DA_MNY_TRNSFR_PATTERN_ORDR-600",
+          "stepLine": 1755,
+          "procedure": "P_DA_MNY_TRNSFR_PATTERN_ORDR",
+          "occurrences": 2,
+          "references": [
+            {
+              "line": 1758,
+              "stepId": "P_DA_MNY_TRNSFR_PATTERN_ORDR-600",
+              "stepLine": 1755,
+              "procedure": "P_DA_MNY_TRNSFR_PATTERN_ORDR",
+              "type": "DIRECT_REFERENCE",
+              "text": "(MONEY_TRANSFER_TP,AS_OF_DT, UNQ_KEY, CUST_ID, MULTI_F, GENERAL_DT, CCY_CODE, EXP_AMT"
+            },
+            {
+              "line": 1771,
+              "stepId": "P_DA_MNY_TRNSFR_PATTERN_ORDR-600",
+              "stepLine": 1755,
+              "procedure": "P_DA_MNY_TRNSFR_PATTERN_ORDR",
+              "type": "DIRECT_REFERENCE",
+              "text": "SELECT  /*+ PARALLEL(16)  */ MONEY_TRANSFER_TP, TO_DATE('''||P_AS_OF_DT||''',''YYYYMMDD'') AS_OF_DT, UNQ_KEY, CUST_ID, MULTI_F, GENERAL_DT, CCY_CODE"
+            }
+          ]
+        },
+        {
+          "stepId": "P_DA_MNY_TRNSFR_PATTERN_ORDR-655",
+          "stepLine": 1800,
+          "procedure": "P_DA_MNY_TRNSFR_PATTERN_ORDR",
+          "occurrences": 2,
+          "references": [
+            {
+              "line": 1803,
+              "stepId": "P_DA_MNY_TRNSFR_PATTERN_ORDR-655",
+              "stepLine": 1800,
+              "procedure": "P_DA_MNY_TRNSFR_PATTERN_ORDR",
+              "type": "DIRECT_REFERENCE",
+              "text": "(MONEY_TRANSFER_TP,AS_OF_DT, UNQ_KEY, CUST_ID, MULTI_F, GENERAL_DT, CCY_CODE, EXP_AMT"
+            },
+            {
+              "line": 1819,
+              "stepId": "P_DA_MNY_TRNSFR_PATTERN_ORDR-655",
+              "stepLine": 1800,
+              "procedure": "P_DA_MNY_TRNSFR_PATTERN_ORDR",
+              "type": "DIRECT_REFERENCE",
+              "text": "SELECT /*+ PARALLEL(16)  */ MONEY_TRANSFER_TP, AS_OF_DT+1 AS_OF_DT, UNQ_KEY, CUST_ID, MULTI_F, GENERAL_DT, CCY_CODE, EXP_AMT"
+            }
+          ]
+        },
+        {
+          "stepId": "P_DA_MNY_TRNSFR_CREATE_TRX-60",
+          "stepLine": 2878,
+          "procedure": "P_DA_MNY_TRNSFR_CREATE_TRX",
+          "occurrences": 1,
+          "references": [
+            {
+              "line": 2912,
+              "stepId": "P_DA_MNY_TRNSFR_CREATE_TRX-60",
+              "stepLine": 2878,
+              "procedure": "P_DA_MNY_TRNSFR_CREATE_TRX",
+              "type": "DIRECT_REFERENCE",
+              "text": ", A.GENERAL_DT"
+            }
+          ]
+        },
+        {
+          "stepId": "P_DA_MNY_TRNSFR_CREATE_TRX-100",
+          "stepLine": 2937,
+          "procedure": "P_DA_MNY_TRNSFR_CREATE_TRX",
+          "occurrences": 1,
+          "references": [
+            {
+              "line": 2973,
+              "stepId": "P_DA_MNY_TRNSFR_CREATE_TRX-100",
+              "stepLine": 2937,
+              "procedure": "P_DA_MNY_TRNSFR_CREATE_TRX",
+              "type": "DIRECT_REFERENCE",
+              "text": ", CAST(NULL AS VARCHAR2(3)) GENERAL_DT"
+            }
+          ]
+        },
+        {
+          "stepId": "P_DA_MNY_TRNSFR_CREATE_TRX-110",
+          "stepLine": 3010,
+          "procedure": "P_DA_MNY_TRNSFR_CREATE_TRX",
+          "occurrences": 2,
+          "references": [
+            {
+              "line": 3015,
+              "stepId": "P_DA_MNY_TRNSFR_CREATE_TRX-110",
+              "stepLine": 3010,
+              "procedure": "P_DA_MNY_TRNSFR_CREATE_TRX",
+              "type": "DIRECT_REFERENCE",
+              "text": "SENDER_ACCT_NAME_KEY,TRX_TP,PAYMENT_TP,UNQ_KEY,GENERAL_DT,EXP_AMT,AMT_TP,DATE_TP,EXP_DT_SRC,PTTRN_SRC)"
+            },
+            {
+              "line": 3019,
+              "stepId": "P_DA_MNY_TRNSFR_CREATE_TRX-110",
+              "stepLine": 3010,
+              "procedure": "P_DA_MNY_TRNSFR_CREATE_TRX",
+              "type": "DIRECT_REFERENCE",
+              "text": "SENDER_ACCT_NAME_KEY,TRX_TP,PAYMENT_TP,UNQ_KEY,GENERAL_DT,EXP_AMT,AMT_TP,DATE_TP,EXP_DT_SRC,PTTRN_SRC"
+            }
+          ]
+        },
+        {
+          "stepId": "P_DA_MNY_TRNSFR_CREATE_TRX-200",
+          "stepLine": 3038,
+          "procedure": "P_DA_MNY_TRNSFR_CREATE_TRX",
+          "occurrences": 1,
+          "references": [
+            {
+              "line": 3089,
+              "stepId": "P_DA_MNY_TRNSFR_CREATE_TRX-200",
+              "stepLine": 3038,
+              "procedure": "P_DA_MNY_TRNSFR_CREATE_TRX",
+              "type": "DIRECT_REFERENCE",
+              "text": ", A.GENERAL_DT"
+            }
+          ]
+        },
+        {
+          "stepId": "P_DA_MNY_TRNSFR_CREATE_TRX-300",
+          "stepLine": 3128,
+          "procedure": "P_DA_MNY_TRNSFR_CREATE_TRX",
+          "occurrences": 1,
+          "references": [
+            {
+              "line": 3156,
+              "stepId": "P_DA_MNY_TRNSFR_CREATE_TRX-300",
+              "stepLine": 3128,
+              "procedure": "P_DA_MNY_TRNSFR_CREATE_TRX",
+              "type": "DIRECT_REFERENCE",
+              "text": ", A.CRITERIA2 GENERAL_DT"
+            }
+          ]
+        },
+        {
+          "stepId": "P_DA_MNY_TRNSFR_CREATE_TRX-310",
+          "stepLine": 3181,
+          "procedure": "P_DA_MNY_TRNSFR_CREATE_TRX",
+          "occurrences": 1,
+          "references": [
+            {
+              "line": 3209,
+              "stepId": "P_DA_MNY_TRNSFR_CREATE_TRX-310",
+              "stepLine": 3181,
+              "procedure": "P_DA_MNY_TRNSFR_CREATE_TRX",
+              "type": "DIRECT_REFERENCE",
+              "text": ", A.CRITERIA2 GENERAL_DT"
+            }
+          ]
+        },
+        {
+          "stepId": "P_DA_MNY_TRNSFR_CREATE_TRX-320",
+          "stepLine": 3237,
+          "procedure": "P_DA_MNY_TRNSFR_CREATE_TRX",
+          "occurrences": 1,
+          "references": [
+            {
+              "line": 3264,
+              "stepId": "P_DA_MNY_TRNSFR_CREATE_TRX-320",
+              "stepLine": 3237,
+              "procedure": "P_DA_MNY_TRNSFR_CREATE_TRX",
+              "type": "DIRECT_REFERENCE",
+              "text": ", A.CRITERIA2 GENERAL_DT"
+            }
+          ]
+        },
+        {
+          "stepId": "P_DA_MNY_TRNSFR_CREATE_BUCKET-550-||P_MONEY_TRANSFER_TP",
+          "stepLine": 3631,
+          "procedure": "P_DA_MNY_TRNSFR_CREATE_BUCKET",
+          "occurrences": 3,
+          "references": [
+            {
+              "line": 3638,
+              "stepId": "P_DA_MNY_TRNSFR_CREATE_BUCKET-550-||P_MONEY_TRANSFER_TP",
+              "stepLine": 3631,
+              "procedure": "P_DA_MNY_TRNSFR_CREATE_BUCKET",
+              "type": "DIRECT_REFERENCE",
+              "text": "GENERAL_DT)"
+            },
+            {
+              "line": 3668,
+              "stepId": "P_DA_MNY_TRNSFR_CREATE_BUCKET-550-||P_MONEY_TRANSFER_TP",
+              "stepLine": 3631,
+              "procedure": "P_DA_MNY_TRNSFR_CREATE_BUCKET",
+              "type": "DIRECT_REFERENCE",
+              "text": ", A.GENERAL_DT"
+            },
+            {
+              "line": 3695,
+              "stepId": "P_DA_MNY_TRNSFR_CREATE_BUCKET-550-||P_MONEY_TRANSFER_TP",
+              "stepLine": 3631,
+              "procedure": "P_DA_MNY_TRNSFR_CREATE_BUCKET",
+              "type": "DIRECT_REFERENCE",
+              "text": "R.GENERAL_DT"
+            }
+          ]
+        },
+        {
+          "stepId": "P_DA_MNY_TRNSFR_CREATE_BUCKET-551-||P_MONEY_TRANSFER_TP",
+          "stepLine": 3708,
+          "procedure": "P_DA_MNY_TRNSFR_CREATE_BUCKET",
+          "occurrences": 2,
+          "references": [
+            {
+              "line": 3714,
+              "stepId": "P_DA_MNY_TRNSFR_CREATE_BUCKET-551-||P_MONEY_TRANSFER_TP",
+              "stepLine": 3708,
+              "procedure": "P_DA_MNY_TRNSFR_CREATE_BUCKET",
+              "type": "DIRECT_REFERENCE",
+              "text": "GENERAL_DT)"
+            },
+            {
+              "line": 3733,
+              "stepId": "P_DA_MNY_TRNSFR_CREATE_BUCKET-551-||P_MONEY_TRANSFER_TP",
+              "stepLine": 3708,
+              "procedure": "P_DA_MNY_TRNSFR_CREATE_BUCKET",
+              "type": "DIRECT_REFERENCE",
+              "text": ", A.GENERAL_DT"
+            }
+          ]
+        },
+        {
+          "stepId": "P_DA_MNY_TRNSFR_CREATE_BUCKET-552-||P_MONEY_TRANSFER_TP",
+          "stepLine": 3754,
+          "procedure": "P_DA_MNY_TRNSFR_CREATE_BUCKET",
+          "occurrences": 2,
+          "references": [
+            {
+              "line": 3761,
+              "stepId": "P_DA_MNY_TRNSFR_CREATE_BUCKET-552-||P_MONEY_TRANSFER_TP",
+              "stepLine": 3754,
+              "procedure": "P_DA_MNY_TRNSFR_CREATE_BUCKET",
+              "type": "DIRECT_REFERENCE",
+              "text": "GENERAL_DT)"
+            },
+            {
+              "line": 3781,
+              "stepId": "P_DA_MNY_TRNSFR_CREATE_BUCKET-552-||P_MONEY_TRANSFER_TP",
+              "stepLine": 3754,
+              "procedure": "P_DA_MNY_TRNSFR_CREATE_BUCKET",
+              "type": "DIRECT_REFERENCE",
+              "text": ", A.GENERAL_DT"
+            }
+          ]
+        },
+        {
+          "stepId": "P_DA_MNY_TRNSFR_CREATE_BUCKET-560-||P_MONEY_TRANSFER_TP",
+          "stepLine": 3797,
+          "procedure": "P_DA_MNY_TRNSFR_CREATE_BUCKET",
+          "occurrences": 3,
+          "references": [
+            {
+              "line": 3803,
+              "stepId": "P_DA_MNY_TRNSFR_CREATE_BUCKET-560-||P_MONEY_TRANSFER_TP",
+              "stepLine": 3797,
+              "procedure": "P_DA_MNY_TRNSFR_CREATE_BUCKET",
+              "type": "DIRECT_REFERENCE",
+              "text": "GENERAL_DT)"
+            },
+            {
+              "line": 3823,
+              "stepId": "P_DA_MNY_TRNSFR_CREATE_BUCKET-560-||P_MONEY_TRANSFER_TP",
+              "stepLine": 3797,
+              "procedure": "P_DA_MNY_TRNSFR_CREATE_BUCKET",
+              "type": "DIRECT_REFERENCE",
+              "text": ", A.GENERAL_DT"
+            },
+            {
+              "line": 3849,
+              "stepId": "P_DA_MNY_TRNSFR_CREATE_BUCKET-560-||P_MONEY_TRANSFER_TP",
+              "stepLine": 3797,
+              "procedure": "P_DA_MNY_TRNSFR_CREATE_BUCKET",
+              "type": "DIRECT_REFERENCE",
+              "text": "R.GENERAL_DT"
+            }
+          ]
+        },
+        {
+          "stepId": "P_DA_MNY_TRNSFR_CREATE_BUCKET-565-||P_MONEY_TRANSFER_TP",
+          "stepLine": 3862,
+          "procedure": "P_DA_MNY_TRNSFR_CREATE_BUCKET",
+          "occurrences": 4,
+          "references": [
+            {
+              "line": 3868,
+              "stepId": "P_DA_MNY_TRNSFR_CREATE_BUCKET-565-||P_MONEY_TRANSFER_TP",
+              "stepLine": 3862,
+              "procedure": "P_DA_MNY_TRNSFR_CREATE_BUCKET",
+              "type": "DIRECT_REFERENCE",
+              "text": "GENERAL_DT)"
+            },
+            {
+              "line": 3876,
+              "stepId": "P_DA_MNY_TRNSFR_CREATE_BUCKET-565-||P_MONEY_TRANSFER_TP",
+              "stepLine": 3862,
+              "procedure": "P_DA_MNY_TRNSFR_CREATE_BUCKET",
+              "type": "DIRECT_REFERENCE",
+              "text": ", GENERAL_DT"
+            },
+            {
+              "line": 3903,
+              "stepId": "P_DA_MNY_TRNSFR_CREATE_BUCKET-565-||P_MONEY_TRANSFER_TP",
+              "stepLine": 3862,
+              "procedure": "P_DA_MNY_TRNSFR_CREATE_BUCKET",
+              "type": "DIRECT_REFERENCE",
+              "text": ", A.GENERAL_DT"
+            },
+            {
+              "line": 3924,
+              "stepId": "P_DA_MNY_TRNSFR_CREATE_BUCKET-565-||P_MONEY_TRANSFER_TP",
+              "stepLine": 3862,
+              "procedure": "P_DA_MNY_TRNSFR_CREATE_BUCKET",
+              "type": "DIRECT_REFERENCE",
+              "text": "R.GENERAL_DT"
+            }
+          ]
+        },
+        {
+          "stepId": "P_DA_MNY_TRNSFR_CREATE_BUCKET-570-||P_MONEY_TRANSFER_TP",
+          "stepLine": 3938,
+          "procedure": "P_DA_MNY_TRNSFR_CREATE_BUCKET",
+          "occurrences": 4,
+          "references": [
+            {
+              "line": 3944,
+              "stepId": "P_DA_MNY_TRNSFR_CREATE_BUCKET-570-||P_MONEY_TRANSFER_TP",
+              "stepLine": 3938,
+              "procedure": "P_DA_MNY_TRNSFR_CREATE_BUCKET",
+              "type": "DIRECT_REFERENCE",
+              "text": "ACTION_HANDLER,GENERAL_DT) /*Seçil Bayraktar MTS-11413*/"
+            },
+            {
+              "line": 3950,
+              "stepId": "P_DA_MNY_TRNSFR_CREATE_BUCKET-570-||P_MONEY_TRANSFER_TP",
+              "stepLine": 3938,
+              "procedure": "P_DA_MNY_TRNSFR_CREATE_BUCKET",
+              "type": "DIRECT_REFERENCE",
+              "text": ", A.GENERAL_DT"
+            },
+            {
+              "line": 3958,
+              "stepId": "P_DA_MNY_TRNSFR_CREATE_BUCKET-570-||P_MONEY_TRANSFER_TP",
+              "stepLine": 3938,
+              "procedure": "P_DA_MNY_TRNSFR_CREATE_BUCKET",
+              "type": "DIRECT_REFERENCE",
+              "text": "GROUP BY UNQ_KEY, CUST_ID, TRX_DT, TRX_TM, DECODE(ACTION_TP,  ''NEXTBULKPAID'', ''BULKPAID'', ACTION_TP), ACTION_HANDLER, GENERAL_DT"
+            },
+            {
+              "line": 3979,
+              "stepId": "P_DA_MNY_TRNSFR_CREATE_BUCKET-570-||P_MONEY_TRANSFER_TP",
+              "stepLine": 3938,
+              "procedure": "P_DA_MNY_TRNSFR_CREATE_BUCKET",
+              "type": "DIRECT_REFERENCE",
+              "text": ", GENERAL_DT"
+            }
+          ]
+        },
+        {
+          "stepId": "P_DA_MNY_TRNSFR_CREATE_BUCKET-580-||P_MONEY_TRANSFER_TP",
+          "stepLine": 3989,
+          "procedure": "P_DA_MNY_TRNSFR_CREATE_BUCKET",
+          "occurrences": 4,
+          "references": [
+            {
+              "line": 3995,
+              "stepId": "P_DA_MNY_TRNSFR_CREATE_BUCKET-580-||P_MONEY_TRANSFER_TP",
+              "stepLine": 3989,
+              "procedure": "P_DA_MNY_TRNSFR_CREATE_BUCKET",
+              "type": "DIRECT_REFERENCE",
+              "text": "GENERAL_DT)"
+            },
+            {
+              "line": 4002,
+              "stepId": "P_DA_MNY_TRNSFR_CREATE_BUCKET-580-||P_MONEY_TRANSFER_TP",
+              "stepLine": 3989,
+              "procedure": "P_DA_MNY_TRNSFR_CREATE_BUCKET",
+              "type": "DIRECT_REFERENCE",
+              "text": ", A.GENERAL_DT"
+            },
+            {
+              "line": 4016,
+              "stepId": "P_DA_MNY_TRNSFR_CREATE_BUCKET-580-||P_MONEY_TRANSFER_TP",
+              "stepLine": 3989,
+              "procedure": "P_DA_MNY_TRNSFR_CREATE_BUCKET",
+              "type": "DIRECT_REFERENCE",
+              "text": "GROUP BY A.UNQ_KEY, A.CUST_ID, A.TRX_DT, A.TRX_TM, A.ACTION_TP, A.ACTION_HANDLER,A.GENERAL_DT"
+            },
+            {
+              "line": 4038,
+              "stepId": "P_DA_MNY_TRNSFR_CREATE_BUCKET-580-||P_MONEY_TRANSFER_TP",
+              "stepLine": 3989,
+              "procedure": "P_DA_MNY_TRNSFR_CREATE_BUCKET",
+              "type": "DIRECT_REFERENCE",
+              "text": ", GENERAL_DT"
+            }
+          ]
+        },
+        {
+          "stepId": "P_DA_MNY_TRNSFR_CREATE_BUCKET-590-||P_MONEY_TRANSFER_TP",
+          "stepLine": 4044,
+          "procedure": "P_DA_MNY_TRNSFR_CREATE_BUCKET",
+          "occurrences": 4,
+          "references": [
+            {
+              "line": 4051,
+              "stepId": "P_DA_MNY_TRNSFR_CREATE_BUCKET-590-||P_MONEY_TRANSFER_TP",
+              "stepLine": 4044,
+              "procedure": "P_DA_MNY_TRNSFR_CREATE_BUCKET",
+              "type": "DIRECT_REFERENCE",
+              "text": "GENERAL_DT)"
+            },
+            {
+              "line": 4057,
+              "stepId": "P_DA_MNY_TRNSFR_CREATE_BUCKET-590-||P_MONEY_TRANSFER_TP",
+              "stepLine": 4044,
+              "procedure": "P_DA_MNY_TRNSFR_CREATE_BUCKET",
+              "type": "DIRECT_REFERENCE",
+              "text": ", A.GENERAL_DT"
+            },
+            {
+              "line": 4065,
+              "stepId": "P_DA_MNY_TRNSFR_CREATE_BUCKET-590-||P_MONEY_TRANSFER_TP",
+              "stepLine": 4044,
+              "procedure": "P_DA_MNY_TRNSFR_CREATE_BUCKET",
+              "type": "DIRECT_REFERENCE",
+              "text": "GROUP BY UNQ_KEY, CUST_ID, TRX_DT, TRX_TM, ACTION_TP, FIELD_VALUE, ACTION_HANDLER,GENERAL_DT"
+            },
+            {
+              "line": 4086,
+              "stepId": "P_DA_MNY_TRNSFR_CREATE_BUCKET-590-||P_MONEY_TRANSFER_TP",
+              "stepLine": 4044,
+              "procedure": "P_DA_MNY_TRNSFR_CREATE_BUCKET",
+              "type": "DIRECT_REFERENCE",
+              "text": ", GENERAL_DT"
+            }
+          ]
+        },
+        {
+          "stepId": "P_DA_MNY_TRNSFR_CREATE_BUCKET-600-||P_MONEY_TRANSFER_TP",
+          "stepLine": 4095,
+          "procedure": "P_DA_MNY_TRNSFR_CREATE_BUCKET",
+          "occurrences": 1,
+          "references": [
+            {
+              "line": 4132,
+              "stepId": "P_DA_MNY_TRNSFR_CREATE_BUCKET-600-||P_MONEY_TRANSFER_TP",
+              "stepLine": 4095,
+              "procedure": "P_DA_MNY_TRNSFR_CREATE_BUCKET",
+              "type": "DIRECT_REFERENCE",
+              "text": ", CAST(NULL AS VARCHAR2(10)) GENERAL_DT"
+            }
+          ]
+        },
+        {
+          "stepId": "P_DA_MNY_TRNSFR_CREATE_BUCKET-1300-||P_MONEY_TRANSFER_TP",
+          "stepLine": 4292,
+          "procedure": "P_DA_MNY_TRNSFR_CREATE_BUCKET",
+          "occurrences": 2,
+          "references": [
+            {
+              "line": 4298,
+              "stepId": "P_DA_MNY_TRNSFR_CREATE_BUCKET-1300-||P_MONEY_TRANSFER_TP",
+              "stepLine": 4292,
+              "procedure": "P_DA_MNY_TRNSFR_CREATE_BUCKET",
+              "type": "DIRECT_REFERENCE",
+              "text": ", AMT, CCY_CODE, ACTION_TP, ACTION_PARAM, ORG_MONEY_TRANSFER_TP, EN_F, TRX_SRC,GENERAL_DT,EXP_AMT,AMT_TP,DATE_TP,EXP_DT_SRC, OPN_SRV_TRX /*Seçil QT-9041*/) /*Seçil Bayraktar Epic: MTS-5703 - SubTask:MTS-10588*/"
+            },
+            {
+              "line": 4314,
+              "stepId": "P_DA_MNY_TRNSFR_CREATE_BUCKET-1300-||P_MONEY_TRANSFER_TP",
+              "stepLine": 4292,
+              "procedure": "P_DA_MNY_TRNSFR_CREATE_BUCKET",
+              "type": "DIRECT_REFERENCE",
+              "text": ", GENERAL_DT"
+            }
+          ]
+        },
+        {
+          "stepId": "P_DA_MNY_TRNSFR_BUCKET_INS-101-||P_MONEY_TRANSFER_TP",
+          "stepLine": 4477,
+          "procedure": "P_DA_MNY_TRNSFR_BUCKET_INS",
+          "occurrences": 2,
+          "references": [
+            {
+              "line": 4480,
+              "stepId": "P_DA_MNY_TRNSFR_BUCKET_INS-101-||P_MONEY_TRANSFER_TP",
+              "stepLine": 4477,
+              "procedure": "P_DA_MNY_TRNSFR_BUCKET_INS",
+              "type": "DIRECT_REFERENCE",
+              "text": "(AS_OF_DT, MONEY_TRANSFER_TP, UNQ_KEY,BUCKET_DT, CUST_ID, AMT_ORG, AMT, DELETED_AMT, CCY_CODE,PAID_F, TRX_CNT, MULTI_TRX_DAY_CNT, MULTI_F, CURR_DT, GENERAL_DT, EXP_AMT, AMT_TP, PPN_DT"
+            },
+            {
+              "line": 4483,
+              "stepId": "P_DA_MNY_TRNSFR_BUCKET_INS-101-||P_MONEY_TRANSFER_TP",
+              "stepLine": 4477,
+              "procedure": "P_DA_MNY_TRNSFR_BUCKET_INS",
+              "type": "DIRECT_REFERENCE",
+              "text": ", MONEY_TRANSFER_TP, UNQ_KEY, BUCKET_DT, CUST_ID, AMT_ORG, AMT, DELETED_AMT, CCY_CODE, PAID_F, TRX_CNT, MULTI_TRX_DAY_CNT, MULTI_F, CURR_DT, GENERAL_DT, EXP_AMT, AMT_TP"
+            }
+          ]
+        },
+        {
+          "stepId": "P_DA_MNY_TRNSFR_PATTERN-10-||P_MONEY_TRANSFER_TP",
+          "stepLine": 4560,
+          "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+          "occurrences": 1,
+          "references": [
+            {
+              "line": 4567,
+              "stepId": "P_DA_MNY_TRNSFR_PATTERN-10-||P_MONEY_TRANSFER_TP",
+              "stepLine": 4560,
+              "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": "P.GENERAL_DT ,"
+            }
+          ]
+        },
+        {
+          "stepId": "P_DA_MNY_TRNSFR_PATTERN-70-||P_MONEY_TRANSFER_TP",
+          "stepLine": 4656,
+          "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+          "occurrences": 2,
+          "references": [
+            {
+              "line": 4660,
+              "stepId": "P_DA_MNY_TRNSFR_PATTERN-70-||P_MONEY_TRANSFER_TP",
+              "stepLine": 4656,
+              "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": "SELECT UNQ_KEY, CUST_ID, BUCKET_DT, AMT_ORG, AMT, EXP_AMT, AMT_TP, MULTI_F, GENERAL_DT,MONEY_TRANSFER_TP"
+            },
+            {
+              "line": 4673,
+              "stepId": "P_DA_MNY_TRNSFR_PATTERN-70-||P_MONEY_TRANSFER_TP",
+              "stepLine": 4656,
+              "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": ", CAST(NULL AS VARCHAR2(5)) GENERAL_DT_ONL /*Seçil Bayraktar MTS-17385*/"
+            }
+          ]
+        },
+        {
+          "stepId": "P_DA_MNY_TRNSFR_PATTERN-80-||P_MONEY_TRANSFER_TP",
+          "stepLine": 4686,
+          "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+          "occurrences": 2,
+          "references": [
+            {
+              "line": 4690,
+              "stepId": "P_DA_MNY_TRNSFR_PATTERN-80-||P_MONEY_TRANSFER_TP",
+              "stepLine": 4686,
+              "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": "SELECT UNQ_KEY, CUST_ID, BUCKET_DT, AMT_ORG, AMT, EXP_AMT, AMT_TP, MULTI_F, GENERAL_DT,MONEY_TRANSFER_TP"
+            },
+            {
+              "line": 4703,
+              "stepId": "P_DA_MNY_TRNSFR_PATTERN-80-||P_MONEY_TRANSFER_TP",
+              "stepLine": 4686,
+              "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": ", CAST(NULL AS VARCHAR2(5)) GENERAL_DT_ONL /*Seçil Bayraktar MTS-17385*/"
+            }
+          ]
+        },
+        {
+          "stepId": "P_DA_MNY_TRNSFR_PATTERN-100-||P_MONEY_TRANSFER_TP",
+          "stepLine": 4720,
+          "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+          "occurrences": 8,
+          "references": [
+            {
+              "line": 4754,
+              "stepId": "P_DA_MNY_TRNSFR_PATTERN-100-||P_MONEY_TRANSFER_TP",
+              "stepLine": 4720,
+              "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": "SELECT UNQ_KEY, CUST_ID, BUCKET_DT, AMT_ORG, AMT, EXP_AMT, AMT_TP, MULTI_F, GENERAL_DT,MONEY_TRANSFER_TP"
+            },
+            {
+              "line": 4759,
+              "stepId": "P_DA_MNY_TRNSFR_PATTERN-100-||P_MONEY_TRANSFER_TP",
+              "stepLine": 4720,
+              "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": ", GENERAL_DT_ONL /*Seçil Bayraktar MTS-17385*/"
+            },
+            {
+              "line": 4762,
+              "stepId": "P_DA_MNY_TRNSFR_PATTERN-100-||P_MONEY_TRANSFER_TP",
+              "stepLine": 4720,
+              "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": "SELECT UNQ_KEY, CUST_ID, BUCKET_DT, AMT_ORG, AMT, EXP_AMT, AMT_TP, MULTI_F, GENERAL_DT,MONEY_TRANSFER_TP"
+            },
+            {
+              "line": 4767,
+              "stepId": "P_DA_MNY_TRNSFR_PATTERN-100-||P_MONEY_TRANSFER_TP",
+              "stepLine": 4720,
+              "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": ", GENERAL_DT_ONL /*Seçil Bayraktar MTS-17385*/"
+            },
+            {
+              "line": 4772,
+              "stepId": "P_DA_MNY_TRNSFR_PATTERN-100-||P_MONEY_TRANSFER_TP",
+              "stepLine": 4720,
+              "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": "SELECT A.UNQ_KEY, A.CUST_ID, A.BUCKET_DT, A.AMT_ORG, A.AMT, P.EXP_AMT, P.AMT_TP, TO_CHAR(P.MULTI_F) MULTI_F, P.GENERAL_DT, A.MONEY_TRANSFER_TP"
+            },
+            {
+              "line": 4783,
+              "stepId": "P_DA_MNY_TRNSFR_PATTERN-100-||P_MONEY_TRANSFER_TP",
+              "stepLine": 4720,
+              "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": ", P.GENERAL_DT GENERAL_DT_ONL /*Seçil Bayraktar MTS-17385*/"
+            },
+            {
+              "line": 4797,
+              "stepId": "P_DA_MNY_TRNSFR_PATTERN-100-||P_MONEY_TRANSFER_TP",
+              "stepLine": 4720,
+              "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": ", A.GENERAL_DT"
+            },
+            {
+              "line": 4811,
+              "stepId": "P_DA_MNY_TRNSFR_PATTERN-100-||P_MONEY_TRANSFER_TP",
+              "stepLine": 4720,
+              "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": ", A.GENERAL_DT_ONL /*Seçil Bayraktar MTS-17385*/"
+            }
+          ]
+        },
+        {
+          "stepId": "P_DA_MNY_TRNSFR_PATTERN-202-||P_MONEY_TRANSFER_TP",
+          "stepLine": 4836,
+          "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+          "occurrences": 4,
+          "references": [
+            {
+              "line": 4837,
+              "stepId": "P_DA_MNY_TRNSFR_PATTERN-202-||P_MONEY_TRANSFER_TP",
+              "stepLine": 4836,
+              "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": "SNPADM.PKG_EDW_UTILITY.P_DROP_TABLE('DA_MT_PATTERN_GENERAL_DT_MATCH_'||P_MONEY_TRANSFER_TP||'_TMP');"
+            },
+            {
+              "line": 4839,
+              "stepId": "P_DA_MNY_TRNSFR_PATTERN-202-||P_MONEY_TRANSFER_TP",
+              "stepLine": 4836,
+              "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": "CREATE TABLE DA_MT_PATTERN_GENERAL_DT_MATCH_'||P_MONEY_TRANSFER_TP||'_TMP PARALLEL 8 PCTFREE 0 AS"
+            },
+            {
+              "line": 4844,
+              "stepId": "P_DA_MNY_TRNSFR_PATTERN-202-||P_MONEY_TRANSFER_TP",
+              "stepLine": 4836,
+              "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": ", B.GENERAL_DT"
+            },
+            {
+              "line": 4855,
+              "stepId": "P_DA_MNY_TRNSFR_PATTERN-202-||P_MONEY_TRANSFER_TP",
+              "stepLine": 4836,
+              "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": "AND A.CURR_DT =  B.GENERAL_DT"
+            }
+          ]
+        },
+        {
+          "stepId": "P_DA_MNY_TRNSFR_PATTERN-203-||P_MONEY_TRANSFER_TP",
+          "stepLine": 4861,
+          "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+          "occurrences": 4,
+          "references": [
+            {
+              "line": 4862,
+              "stepId": "P_DA_MNY_TRNSFR_PATTERN-203-||P_MONEY_TRANSFER_TP",
+              "stepLine": 4861,
+              "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": "SNPADM.PKG_EDW_UTILITY.P_DROP_TABLE('DA_MT_PATTERN_GENERAL_DT_NOT_MATCH_'||P_MONEY_TRANSFER_TP||'_TMP');"
+            },
+            {
+              "line": 4864,
+              "stepId": "P_DA_MNY_TRNSFR_PATTERN-203-||P_MONEY_TRANSFER_TP",
+              "stepLine": 4861,
+              "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": "CREATE TABLE DA_MT_PATTERN_GENERAL_DT_NOT_MATCH_'||P_MONEY_TRANSFER_TP||'_TMP PARALLEL 8 PCTFREE 0 AS"
+            },
+            {
+              "line": 4865,
+              "stepId": "P_DA_MNY_TRNSFR_PATTERN-203-||P_MONEY_TRANSFER_TP",
+              "stepLine": 4861,
+              "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": "SELECT /*+ FULL(A) */ A.UNQ_KEY, A.CURR_DT GENERAL_DT"
+            },
+            {
+              "line": 4882,
+              "stepId": "P_DA_MNY_TRNSFR_PATTERN-203-||P_MONEY_TRANSFER_TP",
+              "stepLine": 4861,
+              "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": "SELECT /*+ FULL(A) */A.UNQ_KEY, A.CURR_DT GENERAL_DT"
+            }
+          ]
+        },
+        {
+          "stepId": "P_DA_MNY_TRNSFR_PATTERN-204-||P_MONEY_TRANSFER_TP",
+          "stepLine": 4898,
+          "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+          "occurrences": 6,
+          "references": [
+            {
+              "line": 4899,
+              "stepId": "P_DA_MNY_TRNSFR_PATTERN-204-||P_MONEY_TRANSFER_TP",
+              "stepLine": 4898,
+              "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": "SNPADM.PKG_EDW_UTILITY.P_DROP_TABLE('DA_MT_PATTERN_GENERAL_DT_NOT_MATCH_ROWS_'||P_MONEY_TRANSFER_TP||'_TMP');"
+            },
+            {
+              "line": 4901,
+              "stepId": "P_DA_MNY_TRNSFR_PATTERN-204-||P_MONEY_TRANSFER_TP",
+              "stepLine": 4898,
+              "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": "CREATE TABLE DA_MT_PATTERN_GENERAL_DT_NOT_MATCH_ROWS_'||P_MONEY_TRANSFER_TP||'_TMP PARALLEL 8 PCTFREE 0 AS"
+            },
+            {
+              "line": 4906,
+              "stepId": "P_DA_MNY_TRNSFR_PATTERN-204-||P_MONEY_TRANSFER_TP",
+              "stepLine": 4898,
+              "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": ", B.GENERAL_DT"
+            },
+            {
+              "line": 4909,
+              "stepId": "P_DA_MNY_TRNSFR_PATTERN-204-||P_MONEY_TRANSFER_TP",
+              "stepLine": 4898,
+              "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": ", DA_MT_PATTERN_GENERAL_DT_NOT_MATCH_'||P_MONEY_TRANSFER_TP||'_TMP B"
+            },
+            {
+              "line": 4917,
+              "stepId": "P_DA_MNY_TRNSFR_PATTERN-204-||P_MONEY_TRANSFER_TP",
+              "stepLine": 4898,
+              "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": "AND A.CURR_DT =  B.GENERAL_DT"
+            },
+            {
+              "line": 4919,
+              "stepId": "P_DA_MNY_TRNSFR_PATTERN-204-||P_MONEY_TRANSFER_TP",
+              "stepLine": 4898,
+              "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": "AND NOT EXISTS (SELECT 1 FROM DA_MT_PATTERN_GENERAL_DT_MATCH_'||P_MONEY_TRANSFER_TP||'_TMP P WHERE P.UNQ_KEY = C.UNQ_KEY)"
+            }
+          ]
+        },
+        {
+          "stepId": "P_DA_MNY_TRNSFR_PATTERN-205-||P_MONEY_TRANSFER_TP",
+          "stepLine": 4924,
+          "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+          "occurrences": 6,
+          "references": [
+            {
+              "line": 4929,
+              "stepId": "P_DA_MNY_TRNSFR_PATTERN-205-||P_MONEY_TRANSFER_TP",
+              "stepLine": 4924,
+              "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": "SELECT 1 MATCH_F, A.* FROM DA_MT_PATTERN_GENERAL_DT_MATCH_'||P_MONEY_TRANSFER_TP||'_TMP A"
+            },
+            {
+              "line": 4931,
+              "stepId": "P_DA_MNY_TRNSFR_PATTERN-205-||P_MONEY_TRANSFER_TP",
+              "stepLine": 4924,
+              "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": "SELECT 0 MATCH_F, A.* FROM DA_MT_PATTERN_GENERAL_DT_NOT_MATCH_ROWS_'||P_MONEY_TRANSFER_TP||'_TMP A"
+            },
+            {
+              "line": 4952,
+              "stepId": "P_DA_MNY_TRNSFR_PATTERN-205-||P_MONEY_TRANSFER_TP",
+              "stepLine": 4924,
+              "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": "WHEN MAX(A.MATCH_F) = 0 THEN 2 --Son 3 aydaki hiçbir CURR_DT GENERAL_DT ile işleşmiyor ise"
+            },
+            {
+              "line": 4984,
+              "stepId": "P_DA_MNY_TRNSFR_PATTERN-205-||P_MONEY_TRANSFER_TP",
+              "stepLine": 4924,
+              "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": ", CASE WHEN MAX(P.GENERAL_DT_ONL) IS NOT NULL AND"
+            },
+            {
+              "line": 4987,
+              "stepId": "P_DA_MNY_TRNSFR_PATTERN-205-||P_MONEY_TRANSFER_TP",
+              "stepLine": 4924,
+              "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": "THEN MAX(P.GENERAL_DT_ONL)"
+            },
+            {
+              "line": 4989,
+              "stepId": "P_DA_MNY_TRNSFR_PATTERN-205-||P_MONEY_TRANSFER_TP",
+              "stepLine": 4924,
+              "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": "END AS GENERAL_DT"
+            }
+          ]
+        },
+        {
+          "stepId": "P_DA_MNY_TRNSFR_PATTERN-210-||P_MONEY_TRANSFER_TP",
+          "stepLine": 5005,
+          "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+          "occurrences": 6,
+          "references": [
+            {
+              "line": 5041,
+              "stepId": "P_DA_MNY_TRNSFR_PATTERN-210-||P_MONEY_TRANSFER_TP",
+              "stepLine": 5005,
+              "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": ", GENERAL_DT_TMP /*Seçil Bayraktar MTS-5516 SubTask MTS-5512 28.09.2020*/"
+            },
+            {
+              "line": 5050,
+              "stepId": "P_DA_MNY_TRNSFR_PATTERN-210-||P_MONEY_TRANSFER_TP",
+              "stepLine": 5005,
+              "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": "END AS GENERAL_DT_TMP"
+            },
+            {
+              "line": 5105,
+              "stepId": "P_DA_MNY_TRNSFR_PATTERN-210-||P_MONEY_TRANSFER_TP",
+              "stepLine": 5005,
+              "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": ", CASE WHEN O.GENERAL_DT IS NULL AND A.GENERAL_DT_TMP IS NOT NULL THEN A.GENERAL_DT_TMP"
+            },
+            {
+              "line": 5106,
+              "stepId": "P_DA_MNY_TRNSFR_PATTERN-210-||P_MONEY_TRANSFER_TP",
+              "stepLine": 5005,
+              "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": "WHEN O.GENERAL_DT IS NULL AND A.GENERAL_DT_TMP IS NULL THEN"
+            },
+            {
+              "line": 5108,
+              "stepId": "P_DA_MNY_TRNSFR_PATTERN-210-||P_MONEY_TRANSFER_TP",
+              "stepLine": 5005,
+              "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": "ELSE NVL(O.GENERAL_DT,PKG_DA_UTILITY.F_GET_CURR_DT(O.EXP_DT,'||V_PRM_CURR_DT_LIMIT_DT_CNT||'))"
+            },
+            {
+              "line": 5109,
+              "stepId": "P_DA_MNY_TRNSFR_PATTERN-210-||P_MONEY_TRANSFER_TP",
+              "stepLine": 5005,
+              "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": "END GENERAL_DT"
+            }
+          ]
+        },
+        {
+          "stepId": "P_DA_MNY_TRNSFR_PATTERN-910-||P_MONEY_TRANSFER_TP",
+          "stepLine": 5602,
+          "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+          "occurrences": 2,
+          "references": [
+            {
+              "line": 5608,
+              "stepId": "P_DA_MNY_TRNSFR_PATTERN-910-||P_MONEY_TRANSFER_TP",
+              "stepLine": 5602,
+              "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": "WHERE A.GENERAL_DT IS NOT NULL"
+            },
+            {
+              "line": 5617,
+              "stepId": "P_DA_MNY_TRNSFR_PATTERN-910-||P_MONEY_TRANSFER_TP",
+              "stepLine": 5602,
+              "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": "AND ACT.GENERAL_DT != NVL(E.GENERAL_DT,A.GENERAL_DT)"
+            }
+          ]
+        },
+        {
+          "stepId": "P_DA_MNY_TRNSFR_PATTERN-1000-||P_MONEY_TRANSFER_TP",
+          "stepLine": 5971,
+          "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+          "occurrences": 1,
+          "references": [
+            {
+              "line": 5988,
+              "stepId": "P_DA_MNY_TRNSFR_PATTERN-1000-||P_MONEY_TRANSFER_TP",
+              "stepLine": 5971,
+              "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": ", A.UNQ_KEY, A.CUST_ID, A.MULTI_F, E.GENERAL_DT /*Seçil Bayraktar MTS-17385*/"
+            }
+          ]
+        },
+        {
+          "stepId": "P_DA_MNY_TRNSFR_PATTERN-1400-||P_MONEY_TRANSFER_TP",
+          "stepLine": 6370,
+          "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+          "occurrences": 2,
+          "references": [
+            {
+              "line": 6373,
+              "stepId": "P_DA_MNY_TRNSFR_PATTERN-1400-||P_MONEY_TRANSFER_TP",
+              "stepLine": 6370,
+              "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": "(MONEY_TRANSFER_TP,AS_OF_DT, UNQ_KEY, CUST_ID, MULTI_F, GENERAL_DT, CCY_CODE, EXP_AMT"
+            },
+            {
+              "line": 6391,
+              "stepId": "P_DA_MNY_TRNSFR_PATTERN-1400-||P_MONEY_TRANSFER_TP",
+              "stepLine": 6370,
+              "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": "SELECT  /*+ PARALLEL(16)  */  '''||P_MONEY_TRANSFER_TP||''', TO_DATE('''||P_AS_OF_DT||''',''YYYYMMDD'') AS_OF_DT, UNQ_KEY, CUST_ID, MULTI_F, GENERAL_DT, CCY_CODE"
+            }
+          ]
+        },
+        {
+          "stepId": "P_DA_MNY_TRNSFR_PATTERN_POST-370",
+          "stepLine": 6636,
+          "procedure": "P_DA_MNY_TRNSFR_PATTERN_POST",
+          "occurrences": 2,
+          "references": [
+            {
+              "line": 6638,
+              "stepId": "P_DA_MNY_TRNSFR_PATTERN_POST-370",
+              "stepLine": 6636,
+              "procedure": "P_DA_MNY_TRNSFR_PATTERN_POST",
+              "type": "DIRECT_REFERENCE",
+              "text": "INSERT INTO EDW.DA_MONEY_TRANSFER_PATTERN A (MONEY_TRANSFER_TP, AS_OF_DT, UNQ_KEY, CUST_ID, MULTI_F, GENERAL_DT, CCY_CODE, EXP_AMT, AMT_TP, SENDER_ACCT_NO, SENDER_ACCT_TP, EXP_DT, BUCKET_DT, DATE_TP,"
+            },
+            {
+              "line": 6642,
+              "stepId": "P_DA_MNY_TRNSFR_PATTERN_POST-370",
+              "stepLine": 6636,
+              "procedure": "P_DA_MNY_TRNSFR_PATTERN_POST",
+              "type": "DIRECT_REFERENCE",
+              "text": "SELECT  MONEY_TRANSFER_TP, AS_OF_DT, UNQ_KEY, CUST_ID, 0 AS MULTI_F, NULL AS GENERAL_DT, CCY_CODE,  EXP_AMT, AMT_TP, NVL(SENDER_ACCT_NO,''0''), SENDER_ACCT_TP, EXP_DT, BUCKET_DT,1 AS DATE_TP,NULL AS PYMT_STR,"
+            }
+          ]
+        }
+      ],
+      "indirectReferences": []
+    }
+  ]
+}

@@ -1,0 +1,410 @@
+{
+  "timestamp": "2025-08-06T05:19:50.546Z",
+  "target": {
+    "schema": "SNPADM",
+    "table": "CDM.CC_DAILY",
+    "column": "STMT_GRP_ID"
+  },
+  "configuration": {
+    "maxDepth": 3,
+    "packageFilter": "ALL"
+  },
+  "summary": {
+    "totalPackages": 28,
+    "impactedPackages": 4,
+    "totalDependencies": 0,
+    "maxDepthReached": 0,
+    "transformationChains": 0,
+    "tempTableChains": 0,
+    "directOperations": 0,
+    "indirectOperations": 0
+  },
+  "packageAnalysis": [
+    {
+      "packageName": "SNPADM.PKG_DA_CC_EASY_INSTL",
+      "enhancedBackwardTracing": {
+        "target": {
+          "table": "CDM.CC_DAILY",
+          "column": "STMT_GRP_ID"
+        },
+        "dependencyLevels": [
+          {
+            "level": 0,
+            "description": "Direct operations on CDM.CC_DAILY.STMT_GRP_ID",
+            "dependencies": []
+          }
+        ],
+        "transformationChains": [],
+        "tempTableChains": [],
+        "crossPackageDependencies": [],
+        "summary": {
+          "totalDependencies": 0,
+          "maxDepthReached": 0,
+          "transformationCount": 0,
+          "tempTableCount": 0,
+          "stepHierarchyCount": 31,
+          "cumulativeFlowChainCount": 0,
+          "targetFlowPathCount": 5
+        }
+      },
+      "basicAnalysis": {
+        "directReferences": [
+          {
+            "stepId": "P_DA_CC_EASY_INSTL_STATS-20",
+            "stepLine": 180,
+            "procedure": "P_DA_CC_EASY_INSTL_STATS",
+            "occurrences": 1,
+            "references": [
+              {
+                "line": 186,
+                "stepId": "P_DA_CC_EASY_INSTL_STATS-20",
+                "stepLine": 180,
+                "procedure": "P_DA_CC_EASY_INSTL_STATS",
+                "type": "DIRECT_REFERENCE",
+                "text": "GROUP BY C.CUST_ID, C.CARD_NO, C.STMT_GRP_ID';"
+              }
+            ]
+          },
+          {
+            "stepId": "P_DA_CC_EASY_INSTL_STATS-25",
+            "stepLine": 190,
+            "procedure": "P_DA_CC_EASY_INSTL_STATS",
+            "occurrences": 1,
+            "references": [
+              {
+                "line": 199,
+                "stepId": "P_DA_CC_EASY_INSTL_STATS-25",
+                "stepLine": 190,
+                "procedure": "P_DA_CC_EASY_INSTL_STATS",
+                "type": "DIRECT_REFERENCE",
+                "text": "WHERE NVL(C.STMT_GRP_ID,''###'') = G.ST_GRP_CODE"
+              }
+            ]
+          }
+        ],
+        "indirectReferences": [],
+        "backwardFlow": [
+          {
+            "stepId": "P_DA_CC_EASY_INSTL_CUST-50",
+            "occurrences": 3,
+            "references": [
+              {
+                "line": 48,
+                "type": "SELECT_BACKWARD_FLOW",
+                "operation": "SELECT",
+                "targetTable": "CDM.CC_DAILY",
+                "targetColumn": "STMT_GRP_ID",
+                "sources": [
+                  {
+                    "type": "SIMPLE_COLUMN_REFERENCE",
+                    "sourceColumn": "STMT_GRP_ID",
+                    "targetColumn": "STMT_GRP_ID",
+                    "line": 48,
+                    "text": "CASE WHEN (C.CARD_ST_ID = ''N'' AND C.CARD_ST_ID_DRV = ''N'') THEN NVL(FC.STMT_GRP_ID,C.STMT_GRP_ID)"
+                  }
+                ],
+                "text": "CASE WHEN (C.CARD_ST_ID = ''N'' AND C.CARD_ST_ID_DRV = ''N'') THEN NVL(FC.STMT_GRP_ID,C.STMT_GRP_ID)",
+                "stepId": "P_DA_CC_EASY_INSTL_CUST-50"
+              },
+              {
+                "line": 49,
+                "type": "SELECT_BACKWARD_FLOW",
+                "operation": "SELECT",
+                "targetTable": "CDM.CC_DAILY",
+                "targetColumn": "STMT_GRP_ID",
+                "sources": [
+                  {
+                    "type": "SIMPLE_COLUMN_REFERENCE",
+                    "sourceColumn": "STMT_GRP_ID",
+                    "targetColumn": "STMT_GRP_ID",
+                    "line": 49,
+                    "text": "ELSE NVL(FC.STMT_GRP_ID,SC.STMT_GRP_ID )"
+                  }
+                ],
+                "text": "ELSE NVL(FC.STMT_GRP_ID,SC.STMT_GRP_ID )",
+                "stepId": "P_DA_CC_EASY_INSTL_CUST-50"
+              },
+              {
+                "line": 50,
+                "type": "SELECT_BACKWARD_FLOW",
+                "operation": "SELECT",
+                "targetTable": "CDM.CC_DAILY",
+                "targetColumn": "STMT_GRP_ID",
+                "sources": [
+                  {
+                    "type": "SIMPLE_COLUMN_REFERENCE",
+                    "sourceColumn": "STMT_GRP_ID",
+                    "targetColumn": "STMT_GRP_ID",
+                    "line": 50,
+                    "text": "END STMT_GRP_ID, C.P_CARD_NO, C.CARD_TP, C.CUR_CARD_NO,"
+                  }
+                ],
+                "text": "END STMT_GRP_ID, C.P_CARD_NO, C.CARD_TP, C.CUR_CARD_NO,",
+                "stepId": "P_DA_CC_EASY_INSTL_CUST-50"
+              }
+            ]
+          },
+          {
+            "stepId": "P_DA_CC_EASY_INSTL_STATS-10",
+            "occurrences": 1,
+            "references": [
+              {
+                "line": 118,
+                "type": "SELECT_BACKWARD_FLOW",
+                "operation": "SELECT",
+                "targetTable": "CDM.CC_DAILY",
+                "targetColumn": "STMT_GRP_ID",
+                "sources": [
+                  {
+                    "type": "SIMPLE_COLUMN_REFERENCE",
+                    "sourceColumn": "STMT_GRP_ID",
+                    "targetColumn": "STMT_GRP_ID",
+                    "line": 118,
+                    "text": "S.STMT_DT, C.STMT_GRP_ID, S.USER_CODE, S.TRX_CODE, S.TRX_SUB_CODE, S.PROV_CODE,"
+                  }
+                ],
+                "text": "S.STMT_DT, C.STMT_GRP_ID, S.USER_CODE, S.TRX_CODE, S.TRX_SUB_CODE, S.PROV_CODE,",
+                "stepId": "P_DA_CC_EASY_INSTL_STATS-10"
+              }
+            ]
+          },
+          {
+            "stepId": "P_DA_CC_EASY_INSTL_STATS-12",
+            "occurrences": 1,
+            "references": [
+              {
+                "line": 154,
+                "type": "SELECT_BACKWARD_FLOW",
+                "operation": "SELECT",
+                "targetTable": "CDM.CC_DAILY",
+                "targetColumn": "STMT_GRP_ID",
+                "sources": [
+                  {
+                    "type": "SIMPLE_COLUMN_REFERENCE",
+                    "sourceColumn": "STMT_GRP_ID",
+                    "targetColumn": "STMT_GRP_ID",
+                    "line": 154,
+                    "text": "A.STMT_DT, A.STMT_GRP_ID, A.USER_CODE, A.TRX_CODE, A.TRX_SUB_CODE, A.PROV_CODE,"
+                  }
+                ],
+                "text": "A.STMT_DT, A.STMT_GRP_ID, A.USER_CODE, A.TRX_CODE, A.TRX_SUB_CODE, A.PROV_CODE,",
+                "stepId": "P_DA_CC_EASY_INSTL_STATS-12"
+              }
+            ]
+          },
+          {
+            "stepId": "P_DA_CC_EASY_INSTL_STATS-20",
+            "occurrences": 1,
+            "references": [
+              {
+                "line": 184,
+                "type": "SELECT_BACKWARD_FLOW",
+                "operation": "SELECT",
+                "targetTable": "CDM.CC_DAILY",
+                "targetColumn": "STMT_GRP_ID",
+                "sources": [
+                  {
+                    "type": "SIMPLE_COLUMN_REFERENCE",
+                    "sourceColumn": "STMT_GRP_ID",
+                    "targetColumn": "STMT_GRP_ID",
+                    "line": 184,
+                    "text": "SELECT /*+ PARALLEL(16)*/ C.CUST_ID, C.CARD_NO, C.STMT_GRP_ID, MAX(C.STMT_DT) LAST_STMT_DT"
+                  }
+                ],
+                "text": "SELECT /*+ PARALLEL(16)*/ C.CUST_ID, C.CARD_NO, C.STMT_GRP_ID, MAX(C.STMT_DT) LAST_STMT_DT",
+                "stepId": "P_DA_CC_EASY_INSTL_STATS-20"
+              }
+            ]
+          }
+        ]
+      },
+      "summary": {
+        "totalDependencies": 0,
+        "maxDepthReached": 0,
+        "transformationCount": 0,
+        "tempTableCount": 0,
+        "basicReferences": 6
+      }
+    },
+    {
+      "packageName": "SNPADM.PKG_DA_CORP_CP_PATTERN_DATA",
+      "enhancedBackwardTracing": {
+        "target": {
+          "table": "CDM.CC_DAILY",
+          "column": "STMT_GRP_ID"
+        },
+        "dependencyLevels": [
+          {
+            "level": 0,
+            "description": "Direct operations on CDM.CC_DAILY.STMT_GRP_ID",
+            "dependencies": []
+          }
+        ],
+        "transformationChains": [],
+        "tempTableChains": [],
+        "crossPackageDependencies": [],
+        "summary": {
+          "totalDependencies": 0,
+          "maxDepthReached": 0,
+          "transformationCount": 0,
+          "tempTableCount": 0,
+          "stepHierarchyCount": 48,
+          "cumulativeFlowChainCount": 8,
+          "targetFlowPathCount": 1
+        }
+      },
+      "basicAnalysis": {
+        "directReferences": [
+          {
+            "stepId": "P_DA_CORP_CP_PATTERN-1030",
+            "stepLine": 1473,
+            "procedure": "P_DA_CORP_CP_NEXT_STMT_DT",
+            "occurrences": 1,
+            "references": [
+              {
+                "line": 1481,
+                "stepId": "P_DA_CORP_CP_PATTERN-1030",
+                "stepLine": 1473,
+                "procedure": "P_DA_CORP_CP_NEXT_STMT_DT",
+                "type": "DIRECT_REFERENCE",
+                "text": "WHERE C.STMT_GRP_ID = G.ST_GRP_CODE"
+              }
+            ]
+          }
+        ],
+        "indirectReferences": [],
+        "backwardFlow": []
+      },
+      "summary": {
+        "totalDependencies": 0,
+        "maxDepthReached": 0,
+        "transformationCount": 0,
+        "tempTableCount": 0,
+        "basicReferences": 1
+      }
+    },
+    {
+      "packageName": "SNPADM.PKG_DA_CP_PATTERN_DATA",
+      "enhancedBackwardTracing": {
+        "target": {
+          "table": "CDM.CC_DAILY",
+          "column": "STMT_GRP_ID"
+        },
+        "dependencyLevels": [
+          {
+            "level": 0,
+            "description": "Direct operations on CDM.CC_DAILY.STMT_GRP_ID",
+            "dependencies": []
+          }
+        ],
+        "transformationChains": [],
+        "tempTableChains": [],
+        "crossPackageDependencies": [],
+        "summary": {
+          "totalDependencies": 0,
+          "maxDepthReached": 0,
+          "transformationCount": 0,
+          "tempTableCount": 0,
+          "stepHierarchyCount": 59,
+          "cumulativeFlowChainCount": 8,
+          "targetFlowPathCount": 1
+        }
+      },
+      "basicAnalysis": {
+        "directReferences": [
+          {
+            "stepId": "P_DA_CP_PATTERN-1030",
+            "stepLine": 863,
+            "procedure": "P_DA_CP_NEXT_STMT_DT",
+            "occurrences": 1,
+            "references": [
+              {
+                "line": 871,
+                "stepId": "P_DA_CP_PATTERN-1030",
+                "stepLine": 863,
+                "procedure": "P_DA_CP_NEXT_STMT_DT",
+                "type": "DIRECT_REFERENCE",
+                "text": "WHERE C.STMT_GRP_ID = G.ST_GRP_CODE"
+              }
+            ]
+          }
+        ],
+        "indirectReferences": [],
+        "backwardFlow": []
+      },
+      "summary": {
+        "totalDependencies": 0,
+        "maxDepthReached": 0,
+        "transformationCount": 0,
+        "tempTableCount": 0,
+        "basicReferences": 1
+      }
+    },
+    {
+      "packageName": "SNPADM.PKG_DA_CUST_CP_STMT_ANALYTICS",
+      "enhancedBackwardTracing": {
+        "target": {
+          "table": "CDM.CC_DAILY",
+          "column": "STMT_GRP_ID"
+        },
+        "dependencyLevels": [
+          {
+            "level": 0,
+            "description": "Direct operations on CDM.CC_DAILY.STMT_GRP_ID",
+            "dependencies": []
+          }
+        ],
+        "transformationChains": [],
+        "tempTableChains": [],
+        "crossPackageDependencies": [],
+        "summary": {
+          "totalDependencies": 0,
+          "maxDepthReached": 0,
+          "transformationCount": 0,
+          "tempTableCount": 0,
+          "stepHierarchyCount": 3,
+          "cumulativeFlowChainCount": 0,
+          "targetFlowPathCount": 1
+        }
+      },
+      "basicAnalysis": {
+        "directReferences": [
+          {
+            "stepId": "P_DA_CUST_CP_STMT_ANALYTICS-10",
+            "stepLine": 38,
+            "procedure": "P_DA_CUST_CP_STMT_ANALYTICS",
+            "occurrences": 1,
+            "references": [
+              {
+                "line": 47,
+                "stepId": "P_DA_CUST_CP_STMT_ANALYTICS-10",
+                "stepLine": 38,
+                "procedure": "P_DA_CUST_CP_STMT_ANALYTICS",
+                "type": "DIRECT_REFERENCE",
+                "text": "WHERE C.STMT_GRP_ID = G.ST_GRP_CODE"
+              }
+            ]
+          }
+        ],
+        "indirectReferences": [],
+        "backwardFlow": []
+      },
+      "summary": {
+        "totalDependencies": 0,
+        "maxDepthReached": 0,
+        "transformationCount": 0,
+        "tempTableCount": 0,
+        "basicReferences": 1
+      }
+    }
+  ],
+  "globalDependencyLevels": [
+    {
+      "level": 0,
+      "description": "Direct operations on CDM.CC_DAILY.STMT_GRP_ID",
+      "dependencies": []
+    }
+  ],
+  "globalTransformationChains": [],
+  "globalTempTableChains": []
+}

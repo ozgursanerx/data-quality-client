@@ -1,0 +1,153 @@
+{
+  "timestamp": "2025-07-09T13:39:18.478Z",
+  "target": {
+    "schema": "SNPADM",
+    "table": "LOOKUP.LU_CCY",
+    "column": "CCY_ISO_CODE"
+  },
+  "summary": {
+    "totalPackages": 54,
+    "impactedPackages": 4,
+    "directReferences": 6,
+    "indirectReferences": 0,
+    "totalImpact": 6
+  },
+  "packageAnalysis": [
+    {
+      "packageName": "SNPADM.PKG_DA_CARDPLATFORMREMINDER",
+      "directReferences": [
+        {
+          "stepId": "P_CPR_TRX-30",
+          "stepLine": 99,
+          "procedure": "P_CPR_TRX",
+          "occurrences": 1,
+          "references": [
+            {
+              "line": 104,
+              "stepId": "P_CPR_TRX-30",
+              "stepLine": 99,
+              "procedure": "P_CPR_TRX",
+              "type": "DIRECT_REFERENCE",
+              "text": "A.CUST_ID, A.TRX_MRCHNT_ID, A.TRX_AMT_ORG, A.CCY_ISO_CODE, A.TRX_DT, A.TRX_DSC,"
+            }
+          ]
+        }
+      ],
+      "indirectReferences": []
+    },
+    {
+      "packageName": "SNPADM.PKG_DA_CORP_CP_PATTERN_DATA",
+      "directReferences": [
+        {
+          "stepId": "P_DA_CORP_CP_PATTERN-900",
+          "stepLine": 1051,
+          "procedure": "P_DA_CORP_CP_PYMT_BHVR",
+          "occurrences": 2,
+          "references": [
+            {
+              "line": 1057,
+              "stepId": "P_DA_CORP_CP_PATTERN-900",
+              "stepLine": 1051,
+              "procedure": "P_DA_CORP_CP_PYMT_BHVR",
+              "type": "DIRECT_REFERENCE",
+              "text": ", DECODE(B.CCY_ISO_CODE,''949'', ''YI'',''YD'') STMT_TP"
+            },
+            {
+              "line": 1058,
+              "stepId": "P_DA_CORP_CP_PATTERN-900",
+              "stepLine": 1051,
+              "procedure": "P_DA_CORP_CP_PYMT_BHVR",
+              "type": "DIRECT_REFERENCE",
+              "text": ", DECODE(B.CCY_ISO_CODE,''949'', TRX_AMT_DOM, TRX_AMT_INT) AMT"
+            }
+          ]
+        },
+        {
+          "stepId": "P_DA_CORP_CP_PATTERN-900_1",
+          "stepLine": 1075,
+          "procedure": "P_DA_CORP_CP_PYMT_BHVR",
+          "occurrences": 1,
+          "references": [
+            {
+              "line": 1082,
+              "stepId": "P_DA_CORP_CP_PATTERN-900_1",
+              "stepLine": 1075,
+              "procedure": "P_DA_CORP_CP_PYMT_BHVR",
+              "type": "DIRECT_REFERENCE",
+              "text": "SUM(DECODE(T.CCY_ISO_CODE,''949'', TRX_AMT_DOM, TRX_AMT_INT)) REFUND_AMT"
+            }
+          ]
+        }
+      ],
+      "indirectReferences": []
+    },
+    {
+      "packageName": "SNPADM.PKG_DA_CP_PATTERN_DATA",
+      "directReferences": [
+        {
+          "stepId": "P_DA_CP_PATTERN-900",
+          "stepLine": 2099,
+          "procedure": "P_DA_CP_PYMT_BHVR",
+          "occurrences": 2,
+          "references": [
+            {
+              "line": 2105,
+              "stepId": "P_DA_CP_PATTERN-900",
+              "stepLine": 2099,
+              "procedure": "P_DA_CP_PYMT_BHVR",
+              "type": "DIRECT_REFERENCE",
+              "text": ", DECODE(B.CCY_ISO_CODE,''949'', ''YI'',''YD'') STMT_TP"
+            },
+            {
+              "line": 2106,
+              "stepId": "P_DA_CP_PATTERN-900",
+              "stepLine": 2099,
+              "procedure": "P_DA_CP_PYMT_BHVR",
+              "type": "DIRECT_REFERENCE",
+              "text": ", DECODE(B.CCY_ISO_CODE,''949'', TRX_AMT_DOM, TRX_AMT_INT) AMT"
+            }
+          ]
+        }
+      ],
+      "indirectReferences": []
+    },
+    {
+      "packageName": "SNPADM.PKG_DA_CP_PLATFORM_REMINDER",
+      "directReferences": [
+        {
+          "stepId": "DA_CP_PLATFORM_REMINDER-30",
+          "stepLine": 162,
+          "procedure": "P_DA_CPR_TRX",
+          "occurrences": 1,
+          "references": [
+            {
+              "line": 193,
+              "stepId": "DA_CP_PLATFORM_REMINDER-30",
+              "stepLine": 162,
+              "procedure": "P_DA_CPR_TRX",
+              "type": "DIRECT_REFERENCE",
+              "text": "AND A.CCY_ISO_CODE = D.CCY_ISO_CODE"
+            }
+          ]
+        },
+        {
+          "stepId": "DA_CP_PLATFORM_REMINDER-111",
+          "stepLine": 721,
+          "procedure": "P_DA_CCT_TRX",
+          "occurrences": 1,
+          "references": [
+            {
+              "line": 754,
+              "stepId": "DA_CP_PLATFORM_REMINDER-111",
+              "stepLine": 721,
+              "procedure": "P_DA_CCT_TRX",
+              "type": "DIRECT_REFERENCE",
+              "text": "AND A.TRX_LOC_CUR_CODE = D.CCY_ISO_CODE"
+            }
+          ]
+        }
+      ],
+      "indirectReferences": []
+    }
+  ]
+}

@@ -6,13 +6,21 @@
 
 body {
   background-color: var(--cui-tertiary-bg);
+  min-height: 100vh;
 }
 
 .wrapper {
   width: 100%;
   padding-inline: var(--cui-sidebar-occupy-start, 0) var(--cui-sidebar-occupy-end, 0);
   will-change: auto;
+  background-color: var(--cui-tertiary-bg);
+  min-height: 100vh;
   @include transition(padding .15s);
+}
+
+.body {
+  background-color: var(--cui-tertiary-bg);
+  min-height: calc(100vh - 4rem);
 }
 
 .header > .container-fluid,
@@ -61,7 +69,72 @@ body {
     background-color: var(--cui-dark-bg-subtle);
   }
 
+  .wrapper {
+    background-color: var(--cui-dark-bg-subtle);
+  }
+
+  .body {
+    background-color: var(--cui-dark-bg-subtle);
+  }
+
   .footer {
     --cui-footer-bg: var(--cui-body-bg);
   }
+}
+
+// Custom table sticky header fix - Ultra aggressive
+.custom-table-container {
+  table {
+    thead {
+      position: sticky !important;
+      top: 0 !important;
+      z-index: 1000 !important;
+      display: table-header-group !important;
+      
+      tr {
+        background-image: none !important;
+      }
+      
+      th.custom-table-header {
+        background-color: #ffffff !important;
+        background-image: none !important;
+        background: #ffffff !important;
+        position: sticky !important;
+        top: 0 !important;
+        z-index: 1001 !important;
+        box-shadow: inset 0 -1px 0 var(--cui-border-color), 0 1px 2px rgba(0,0,0,0.05) !important;
+      }
+    }
+    
+    // Ensure tbody rows don't overlap header
+    tbody tr {
+      position: relative;
+      z-index: 1;
+    }
+  }
+}
+
+@include color-mode(dark) {
+  .custom-table-container {
+    table {
+      thead {
+        th.custom-table-header {
+          background-color: #212529 !important;
+          background-image: none !important;
+          background: #212529 !important;
+        }
+      }
+    }
+  }
+}
+
+// Override Bootstrap table-striped for header
+.custom-table-container table.table-striped > thead > tr > th {
+  background-color: inherit !important;
+  background-image: none !important;
+}
+
+.custom-table-container table.table-striped > thead > tr {
+  background-color: inherit !important;
+  background-image: none !important;
 }

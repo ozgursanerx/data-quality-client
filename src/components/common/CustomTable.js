@@ -64,6 +64,19 @@ const CustomTable = ({
     return null;
   }
 
+  // Get header background color - try to detect dark mode
+  const getHeaderBg = () => {
+    if (typeof window !== 'undefined') {
+      const isDark = document.documentElement.getAttribute('data-coreui-theme') === 'dark' ||
+                    document.documentElement.classList.contains('dark') ||
+                    window.matchMedia('(prefers-color-scheme: dark)').matches;
+      return isDark ? '#212529' : '#ffffff';
+    }
+    return '#ffffff';
+  };
+
+  const headerBg = getHeaderBg();
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
       <div className="custom-table-container" style={{ 
@@ -73,15 +86,24 @@ const CustomTable = ({
         position: 'relative',
         backgroundColor: 'var(--cui-table-bg)'
       }}>
-        <table className="table table-sm table-hover table-striped mb-0" style={{ position: 'relative' }}>
-          <thead style={{ position: 'sticky', top: 0, zIndex: 2, backgroundColor: 'var(--cui-table-header-bg)' }}>
-            <tr>
+        <table className="table table-sm table-hover mb-0" style={{ position: 'relative', width: '100%' }}>
+          <thead style={{
+            position: 'sticky',
+            top: 0,
+            zIndex: 1000,
+            backgroundColor: headerBg,
+            display: 'table-header-group'
+          }}>
+            <tr style={{
+              backgroundColor: headerBg,
+              backgroundImage: 'none !important'
+            }}>
               {columns.map((column, index) => (
                 <th 
                   key={index}
-                  className="text-center"
+                  className="text-center custom-table-header"
                   onClick={(e) => e.preventDefault()}
-                  title={column.tooltip} // Adding tooltip
+                  title={column.tooltip}
                   style={{
                     borderRight: index !== columns.length - 1 ? '1px solid var(--cui-border-color)' : 'none',
                     borderBottom: '2px solid var(--cui-border-color)',
@@ -91,8 +113,14 @@ const CustomTable = ({
                     fontSize: '0.875rem',
                     color: 'var(--cui-body-color)',
                     whiteSpace: 'nowrap',
-                    backgroundColor: 'inherit',
-                    cursor: 'help' // Changed cursor to help to indicate tooltip
+                    cursor: 'help',
+                    position: 'sticky',
+                    top: 0,
+                    zIndex: 1001,
+                    backgroundColor: headerBg,
+                    backgroundImage: 'none !important',
+                    background: `${headerBg} !important`,
+                    boxShadow: 'inset 0 -1px 0 var(--cui-border-color), 0 1px 2px rgba(0,0,0,0.05)'
                   }}
                 >
                   {column.header}
@@ -106,7 +134,8 @@ const CustomTable = ({
                 key={rowIndex}
                 onClick={() => onRowClick && onRowClick(item)}
                 style={{
-                  cursor: onRowClick ? 'pointer' : 'default'
+                  cursor: onRowClick ? 'pointer' : 'default',
+                  backgroundColor: rowIndex % 2 === 0 ? 'var(--cui-table-bg, transparent)' : 'var(--cui-table-striped-bg, rgba(0,0,0,0.02))'
                 }}
                 className={onRowClick ? 'table-row-hover' : ''}
               >

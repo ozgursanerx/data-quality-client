@@ -11,7 +11,6 @@ import {
   cilNotes,
   cilPencil,
   cilPuzzle,
-  cilSpeedometer,
   cilStar,
   cilStorage,
   cilMonitor,
@@ -20,16 +19,6 @@ import {
 import { CNavGroup, CNavItem, CNavTitle } from '@coreui/react'
 
 const _nav = [
-  {
-    component: CNavItem,
-    name: 'Dashboard',
-    to: '/dashboard',
-    icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
-    badge: {
-      color: 'info',
-      text: 'NEW',
-    },
-  },
   {
     component: CNavTitle,
     name: 'Veri Analizi',
@@ -51,12 +40,6 @@ const _nav = [
     name: 'Paket Analizi',
     to: '/package-analysis',
     icon: <CIcon icon={cilPuzzle} customClassName="nav-icon" />,
-  },
-  {
-    component: CNavItem,
-    name: 'Anomali Tespiti',
-    to: '/anomaly-detection',
-    icon: <CIcon icon={cilBell} customClassName="nav-icon" />,
   },
   {
     component: CNavItem,

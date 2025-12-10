@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import path from 'node:path'
+import { fileURLToPath, URL } from 'node:url'
 import autoprefixer from 'autoprefixer'
 
 export default defineConfig(() => {
@@ -8,6 +9,18 @@ export default defineConfig(() => {
     base: './',
     build: {
       outDir: 'build',
+      minify: 'esbuild', // esbuild daha hızlı ve varsayılan
+      sourcemap: false,
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            'react-vendor': ['react', 'react-dom', 'react-router-dom'],
+            'ui-vendor': ['@coreui/react'],
+            'chart-vendor': ['chart.js', 'react-chartjs-2'],
+            'd3-vendor': ['d3', 'd3-hierarchy', 'd3-selection', 'd3-zoom'],
+          }
+        }
+      }
     },
     css: {
       postcss: {
@@ -34,7 +47,7 @@ export default defineConfig(() => {
       alias: [
         {
           find: 'src/',
-          replacement: `${path.resolve(__dirname, 'src')}/`,
+          replacement: `${path.resolve(path.dirname(fileURLToPath(import.meta.url)), 'src')}/`,
         },
       ],
       extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.scss'],

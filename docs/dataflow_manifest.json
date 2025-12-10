@@ -1,0 +1,101 @@
+[
+  {
+    "key": "customernumber",
+    "label": "CUSTOMERNUMBER Analizi",
+    "file": "customernumber_dataflow_report.json",
+    "defaultParams": {
+      "schema": "EDW",
+      "table": "CLLTN_PLTFRM_CUSTMR_DCSN",
+      "column": "CUSTOMERNUMBER"
+    }
+  },
+  {
+    "key": "card_tp",
+    "label": "CARD_TP Analizi",
+    "file": "card_tp_dataflow_report.json",
+    "defaultParams": {
+      "schema": "SNPADM",
+      "table": "CDM.CC_DAILY",
+      "column": "CARD_TP"
+    }
+  },
+  {
+    "key": "cust_id",
+    "label": "CUST_ID Analizi",
+    "file": "cust_id_dataflow_report.json",
+    "defaultParams": {
+      "schema": "SNPADM",
+      "table": "EDWCRM.CRM_WNC_CUSTOMER",
+      "column": "CUST_ID"
+    }
+  },
+  {
+    "key": "terminal_card_acceptor",
+    "label": "TERMINAL_CARD_ACCEPTOR Analizi",
+    "file": "terminal_card_acceptor_dataflow_report.json",
+    "defaultParams": {
+      "schema": "SNPADM",
+      "table": "EDW.TRX_ATM",
+      "column": "TERMINAL_CARD_ACCEPTOR"
+    }
+  },
+  {
+    "key": "ccy_iso_code",
+    "label": "CCY_ISO_CODE Analizi",
+    "file": "ccy_iso_code_dataflow_report.json",
+    "defaultParams": {
+      "schema": "SNPADM",
+      "table": "LOOKUP.LU_CCY",
+      "column": "CCY_ISO_CODE"
+    }
+  },
+  {
+    "key": "trf_sub_tp",
+    "label": "TRF_SUB_TP Analizi",
+    "file": "trf_sub_tp_dataflow_report.json",
+    "defaultParams": {
+      "schema": "SNPADM",
+      "table": "EDW.TRF",
+      "column": "TRF_SUB_TP"
+    }
+  },
+  {
+    "key": "salary_pymnt_f",
+    "label": "SALARY_PYMNT_F Analizi",
+    "file": "salary_pymnt_f_dataflow_report.json",
+    "defaultParams": {
+        "schema": "SNPADM",
+        "table": "EDW.DA_ACTION_DATA_HIST",
+        "column": "SALARY_PYMNT_F"
+    }
+  },
+  {
+    "key": "general_dt",
+    "label": "GENERAL_DT Analizi",
+    "file": "general_dt_dataflow_report.json",
+    "defaultParams": {
+        "schema": "SNPADM",
+        "table": "EDW.DA_ACTION_DATA_HIST",
+        "column": "GENERAL_DT"
+    }
+  },
+  {
+    "key": "stmt_grp_id",
+    "label": "STMT_GRP_ID Enhanced Backward Tracing",
+    "file": "stmt_grp_id_enhanced_backward_tracing_report_2025-08-05_12-14-59.json",
+    "defaultParams": {
+        "schema": "SNPADM",
+        "table": "CDM.CC_DAILY",
+        "column": "STMT_GRP_ID"
+    }
+  }, {
+    "key": "opening_src",
+    "label": "OPENING_SRC Enhanced Backward Tracing",
+    "file": "opening_src_dataflow_report_2025-11-10_08-33-48.json",
+    "defaultParams": {
+        "schema": "SNPADM",
+        "table": "EDW.ACCT",
+        "column": "OPENING_SRC"
+    }
+  }
+] 

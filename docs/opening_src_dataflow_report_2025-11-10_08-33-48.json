@@ -1,0 +1,687 @@
+{
+  "timestamp": "2025-11-10T08:33:42.851Z",
+  "target": {
+    "schema": "SNPADM",
+    "table": "EDW.ACCT",
+    "column": "OPENING_SRC"
+  },
+  "summary": {
+    "totalPackages": 29,
+    "impactedPackages": 6,
+    "directReferences": 3,
+    "indirectReferences": 0,
+    "backwardFlowReferences": 6,
+    "totalImpact": 9
+  },
+  "packageAnalysis": [
+    {
+      "packageName": "SNPADM.PKG_DA_CORP_CP_PATTERN_DATA",
+      "directReferences": [],
+      "indirectReferences": [],
+      "backwardFlow": [
+        {
+          "stepId": "UNKNOWN",
+          "occurrences": 2,
+          "references": [
+            {
+              "line": 1575,
+              "type": "SELECT_BACKWARD_FLOW",
+              "operation": "SELECT",
+              "targetTable": "EDW.ACCT",
+              "targetColumn": "OPENING_SRC",
+              "sources": [
+                {
+                  "type": "WILDCARD_SELECT",
+                  "sourceTable": "DA_CORP_CP_SALARY_STMT_TMP1",
+                  "sourceColumn": "*",
+                  "targetColumn": "OPENING_SRC",
+                  "line": 1575,
+                  "text": "AND SUBSTR(MS.UNQ_KEY,1,INSTR(MS.UNQ_KEY,''*'',1,2)-1) || ''*YD''  NOT IN ( SELECT * FROM DA_CORP_CP_SALARY_STMT_TMP1'||V_USER||')",
+                  "stepId": "UNKNOWN",
+                  "confidence": "HIGH",
+                  "includes_target": true,
+                  "reason": "SELECT * from known source table includes target column"
+                }
+              ],
+              "text": "AND SUBSTR(MS.UNQ_KEY,1,INSTR(MS.UNQ_KEY,''*'',1,2)-1) || ''*YD''  NOT IN ( SELECT * FROM DA_CORP_CP_SALARY_STMT_TMP1'||V_USER||')",
+              "stepId": "UNKNOWN"
+            },
+            {
+              "line": 1580,
+              "type": "SELECT_BACKWARD_FLOW",
+              "operation": "SELECT",
+              "targetTable": "EDW.ACCT",
+              "targetColumn": "OPENING_SRC",
+              "sources": [
+                {
+                  "type": "WILDCARD_SELECT",
+                  "sourceTable": "DA_CORP_CP_SALARY_STMT_TMP1",
+                  "sourceColumn": "*",
+                  "targetColumn": "OPENING_SRC",
+                  "line": 1580,
+                  "text": "AND SUBSTR(MS.UNQ_KEY,1,INSTR(MS.UNQ_KEY,''*'',1,2)-1) || ''*YI''  NOT IN ( SELECT * FROM DA_CORP_CP_SALARY_STMT_TMP1'||V_USER||')';",
+                  "stepId": "UNKNOWN",
+                  "confidence": "HIGH",
+                  "includes_target": true,
+                  "reason": "SELECT * from known source table includes target column"
+                }
+              ],
+              "text": "AND SUBSTR(MS.UNQ_KEY,1,INSTR(MS.UNQ_KEY,''*'',1,2)-1) || ''*YI''  NOT IN ( SELECT * FROM DA_CORP_CP_SALARY_STMT_TMP1'||V_USER||')';",
+              "stepId": "UNKNOWN"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "packageName": "SNPADM.PKG_DA_CP_PATTERN_DATA",
+      "directReferences": [],
+      "indirectReferences": [],
+      "backwardFlow": [
+        {
+          "stepId": "UNKNOWN",
+          "occurrences": 2,
+          "references": [
+            {
+              "line": 1485,
+              "type": "SELECT_BACKWARD_FLOW",
+              "operation": "SELECT",
+              "targetTable": "EDW.ACCT",
+              "targetColumn": "OPENING_SRC",
+              "sources": [
+                {
+                  "type": "WILDCARD_SELECT",
+                  "sourceTable": "DA_CP_SALARY_STMT_TMP1",
+                  "sourceColumn": "*",
+                  "targetColumn": "OPENING_SRC",
+                  "line": 1485,
+                  "text": "AND SUBSTR(MS.UNQ_KEY,1,INSTR(MS.UNQ_KEY,''*'',1,2)-1) || ''*YD''  NOT IN ( SELECT * FROM DA_CP_SALARY_STMT_TMP1'||V_USER||')",
+                  "stepId": "UNKNOWN",
+                  "confidence": "HIGH",
+                  "includes_target": true,
+                  "reason": "SELECT * from known source table includes target column"
+                }
+              ],
+              "text": "AND SUBSTR(MS.UNQ_KEY,1,INSTR(MS.UNQ_KEY,''*'',1,2)-1) || ''*YD''  NOT IN ( SELECT * FROM DA_CP_SALARY_STMT_TMP1'||V_USER||')",
+              "stepId": "UNKNOWN"
+            },
+            {
+              "line": 1490,
+              "type": "SELECT_BACKWARD_FLOW",
+              "operation": "SELECT",
+              "targetTable": "EDW.ACCT",
+              "targetColumn": "OPENING_SRC",
+              "sources": [
+                {
+                  "type": "WILDCARD_SELECT",
+                  "sourceTable": "DA_CP_SALARY_STMT_TMP1",
+                  "sourceColumn": "*",
+                  "targetColumn": "OPENING_SRC",
+                  "line": 1490,
+                  "text": "AND SUBSTR(MS.UNQ_KEY,1,INSTR(MS.UNQ_KEY,''*'',1,2)-1) || ''*YI''  NOT IN ( SELECT * FROM DA_CP_SALARY_STMT_TMP1'||V_USER||')';",
+                  "stepId": "UNKNOWN",
+                  "confidence": "HIGH",
+                  "includes_target": true,
+                  "reason": "SELECT * from known source table includes target column"
+                }
+              ],
+              "text": "AND SUBSTR(MS.UNQ_KEY,1,INSTR(MS.UNQ_KEY,''*'',1,2)-1) || ''*YI''  NOT IN ( SELECT * FROM DA_CP_SALARY_STMT_TMP1'||V_USER||')';",
+              "stepId": "UNKNOWN"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "packageName": "SNPADM.PKG_DA_CUST",
+      "directReferences": [
+        {
+          "stepId": "UNKNOWN",
+          "stepLine": 1188,
+          "procedure": "UNKNOWN",
+          "occurrences": 1,
+          "references": [
+            {
+              "line": 1188,
+              "stepId": "UNKNOWN",
+              "stepLine": 1188,
+              "procedure": "UNKNOWN",
+              "type": "DIRECT_REFERENCE",
+              "text": "AND NVL(A.OPENING_SRC,''FB'') <> ''GS'' /*Seçil QT-9041*/"
+            }
+          ]
+        }
+      ],
+      "indirectReferences": [],
+      "backwardFlow": [
+        {
+          "stepId": "UNKNOWN",
+          "occurrences": 3,
+          "references": [
+            {
+              "line": 408,
+              "type": "SELECT_BACKWARD_FLOW",
+              "operation": "SELECT",
+              "targetTable": "EDW.ACCT",
+              "targetColumn": "OPENING_SRC",
+              "sources": [
+                {
+                  "type": "WILDCARD_SELECT",
+                  "sourceTable": "DA_CUST_RERUN_TMP1",
+                  "sourceColumn": "*",
+                  "targetColumn": "OPENING_SRC",
+                  "line": 408,
+                  "text": "SELECT * FROM DA_CUST_RERUN_TMP1 C",
+                  "stepId": "UNKNOWN",
+                  "confidence": "HIGH",
+                  "includes_target": true,
+                  "reason": "SELECT * from known source table includes target column"
+                }
+              ],
+              "text": "SELECT * FROM DA_CUST_RERUN_TMP1 C",
+              "stepId": "UNKNOWN"
+            },
+            {
+              "line": 690,
+              "type": "SELECT_BACKWARD_FLOW",
+              "operation": "SELECT",
+              "targetTable": "EDW.ACCT",
+              "targetColumn": "OPENING_SRC",
+              "sources": [
+                {
+                  "type": "WILDCARD_SELECT",
+                  "sourceTable": "DA_CUST_RERUN_TMP2",
+                  "sourceColumn": "*",
+                  "targetColumn": "OPENING_SRC",
+                  "line": 690,
+                  "text": "SELECT * FROM DA_CUST_RERUN_TMP2",
+                  "stepId": "UNKNOWN",
+                  "confidence": "HIGH",
+                  "includes_target": true,
+                  "reason": "SELECT * from known source table includes target column"
+                }
+              ],
+              "text": "SELECT * FROM DA_CUST_RERUN_TMP2",
+              "stepId": "UNKNOWN"
+            },
+            {
+              "line": 700,
+              "type": "SELECT_BACKWARD_FLOW",
+              "operation": "SELECT",
+              "targetTable": "EDW.ACCT",
+              "targetColumn": "OPENING_SRC",
+              "sources": [
+                {
+                  "type": "WILDCARD_SELECT",
+                  "sourceTable": "DA_CUST_RERUN_OFFER_TMP",
+                  "sourceColumn": "*",
+                  "targetColumn": "OPENING_SRC",
+                  "line": 700,
+                  "text": "SELECT * FROM DA_CUST_RERUN_OFFER_TMP C /*Seda A.T. 20210107 MTS-9657*/",
+                  "stepId": "UNKNOWN",
+                  "confidence": "HIGH",
+                  "includes_target": true,
+                  "reason": "SELECT * from known source table includes target column"
+                }
+              ],
+              "text": "SELECT * FROM DA_CUST_RERUN_OFFER_TMP C /*Seda A.T. 20210107 MTS-9657*/",
+              "stepId": "UNKNOWN"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "packageName": "SNPADM.PKG_DA_INCOMING_PATTERN_DATA",
+      "directReferences": [
+        {
+          "stepId": "UNKNOWN",
+          "stepLine": 160,
+          "procedure": "UNKNOWN",
+          "occurrences": 14,
+          "references": [
+            {
+              "line": 160,
+              "stepId": "UNKNOWN",
+              "stepLine": 160,
+              "procedure": "UNKNOWN",
+              "type": "DIRECT_REFERENCE",
+              "text": ", RA.OPENING_SRC /*QT-9729 Seçil*/"
+            },
+            {
+              "line": 291,
+              "stepId": "UNKNOWN",
+              "stepLine": 291,
+              "procedure": "UNKNOWN",
+              "type": "DIRECT_REFERENCE",
+              "text": ", A.OPENING_SRC /*QT-9729 Seçil*/"
+            },
+            {
+              "line": 333,
+              "stepId": "UNKNOWN",
+              "stepLine": 333,
+              "procedure": "UNKNOWN",
+              "type": "DIRECT_REFERENCE",
+              "text": ", OPENING_SRC /*QT-9729 Seçil*/"
+            },
+            {
+              "line": 367,
+              "stepId": "UNKNOWN",
+              "stepLine": 367,
+              "procedure": "UNKNOWN",
+              "type": "DIRECT_REFERENCE",
+              "text": ", C.OPENING_SRC /*QT-9729 Seçil*/"
+            },
+            {
+              "line": 402,
+              "stepId": "UNKNOWN",
+              "stepLine": 402,
+              "procedure": "UNKNOWN",
+              "type": "DIRECT_REFERENCE",
+              "text": ", ORDR_ID, ORDR_TRX_ID,AMT_TL, OPENING_SRC /*QT-9729 Seçil*/)"
+            },
+            {
+              "line": 454,
+              "stepId": "UNKNOWN",
+              "stepLine": 454,
+              "procedure": "UNKNOWN",
+              "type": "DIRECT_REFERENCE",
+              "text": ", A_RCPNT.OPENING_SRC /*QT-9729 Seçil*/"
+            },
+            {
+              "line": 479,
+              "stepId": "UNKNOWN",
+              "stepLine": 479,
+              "procedure": "UNKNOWN",
+              "type": "DIRECT_REFERENCE",
+              "text": ", ORDR_ID, ORDR_TRX_ID, AMT_TL, OPENING_SRC /*QT-9729 Seçil*/)"
+            },
+            {
+              "line": 548,
+              "stepId": "UNKNOWN",
+              "stepLine": 548,
+              "procedure": "UNKNOWN",
+              "type": "DIRECT_REFERENCE",
+              "text": ", ACC.OPENING_SRC /*QT-9729 Seçil*/"
+            },
+            {
+              "line": 576,
+              "stepId": "UNKNOWN",
+              "stepLine": 576,
+              "procedure": "UNKNOWN",
+              "type": "DIRECT_REFERENCE",
+              "text": ", ORDR_ID, ORDR_DT, ORDR_TRX_ID, PERIOD_CODE, AMT_TL, OPENING_SRC /*QT-9729 Seçil*/ )"
+            },
+            {
+              "line": 598,
+              "stepId": "UNKNOWN",
+              "stepLine": 598,
+              "procedure": "UNKNOWN",
+              "type": "DIRECT_REFERENCE",
+              "text": ", ORDR_ID, ORDR_DT, ORDR_TRX_ID, PERIOD_CODE, AMT_TL, OPENING_SRC /*QT-9729 Seçil*/ )"
+            },
+            {
+              "line": 1578,
+              "stepId": "UNKNOWN",
+              "stepLine": 1578,
+              "procedure": "UNKNOWN",
+              "type": "DIRECT_REFERENCE",
+              "text": ", A.OPENING_SRC"
+            },
+            {
+              "line": 1645,
+              "stepId": "UNKNOWN",
+              "stepLine": 1645,
+              "procedure": "UNKNOWN",
+              "type": "DIRECT_REFERENCE",
+              "text": ", A.OPENING_SRC"
+            },
+            {
+              "line": 1711,
+              "stepId": "UNKNOWN",
+              "stepLine": 1711,
+              "procedure": "UNKNOWN",
+              "type": "DIRECT_REFERENCE",
+              "text": ", A.OPENING_SRC"
+            },
+            {
+              "line": 3423,
+              "stepId": "UNKNOWN",
+              "stepLine": 3423,
+              "procedure": "UNKNOWN",
+              "type": "DIRECT_REFERENCE",
+              "text": ", CASE WHEN LI.OPENING_SRC IS NOT NULL AND LI.OPENING_SRC = ''GS'' THEN LI.OPENING_SRC ELSE NULL END OPN_SRV -- QT-9729 Seçil => Recipient account no ya ait opening_src bilgisi GS ise o zaman opn_srv kolonu GS olur değilse NULL atanır."
+            }
+          ]
+        }
+      ],
+      "indirectReferences": [],
+      "backwardFlow": [
+        {
+          "stepId": "UNKNOWN",
+          "occurrences": 8,
+          "references": [
+            {
+              "line": 214,
+              "type": "SELECT_BACKWARD_FLOW",
+              "operation": "SELECT",
+              "targetTable": "EDW.ACCT",
+              "targetColumn": "OPENING_SRC",
+              "sources": [
+                {
+                  "type": "SIMPLE_COLUMN_REFERENCE",
+                  "sourceColumn": "OPENING_SRC",
+                  "targetColumn": "OPENING_SRC",
+                  "line": 214,
+                  "text": ", DSC, DSC_CLN, PAYMENT_TP, PD_OPER_REF_NO, TRX_TP, TRX_TM, EFT_FAST_F, EN_F, N.CNL_ID, N.OPENING_SRC /*QT-9729 Seçil*/"
+                }
+              ],
+              "text": ", DSC, DSC_CLN, PAYMENT_TP, PD_OPER_REF_NO, TRX_TP, TRX_TM, EFT_FAST_F, EN_F, N.CNL_ID, N.OPENING_SRC /*QT-9729 Seçil*/",
+              "stepId": "UNKNOWN"
+            },
+            {
+              "line": 408,
+              "type": "SELECT_BACKWARD_FLOW",
+              "operation": "SELECT",
+              "targetTable": "EDW.ACCT",
+              "targetColumn": "OPENING_SRC",
+              "sources": [
+                {
+                  "type": "SIMPLE_COLUMN_REFERENCE",
+                  "sourceColumn": "OPENING_SRC",
+                  "targetColumn": "OPENING_SRC",
+                  "line": 408,
+                  "text": ", 0 ORDR_ID, 0 ORDR_TRX_ID, AMT_TL, OPENING_SRC /*QT-9729 Seçil*/"
+                }
+              ],
+              "text": ", 0 ORDR_ID, 0 ORDR_TRX_ID, AMT_TL, OPENING_SRC /*QT-9729 Seçil*/",
+              "stepId": "UNKNOWN"
+            },
+            {
+              "line": 485,
+              "type": "SELECT_BACKWARD_FLOW",
+              "operation": "SELECT",
+              "targetTable": "EDW.ACCT",
+              "targetColumn": "OPENING_SRC",
+              "sources": [
+                {
+                  "type": "SIMPLE_COLUMN_REFERENCE",
+                  "sourceColumn": "OPENING_SRC",
+                  "targetColumn": "OPENING_SRC",
+                  "line": 485,
+                  "text": ", 0 ORDR_ID, 0 ORDR_TRX_ID, AMT_TL, OPENING_SRC /*QT-9729 Seçil*/"
+                }
+              ],
+              "text": ", 0 ORDR_ID, 0 ORDR_TRX_ID, AMT_TL, OPENING_SRC /*QT-9729 Seçil*/",
+              "stepId": "UNKNOWN"
+            },
+            {
+              "line": 582,
+              "type": "SELECT_BACKWARD_FLOW",
+              "operation": "SELECT",
+              "targetTable": "EDW.ACCT",
+              "targetColumn": "OPENING_SRC",
+              "sources": [
+                {
+                  "type": "SIMPLE_COLUMN_REFERENCE",
+                  "sourceColumn": "OPENING_SRC",
+                  "targetColumn": "OPENING_SRC",
+                  "line": 582,
+                  "text": ", ORDR_ID, ORDR_DT, ORDR_TRX_ID, PERIOD_CODE, AMT_TL, OPENING_SRC /*QT-9729 Seçil*/"
+                }
+              ],
+              "text": ", ORDR_ID, ORDR_DT, ORDR_TRX_ID, PERIOD_CODE, AMT_TL, OPENING_SRC /*QT-9729 Seçil*/",
+              "stepId": "UNKNOWN"
+            },
+            {
+              "line": 602,
+              "type": "SELECT_BACKWARD_FLOW",
+              "operation": "SELECT",
+              "targetTable": "EDW.ACCT",
+              "targetColumn": "OPENING_SRC",
+              "sources": [
+                {
+                  "type": "SIMPLE_COLUMN_REFERENCE",
+                  "sourceColumn": "OPENING_SRC",
+                  "targetColumn": "OPENING_SRC",
+                  "line": 602,
+                  "text": ", ORDR_ID, ORDR_DT, ORDR_TRX_ID, PERIOD_CODE, AMT_TL, OPENING_SRC /*QT-9729 Seçil*/"
+                }
+              ],
+              "text": ", ORDR_ID, ORDR_DT, ORDR_TRX_ID, PERIOD_CODE, AMT_TL, OPENING_SRC /*QT-9729 Seçil*/",
+              "stepId": "UNKNOWN"
+            },
+            {
+              "line": 1607,
+              "type": "SELECT_BACKWARD_FLOW",
+              "operation": "SELECT",
+              "targetTable": "EDW.ACCT",
+              "targetColumn": "OPENING_SRC",
+              "sources": [
+                {
+                  "type": "SIMPLE_COLUMN_REFERENCE",
+                  "sourceColumn": "OPENING_SRC",
+                  "targetColumn": "OPENING_SRC",
+                  "line": 1607,
+                  "text": ", OPENING_SRC"
+                }
+              ],
+              "text": ", OPENING_SRC",
+              "stepId": "UNKNOWN"
+            },
+            {
+              "line": 3275,
+              "type": "SELECT_BACKWARD_FLOW",
+              "operation": "SELECT",
+              "targetTable": "EDW.ACCT",
+              "targetColumn": "OPENING_SRC",
+              "sources": [
+                {
+                  "type": "SIMPLE_COLUMN_REFERENCE",
+                  "sourceColumn": "OPENING_SRC",
+                  "targetColumn": "OPENING_SRC",
+                  "line": 3275,
+                  "text": ", B.OPENING_SRC /*QT-9729 Seçil*/"
+                }
+              ],
+              "text": ", B.OPENING_SRC /*QT-9729 Seçil*/",
+              "stepId": "UNKNOWN"
+            },
+            {
+              "line": 3287,
+              "type": "SELECT_BACKWARD_FLOW",
+              "operation": "SELECT",
+              "targetTable": "EDW.ACCT",
+              "targetColumn": "OPENING_SRC",
+              "sources": [
+                {
+                  "type": "SIMPLE_COLUMN_REFERENCE",
+                  "sourceColumn": "OPENING_SRC",
+                  "targetColumn": "OPENING_SRC",
+                  "line": 3287,
+                  "text": "UNQ_KEY, SENDER_BANK_CODE, RCPNT_ACCT_NO, SENDER_ACCT_NO, SENDER_ACCT_TP, SENDER_IDENTITY_NO, SENDER_NAME, TRX_DT, TRX_TM, OPENING_SRC /*QT-9729 Seçil*/"
+                }
+              ],
+              "text": "UNQ_KEY, SENDER_BANK_CODE, RCPNT_ACCT_NO, SENDER_ACCT_NO, SENDER_ACCT_TP, SENDER_IDENTITY_NO, SENDER_NAME, TRX_DT, TRX_TM, OPENING_SRC /*QT-9729 Seçil*/",
+              "stepId": "UNKNOWN"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "packageName": "SNPADM.PKG_DA_MONITORING",
+      "directReferences": [],
+      "indirectReferences": [],
+      "backwardFlow": [
+        {
+          "stepId": "UNKNOWN",
+          "occurrences": 1,
+          "references": [
+            {
+              "line": 488,
+              "type": "SELECT_BACKWARD_FLOW",
+              "operation": "SELECT",
+              "targetTable": "EDW.ACCT",
+              "targetColumn": "OPENING_SRC",
+              "sources": [
+                {
+                  "type": "WILDCARD_SELECT",
+                  "sourceTable": "EDW.DA_CUST",
+                  "sourceColumn": "*",
+                  "targetColumn": "OPENING_SRC",
+                  "line": 488,
+                  "text": "(SELECT * FROM EDW.DA_CUST WHERE AS_OF_DT = TO_DATE('''||P_AS_OF_DT||''',''YYYYMMDD'') AND BUTTON_VISIBLE_F=1) B",
+                  "stepId": "UNKNOWN",
+                  "confidence": "HIGH",
+                  "includes_target": true,
+                  "reason": "SELECT * from known source table includes target column"
+                }
+              ],
+              "text": "(SELECT * FROM EDW.DA_CUST WHERE AS_OF_DT = TO_DATE('''||P_AS_OF_DT||''',''YYYYMMDD'') AND BUTTON_VISIBLE_F=1) B",
+              "stepId": "UNKNOWN"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "packageName": "SNPADM.PKG_DA_PATTERN_DATA",
+      "directReferences": [
+        {
+          "stepId": "UNKNOWN",
+          "stepLine": 370,
+          "procedure": "UNKNOWN",
+          "occurrences": 10,
+          "references": [
+            {
+              "line": 370,
+              "stepId": "UNKNOWN",
+              "stepLine": 370,
+              "procedure": "UNKNOWN",
+              "type": "DIRECT_REFERENCE",
+              "text": ", SENDER_ACCT.OPENING_SRC"
+            },
+            {
+              "line": 434,
+              "stepId": "UNKNOWN",
+              "stepLine": 434,
+              "procedure": "UNKNOWN",
+              "type": "DIRECT_REFERENCE",
+              "text": ", A.OPENING_SRC"
+            },
+            {
+              "line": 481,
+              "stepId": "UNKNOWN",
+              "stepLine": 481,
+              "procedure": "UNKNOWN",
+              "type": "DIRECT_REFERENCE",
+              "text": ", CAST(NULL AS VARCHAR2(10)) OPENING_SRC"
+            },
+            {
+              "line": 509,
+              "stepId": "UNKNOWN",
+              "stepLine": 509,
+              "procedure": "UNKNOWN",
+              "type": "DIRECT_REFERENCE",
+              "text": ", SENDER_NAME, SENDER_NAME_KEY, RCPNT_NAME, RCPNT_NAME_KEY, DSC, PAYMENT_TP, PD_OPER_REF_NO, MONEY_TRANSFER_TP, ST, PPN_DT, TRX_TP,TRF_SRC_TP, FIBI_F, CNL_ID, OPENING_SRC /*Seçil QT-9041*/)"
+            },
+            {
+              "line": 2989,
+              "stepId": "UNKNOWN",
+              "stepLine": 2989,
+              "procedure": "UNKNOWN",
+              "type": "DIRECT_REFERENCE",
+              "text": ", CASE WHEN A.OPENING_SRC IS NULL THEN ''FB'' ELSE A.OPENING_SRC END OPENING_SRC"
+            },
+            {
+              "line": 3102,
+              "stepId": "UNKNOWN",
+              "stepLine": 3102,
+              "procedure": "UNKNOWN",
+              "type": "DIRECT_REFERENCE",
+              "text": ", A.OPENING_SRC"
+            },
+            {
+              "line": 3103,
+              "stepId": "UNKNOWN",
+              "stepLine": 3103,
+              "procedure": "UNKNOWN",
+              "type": "DIRECT_REFERENCE",
+              "text": ", CASE WHEN A.OPENING_SRC = ''FB'' THEN ''FB''"
+            },
+            {
+              "line": 3104,
+              "stepId": "UNKNOWN",
+              "stepLine": 3104,
+              "procedure": "UNKNOWN",
+              "type": "DIRECT_REFERENCE",
+              "text": "WHEN A.OPENING_SRC = ''GS'' AND A.CNL_ID = ''702'' THEN ''GS''"
+            },
+            {
+              "line": 3105,
+              "stepId": "UNKNOWN",
+              "stepLine": 3105,
+              "procedure": "UNKNOWN",
+              "type": "DIRECT_REFERENCE",
+              "text": "WHEN A.OPENING_SRC = ''GS'' AND A.CNL_ID <> ''702'' THEN ''FB''"
+            },
+            {
+              "line": 6094,
+              "stepId": "UNKNOWN",
+              "stepLine": 6094,
+              "procedure": "UNKNOWN",
+              "type": "DIRECT_REFERENCE",
+              "text": "WHEN NVL(GS.PATTERN_GS_F,0) = 1 AND ONL_ACT.UNQ_KEY IS NULL  THEN ''GS'' -- GS Pattern kontrolünde ödeme yapılan kanal kodu(CNL_ID) ve ödeme aracı(OPENING_SRC) önemlidir."
+            }
+          ]
+        }
+      ],
+      "indirectReferences": [],
+      "backwardFlow": [
+        {
+          "stepId": "UNKNOWN",
+          "occurrences": 2,
+          "references": [
+            {
+              "line": 447,
+              "type": "SELECT_BACKWARD_FLOW",
+              "operation": "SELECT",
+              "targetTable": "EDW.ACCT",
+              "targetColumn": "OPENING_SRC",
+              "sources": [
+                {
+                  "type": "SIMPLE_COLUMN_REFERENCE",
+                  "sourceColumn": "OPENING_SRC",
+                  "targetColumn": "OPENING_SRC",
+                  "line": 447,
+                  "text": ", DSC, PAYMENT_TP, PD_OPER_REF_NO, MONEY_TRANSFER_TP, ST, TRX_TP,EFT_FAST_F, CNL_ID, FIBI_F, OPENING_SRC /*Seçil QT-9041*/"
+                }
+              ],
+              "text": ", DSC, PAYMENT_TP, PD_OPER_REF_NO, MONEY_TRANSFER_TP, ST, TRX_TP,EFT_FAST_F, CNL_ID, FIBI_F, OPENING_SRC /*Seçil QT-9041*/",
+              "stepId": "UNKNOWN"
+            },
+            {
+              "line": 512,
+              "type": "SELECT_BACKWARD_FLOW",
+              "operation": "SELECT",
+              "targetTable": "EDW.ACCT",
+              "targetColumn": "OPENING_SRC",
+              "sources": [
+                {
+                  "type": "SIMPLE_COLUMN_REFERENCE",
+                  "sourceColumn": "OPENING_SRC",
+                  "targetColumn": "OPENING_SRC",
+                  "line": 512,
+                  "text": ", SENDER_NAME, SENDER_NAME_KEY, RCPNT_NAME, RCPNT_NAME_KEY, DSC, PAYMENT_TP, PD_OPER_REF_NO, MONEY_TRANSFER_TP, ST, TRUNC(sysdate) PPN_DT, TRX_TP,EFT_FAST_F, FIBI_F, CNL_ID, OPENING_SRC /*Seçil QT-9041*/"
+                }
+              ],
+              "text": ", SENDER_NAME, SENDER_NAME_KEY, RCPNT_NAME, RCPNT_NAME_KEY, DSC, PAYMENT_TP, PD_OPER_REF_NO, MONEY_TRANSFER_TP, ST, TRUNC(sysdate) PPN_DT, TRX_TP,EFT_FAST_F, FIBI_F, CNL_ID, OPENING_SRC /*Seçil QT-9041*/",
+              "stepId": "UNKNOWN"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

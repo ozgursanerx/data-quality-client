@@ -14,6 +14,7 @@ import LoadingButton from '../../../components/LoadingButton';
 import CustomTable from '../../../components/common/CustomTable';
 import CIcon from '@coreui/icons-react';
 import { cilSearch, cilCopy } from '@coreui/icons';
+import { buildApiUrl } from '../../../utils/apiConfig';
 
 const ProcedureList = () => {
   const [progId, setProgId] = useState('');
@@ -37,15 +38,18 @@ const ProcedureList = () => {
   };
 
   useEffect(() => {
+    const searchTerm = searchText.trim().toLowerCase();
     const filtered = procedures
       .map((proc, index) => ({
         index: index + 1,
         stepIdPrefix: proc,
         actions: 'copy'
       }))
-      .filter(item => 
-        item.stepIdPrefix.toString().toLowerCase().includes(searchText.toLowerCase())
-      );
+      .filter(item => {
+        if (!searchTerm) return true;
+        const procedureStr = String(item.stepIdPrefix || '').toLowerCase();
+        return procedureStr.includes(searchTerm);
+      });
     setFilteredProcedures(filtered);
   }, [procedures, searchText]);
 
@@ -58,7 +62,7 @@ const ProcedureList = () => {
     setIsLoading(true);
     setProcedures([]); // Reset previous results
     try {
-      const response = await fetch('http://localhost:8080/edwapi/getStepIdGroupedService', {
+      const response = await fetch(buildApiUrl('/edwapi/getStepIdGroupedService'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -71,42 +75,134 @@ const ProcedureList = () => {
           stepIdPrefix: null,
           groupBy: null
         }),
-      });      if (response.ok) {
+      });
+      
+      if (response.ok) {
         const rawData = await response.json();
-        try {          // Handle the case where the response is a string that needs to be parsed
-          const jsonStr = Array.isArray(rawData) ? rawData[0] : rawData;
-          const parsedData = typeof jsonStr === 'string' ? JSON.parse(jsonStr) : jsonStr;
+        
+        try {
+          // Handle the case where the response is a string that needs to be parsed
+          let parsedData = Array.isArray(rawData) ? rawData[0] : rawData;
+          
+          if (typeof parsedData === 'string') {
+            parsedData = JSON.parse(parsedData);
+          }
 
           // Ensure we have an array to work with
           const dataArray = Array.isArray(parsedData) ? parsedData : [parsedData];
           
-          // Get stepId values directly from the response
-          const stepIds = [...new Set(dataArray
-            .map(item => {
+          // Extract procedure prefixes from step IDs
+          // Handles multiple patterns:
+          // 1. "P_INC_BUCKET_CALC_STARTER-100-GKK" -> "P_INC_BUCKET_CALC_STARTER-GKK" (remove middle number)
+          // 2. "P_INC_GROUP_NAME_KEYS-101" -> "P_INC_GROUP_NAME_KEYS" (remove trailing number)
+          // 3. "P_DA_INC_MNY_TRNSFR_PATTERN_POST-10" -> "P_DA_INC_MNY_TRNSFR_PATTERN_POST" (remove trailing number)
+          // 4. "P_INC_BUCKET_CALC_STARTER" -> "P_INC_BUCKET_CALC_STARTER" (no change)
+          const extractProcedurePrefix = (stepIdStr) => {
+            if (!stepIdStr) return null;
+            
+            let str = String(stepIdStr).trim();
+            
+            // Pattern 1: Remove middle numbers in format "PROCEDURE-NUMBER-SUFFIX"
+            // Example: "P_INC_BUCKET_CALC_STARTER-100-GKK" -> "P_INC_BUCKET_CALC_STARTER-GKK"
+            // Example: "P_INC_DA_MNY_TRNSFR_BUCKET_INS-110-GPT" -> "P_INC_DA_MNY_TRNSFR_BUCKET_INS-GPT"
+            const middleNumberMatch = str.match(/^(.+?)-(\d+)-(.+)$/);
+            if (middleNumberMatch) {
+              const prefix = middleNumberMatch[1];
+              const number = middleNumberMatch[2];
+              const suffix = middleNumberMatch[3];
+              // Only remove if the number is purely numeric and suffix doesn't start with number
+              if (/^\d+$/.test(number) && !/^\d/.test(suffix)) {
+                return `${prefix}-${suffix}`;
+              }
+            }
+            
+            // Pattern 2: Remove trailing numbers with dash separator
+            // Examples:
+            // "P_INC_GROUP_NAME_KEYS-101" -> "P_INC_GROUP_NAME_KEYS"
+            // "P_INC_GROUP_NAME_KEYS-102" -> "P_INC_GROUP_NAME_KEYS"
+            // "P_DA_INC_MNY_TRNSFR_PATTERN_POST-10" -> "P_DA_INC_MNY_TRNSFR_PATTERN_POST"
+            // "PROC-100" -> "PROC"
+            const trailingDashNumberMatch = str.match(/^(.+?)-\d+$/);
+            if (trailingDashNumberMatch) {
+              return trailingDashNumberMatch[1];
+            }
+            
+            // Pattern 3: Remove trailing numbers with underscore separator
+            // Examples:
+            // "P_DA_INC_MNY_TRNSFR_PATTERN_POST_20" -> "P_DA_INC_MNY_TRNSFR_PATTERN_POST"
+            // "PROC_100" -> "PROC"
+            const trailingUnderscoreNumberMatch = str.match(/^(.+?)_\d+$/);
+            if (trailingUnderscoreNumberMatch) {
+              return trailingUnderscoreNumberMatch[1];
+            }
+            
+            // Pattern 4: Remove trailing numbers without separator (if prefix doesn't end with number)
+            // Example: "PROC100" -> "PROC" (only if PROC doesn't end with number)
+            const trailingNumberNoSepMatch = str.match(/^(.+?)(\d+)$/);
+            if (trailingNumberNoSepMatch) {
+              const prefix = trailingNumberNoSepMatch[1];
+              const suffix = trailingNumberNoSepMatch[2];
+              // Only remove if suffix is numeric and prefix doesn't end with number
+              if (/^\d+$/.test(suffix) && !/\d$/.test(prefix)) {
+                return prefix;
+              }
+            }
+            
+            // If no pattern matches, return as is
+            return str;
+          };
+          
+          // Get unique procedure prefixes from step IDs
+          const procedures = [...new Set(dataArray
+            .map((item, index) => {
               try {
-                const parsedItem = typeof item === 'string' ? JSON.parse(item) : item;
-                return parsedItem.stepId;
+                let stepId = null;
+                
+                // Extract stepId from different possible structures
+                if (typeof item === 'string') {
+                  try {
+                    const parsed = JSON.parse(item);
+                    stepId = parsed.stepId || parsed.stepIdPrefix || item;
+                  } catch (e) {
+                    stepId = item;
+                  }
+                } else if (item && typeof item === 'object') {
+                  stepId = item.stepId || item.stepIdPrefix || 
+                          Object.values(item).find(v => typeof v === 'string' && v.length > 0);
+                } else {
+                  stepId = item;
+                }
+                
+                if (!stepId) {
+                  return null;
+                }
+                
+                // Extract procedure prefix from stepId
+                const procedurePrefix = extractProcedurePrefix(stepId);
+                return procedurePrefix;
               } catch (e) {
                 return null;
               }
             })
-            .filter(Boolean))];          setProcedures(stepIds);
+            .filter(Boolean)
+            .sort())]; // Sort alphabetically
           
-          if (stepIds.length === 0) {
-            showError('No procedures found for this Program ID');
+          setProcedures(procedures);
+          
+          if (procedures.length === 0) {
+            showError('Bu Prog ID için prosedür bulunamadı');
+          } else {
+            setError(null); // Clear any previous errors
           }
         } catch (parseError) {
-          console.error('Parse error:', parseError);
-          showError('Error parsing response data');
+          showError('Yanıt verisi parse edilemedi.');
           setProcedures([]);
         }
       } else {
-        console.error('Error:', response.statusText);
         showError('Error fetching procedures');
         setProcedures([]);
       }
     } catch (error) {
-      console.error('Error:', error);
       showError('Error connecting to server');
       setProcedures([]);
     } finally {
@@ -182,36 +278,40 @@ const ProcedureList = () => {
           </div>
         )}
 
-        <div style={{ display: 'flex', flexDirection: 'column', height: '300px' }}>
-          <div style={{ flex: 1, minHeight: 0, position: 'relative' }}>
-            <div style={{ position: 'absolute', inset: 0, overflowY: 'auto' }}>
-              <CustomTable
-                data={filteredProcedures}
-                columns={columns}
-                currentPage={currentPage}
-                itemsPerPage={itemsPerPage}
-                totalPages={Math.ceil(filteredProcedures.length / itemsPerPage)}
-                onPageChange={setCurrentPage}
-                truncateText={truncateText}
-                customRowRender={(item) => ({
-                  ...item,
-                  actions: (
-                    <button
-                      className="btn btn-sm btn-info"
-                      onClick={() => handleCopyProcedure(item.stepIdPrefix)}
-                    >
-                      <CIcon icon={cilCopy} /> Copy
-                    </button>
-                  )
-                })}
-              />
+        {/* Tablo - Sadece veri geldiğinde göster */}
+        {procedures.length > 0 && (
+          <div style={{ display: 'flex', flexDirection: 'column', minHeight: '300px', maxHeight: '600px' }}>
+            <div style={{ flex: 1, minHeight: 0, position: 'relative' }}>
+              <div style={{ position: 'absolute', inset: 0, overflowY: 'auto' }}>
+                <CustomTable
+                  data={filteredProcedures}
+                  columns={columns}
+                  currentPage={currentPage}
+                  itemsPerPage={itemsPerPage}
+                  totalPages={Math.ceil(filteredProcedures.length / itemsPerPage)}
+                  onPageChange={setCurrentPage}
+                  truncateText={truncateText}
+                  customRowRender={(item) => ({
+                    ...item,
+                    actions: (
+                      <button
+                        className="btn btn-sm btn-info"
+                        onClick={() => handleCopyProcedure(item.stepIdPrefix)}
+                      >
+                        <CIcon icon={cilCopy} /> Copy
+                      </button>
+                    )
+                  })}
+                />
+              </div>
             </div>
           </div>
-        </div>
+        )}
 
-        {!isLoading && procedures.length === 0 && !error && (
-          <div className="text-center text-muted mt-3">
-            Enter a Program ID to see Procedures
+        {/* Veri yoksa bilgilendirme */}
+        {!isLoading && procedures.length === 0 && !error && progId === '' && (
+          <div className="text-center text-muted mt-3" style={{ minHeight: 'auto' }}>
+            Prosedürleri görmek için Program ID girin
           </div>
         )}
       </CCardBody>

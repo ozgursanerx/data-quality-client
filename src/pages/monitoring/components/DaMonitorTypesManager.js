@@ -29,6 +29,8 @@ import {
   CTooltip,
   CInputGroup,
   CInputGroupText,
+  CPagination,
+  CPaginationItem,
 } from '@coreui/react';
 import CIcon from '@coreui/icons-react';
 import {
@@ -57,6 +59,8 @@ const DaMonitorTypesManager = () => {
   const [modalMode, setModalMode] = useState('add'); // 'add' or 'edit'
   const [selectedRecord, setSelectedRecord] = useState(null);
   const [alert, setAlert] = useState({ show: false, message: '', color: 'success' });
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(10);
   const [searchFilters, setSearchFilters] = useState({
     typeId: '',
     scenarioNm: '',
@@ -84,12 +88,9 @@ const DaMonitorTypesManager = () => {
   const loadData = async (filters = {}) => {
     setLoading(true);
     try {
-      console.log('Sending filters:', filters); // Debug
       const response = await getDaMonitorTypes(filters);
-      console.log('Received response:', response); // Debug
       setData(response);
     } catch (error) {
-      console.error('Error loading data:', error); // Debug
       showAlert('Veri yüklenirken hata oluştu: ' + error.message, 'danger');
     } finally {
       setLoading(false);
@@ -102,6 +103,7 @@ const DaMonitorTypesManager = () => {
   };
 
   const handleSearch = () => {
+    setCurrentPage(1); // Arama yapıldığında sayfa numarasını sıfırla
     const filters = {};
     if (searchFilters.typeId) filters.typeId = parseInt(searchFilters.typeId);
     if (searchFilters.scenarioNm) filters.scenarioNm = searchFilters.scenarioNm;
@@ -112,6 +114,7 @@ const DaMonitorTypesManager = () => {
 
   const handleClearSearch = () => {
     setSearchFilters({ typeId: '', scenarioNm: '', dtlTableNm: '' });
+    setCurrentPage(1); // Temizleme yapıldığında sayfa numarasını sıfırla
     loadData();
   };
 
@@ -230,12 +233,15 @@ const DaMonitorTypesManager = () => {
           showAlert(response.errorDescription || 'İşlem başarısız', 'danger');
         }
       } else {
-        // Activate - update with activeF = 1
+        // Activate - update with activeF = 1 (null veya 0 durumunda aktif yap)
         const updatedRecord = { ...record, activeF: 1 };
         const response = await saveOrUpdateDaMonitorTypes(updatedRecord);
         
         if (response.result === 'SUCCESS') {
-          showAlert('Kayıt başarıyla aktif hale getirildi', 'success');
+          const statusMessage = record.activeF === null || record.activeF === undefined 
+            ? 'Kayıt başarıyla aktif hale getirildi (Tanımsız -> Aktif)' 
+            : 'Kayıt başarıyla aktif hale getirildi';
+          showAlert(statusMessage, 'success');
           loadData();
         } else {
           showAlert(response.errorDescription || 'İşlem başarısız', 'danger');
@@ -282,6 +288,58 @@ const DaMonitorTypesManager = () => {
     if (!text) return '';
     if (text.length <= maxLength) return text;
     return text.substring(0, maxLength) + '...';
+  };
+
+  // Pagination hesaplamaları
+  const totalPages = Math.ceil(data.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentData = data.slice(startIndex, endIndex);
+
+  // Sayfa numarasını veri değiştiğinde kontrol et ve düzelt
+  useEffect(() => {
+    if (totalPages > 0 && currentPage > totalPages) {
+      setCurrentPage(1);
+    }
+  }, [data, totalPages, currentPage]);
+
+  const renderPagination = () => {
+    if (totalPages <= 1) return null;
+
+    const pages = [];
+    const maxPages = 5;
+    const start = Math.max(1, currentPage - 2);
+    const end = Math.min(totalPages, start + maxPages - 1);
+
+    if (start > 1) {
+      pages.push(
+        <CPaginationItem key="start-ellipsis" onClick={() => setCurrentPage(1)}>
+          1...
+        </CPaginationItem>
+      );
+    }
+
+    for (let i = start; i <= end; i++) {
+      pages.push(
+        <CPaginationItem
+          key={i}
+          active={currentPage === i}
+          onClick={() => setCurrentPage(i)}
+        >
+          {i}
+        </CPaginationItem>
+      );
+    }
+
+    if (end < totalPages) {
+      pages.push(
+        <CPaginationItem key="end-ellipsis" onClick={() => setCurrentPage(totalPages)}>
+          ...{totalPages}
+        </CPaginationItem>
+      );
+    }
+
+    return pages;
   };
 
   return (
@@ -371,7 +429,6 @@ const DaMonitorTypesManager = () => {
             </div>
           ) : (
             <>
-              {console.log('Rendering table with data:', data)} {/* Debug */}
               <CTable hover responsive>
                 <CTableHead>
                   <CTableRow>
@@ -394,10 +451,9 @@ const DaMonitorTypesManager = () => {
                       </CTableDataCell>
                     </CTableRow>
                   ) : (
-                    data.map((record, index) => {
-                      console.log(`Rendering record ${index}:`, record); // Debug
+                    currentData.map((record, index) => {
                       return (
-                        <CTableRow key={index}>
+                        <CTableRow key={startIndex + index}>
                           <CTableDataCell>{record.typeId}</CTableDataCell>
                           <CTableDataCell>
                             <CTooltip content={record.scenarioNm || ''}>
@@ -422,8 +478,14 @@ const DaMonitorTypesManager = () => {
                           <CTableDataCell>{record.controlTp}</CTableDataCell>
                           <CTableDataCell>{record.errCode}</CTableDataCell>
                           <CTableDataCell>
-                            <CBadge color={record.activeF === 1 ? 'success' : 'secondary'}>
-                              {record.activeF === 1 ? 'Aktif' : 'Pasif'}
+                            <CBadge color={
+                              record.activeF === 1 ? 'success' : 
+                              record.activeF === 0 ? 'secondary' : 
+                              'warning'
+                            }>
+                              {record.activeF === 1 ? 'Aktif' : 
+                               record.activeF === 0 ? 'Pasif' : 
+                               'Tanımsız'}
                             </CBadge>
                           </CTableDataCell>
                           <CTableDataCell>
@@ -437,13 +499,25 @@ const DaMonitorTypesManager = () => {
                                   <CIcon icon={cilPencil} />
                                 </CButton>
                               </CTooltip>
-                              <CTooltip content={record.activeF === 1 ? 'Pasif Yap' : 'Aktif Yap'}>
+                              <CTooltip content={
+                                record.activeF === 1 ? 'Pasif Yap' : 
+                                record.activeF === 0 ? 'Aktif Yap' : 
+                                'Aktif Yap'
+                              }>
                                 <CButton
-                                  color={record.activeF === 1 ? 'secondary' : 'success'}
+                                  color={
+                                    record.activeF === 1 ? 'secondary' : 
+                                    record.activeF === 0 ? 'success' : 
+                                    'success'
+                                  }
                                   variant="outline"
                                   onClick={() => handleToggleActive(record)}
                                 >
-                                  <CIcon icon={record.activeF === 1 ? cilXCircle : cilCheckCircle} />
+                                  <CIcon icon={
+                                    record.activeF === 1 ? cilXCircle : 
+                                    record.activeF === 0 ? cilCheckCircle : 
+                                    cilCheckCircle
+                                  } />
                                 </CButton>
                               </CTooltip>
                               <CTooltip content="Sil">
@@ -463,6 +537,32 @@ const DaMonitorTypesManager = () => {
                   )}
                 </CTableBody>
               </CTable>
+
+              {/* Pagination */}
+              {totalPages > 1 && (
+                <div className="d-flex justify-content-center mt-3">
+                  <CPagination aria-label="Page navigation">
+                    <CPaginationItem
+                      disabled={currentPage === 1}
+                      onClick={() => setCurrentPage(1)}
+                    >
+                      İlk
+                    </CPaginationItem>
+                    {renderPagination()}
+                    <CPaginationItem
+                      disabled={currentPage === totalPages}
+                      onClick={() => setCurrentPage(totalPages)}
+                    >
+                      Son
+                    </CPaginationItem>
+                  </CPagination>
+                  <div className="ms-3 d-flex align-items-center">
+                    <small className="text-muted">
+                      Sayfa {currentPage} / {totalPages} (Toplam {data.length} kayıt)
+                    </small>
+                  </div>
+                </div>
+              )}
             </>
           )}
         </CCardBody>

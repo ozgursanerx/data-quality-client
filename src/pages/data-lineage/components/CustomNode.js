@@ -6,11 +6,17 @@ import { cilPlus, cilMinus } from '@coreui/icons'
 
 const CustomNode = ({ data, selected }) => {
   const getNodeStyle = (type, viewMode, isExpanded) => {
+    // Check if dark mode
+    const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+      || document.documentElement.classList.contains('dark')
+      || document.body.classList.contains('dark')
+    
     const baseStyle = {
       padding: '12px',
       borderRadius: '8px',
       border: '2px solid',
-      background: 'white',
+      background: 'var(--cui-card-bg)',
+      color: isDarkMode ? '#ffffff' : 'var(--cui-body-color)',
       fontSize: '14px',
       fontWeight: '500',
       cursor: 'pointer',
@@ -27,25 +33,25 @@ const CustomNode = ({ data, selected }) => {
     const typeStyles = {
       source: {
         borderColor: '#2196f3',
-        backgroundColor: '#e3f2fd',
+        backgroundColor: isDarkMode ? '#1e3a5f' : '#e3f2fd',
         minWidth: viewMode === 'simplified' ? '180px' : '300px',
         minHeight: viewMode === 'simplified' ? '80px' : '100px',
       },
       package: {
         borderColor: '#ff9800',
-        backgroundColor: '#fff3e0',
+        backgroundColor: isDarkMode ? '#5c3d1f' : '#fff3e0',
         minWidth: viewMode === 'simplified' ? '180px' : '240px',
         minHeight: viewMode === 'simplified' ? '80px' : '100px',
       },
       procedure: {
         borderColor: '#4caf50',
-        backgroundColor: '#e8f5e8',
+        backgroundColor: isDarkMode ? '#2d4a2f' : '#e8f5e8',
         minWidth: viewMode === 'simplified' ? '180px' : '280px',
         minHeight: viewMode === 'simplified' ? '80px' : '100px',
       },
       step: {
         borderColor: '#9c27b0',
-        backgroundColor: '#f3e5f5',
+        backgroundColor: isDarkMode ? '#4a2d4f' : '#f3e5f5',
         minWidth: viewMode === 'simplified' ? '140px' : '200px',
         minHeight: viewMode === 'simplified' ? '60px' : '80px',
       },
@@ -67,7 +73,7 @@ const CustomNode = ({ data, selected }) => {
           width: '20px',
           height: '20px',
           borderRadius: '50%',
-          backgroundColor: 'rgba(0,0,0,0.1)',
+          backgroundColor: 'var(--cui-gray-200)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -77,7 +83,7 @@ const CustomNode = ({ data, selected }) => {
         <CIcon 
           icon={isExpanded ? cilMinus : cilPlus} 
           size="sm"
-          style={{ color: '#666' }}
+          style={{ color: 'var(--cui-body-color)' }}
         />
       </div>
     )
@@ -133,7 +139,8 @@ const CustomNode = ({ data, selected }) => {
           fontWeight: 'bold',
           marginBottom: '4px',
           textAlign: 'center',
-          lineHeight: '1.2'
+          lineHeight: '1.2',
+          color: '#ffffff'
         }}>
           {data.type === 'procedure' ? data.label : data.label}
         </div>
@@ -166,7 +173,7 @@ const CustomNode = ({ data, selected }) => {
         
         {/* Show simplified info in simplified view */}
         {data.viewMode === 'simplified' && (
-          <div style={{ fontSize: '11px', color: '#666', textAlign: 'center' }}>
+          <div style={{ fontSize: '11px', color: '#e0e0e0', textAlign: 'center' }}>
             {data.directRefs + data.indirectRefs} referans
             {data.stepCount && ` • ${data.stepCount} adım`}
           </div>

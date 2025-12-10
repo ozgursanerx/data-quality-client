@@ -50,25 +50,66 @@ const PackageAnalysis = () => {
     }
   }, [packageId, packageOptions]);
 
-  // Tablo verilerini filtrele
+  // Step'ten sonundaki sayıyı çıkar (sıralama için)
+  const extractStepNumber = (stepStr) => {
+    if (!stepStr) return 0;
+    const str = String(stepStr);
+    // Pattern: step'in sonundaki sayıyı bul (örn: "P_DA_WNC_CUST-10" -> 10)
+    const match = str.match(/-(\d+)$/);
+    if (match) {
+      return parseInt(match[1], 10);
+    }
+    // Eğer sayı yoksa, alfabetik sıralama için 0 döndür
+    return 0;
+  };
+
+  // Tablo verilerini filtrele ve sırala
   useEffect(() => {
     let filtered = tableData;
     
     if (searchFilters.procedure) {
-      filtered = filtered.filter(row => 
-        row.procedure && row.procedure.toLowerCase().includes(searchFilters.procedure.toLowerCase())
-      );
+      const searchTerm = searchFilters.procedure.toLowerCase().trim();
+      filtered = filtered.filter(row => {
+        const procedure = (row.procedure || '').toLowerCase();
+        const step = (row.step || '').toLowerCase();
+        // Hem procedure hem de step alanında ara
+        return procedure.includes(searchTerm) || step.includes(searchTerm);
+      });
     }
     
     if (searchFilters.step) {
-      filtered = filtered.filter(row => 
-        row.step && row.step.toLowerCase().includes(searchFilters.step.toLowerCase())
-      );
+      const searchTerm = searchFilters.step.toLowerCase().trim();
+      filtered = filtered.filter(row => {
+        const procedure = (row.procedure || '').toLowerCase();
+        const step = (row.step || '').toLowerCase();
+        // Hem step hem de procedure alanında ara
+        return step.includes(searchTerm) || procedure.includes(searchTerm);
+      });
     }
     
     if (searchFilters.status) {
       filtered = filtered.filter(row => row.status === searchFilters.status);
     }
+    
+    // Step'leri sırala: önce procedure'a göre, sonra step'in sonundaki sayıya göre
+    filtered = filtered.sort((a, b) => {
+      // Önce procedure'a göre sırala
+      const procCompare = (a.procedure || '').localeCompare(b.procedure || '');
+      if (procCompare !== 0) {
+        return procCompare;
+      }
+      
+      // Aynı procedure içinde, step'in sonundaki sayıya göre sırala
+      const stepNumA = extractStepNumber(a.step);
+      const stepNumB = extractStepNumber(b.step);
+      
+      if (stepNumA !== stepNumB) {
+        return stepNumA - stepNumB;
+      }
+      
+      // Eğer sayılar eşitse veya sayı yoksa, alfabetik sırala
+      return (a.step || '').localeCompare(b.step || '');
+    });
     
     setFilteredTableData(filtered);
     setCurrentPage(1); // Filtreleme sonrası ilk sayfaya dön

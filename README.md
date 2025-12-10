@@ -1,185 +1,265 @@
-# CoreUI Free React Admin Template [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social&logo=twitter)](https://twitter.com/intent/tweet?text=CoreUI%20-%20Free%React%204%20Admin%20Template%20&url=https://coreui.io&hashtags=bootstrap,admin,template,dashboard,panel,free,angular,react,vue)
+# 🔍 Flowlytics
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://opensource.org/licenses/MIT)
-[![@coreui coreui](https://img.shields.io/badge/@coreui%20-coreui-lightgrey.svg?style=flat-square)](https://github.com/coreui/coreui)
-[![npm package][npm-coreui-badge]][npm-coreui]
-[![NPM downloads][npm-coreui-download]][npm-coreui]
-[![@coreui react](https://img.shields.io/badge/@coreui%20-react-lightgrey.svg?style=flat-square)](https://github.com/coreui/react)
-[![npm package][npm-coreui-react-badge]][npm-coreui-react]
-[![NPM downloads][npm-coreui-react-download]][npm-coreui-react]  
+Modern, React tabanlı veri akış analizi platformu. Veri ambarı log analizleri, anomali tespiti ve performans izleme özellikleri sunar.
 
-[npm-coreui]: https://www.npmjs.com/package/@coreui/coreui
-[npm-coreui-badge]: https://img.shields.io/npm/v/@coreui/coreui.png?style=flat-square
-[npm-coreui-download]: https://img.shields.io/npm/dm/@coreui/coreui.svg?style=flat-square
-[npm-coreui-react]: https://www.npmjs.com/package/@coreui/react
-[npm-coreui-react-badge]: https://img.shields.io/npm/v/@coreui/react.png?style=flat-square
-[npm-coreui-react-download]: https://img.shields.io/npm/dm/@coreui/react.svg?style=flat-square
-[npm]: https://www.npmjs.com/package/@coreui/react
+## 🆕 MCP Integration - YENI!
 
-[![Bootstrap Admin Template](https://assets.coreui.io/products/coreui-free-bootstrap-admin-template-light-dark.webp)](https://coreui.io/product/free-react-admin-template/)
+Frontend'den direkt **MCP (Model Context Protocol) Server** çalıştırma özelliği eklendi!
 
-CoreUI is meant to be the UX game changer. Pure & transparent code is devoid of redundant components, so the app is light enough to offer ultimate user experience. This means mobile devices also, where the navigation is just as easy and intuitive as on a desktop or laptop. The CoreUI Layout API lets you customize your project for almost any device – be it Mobile, Web or WebApp – CoreUI covers them all!
+### 🚀 MCP Özellikleri
 
-## Table of Contents
+- **Frontend'den Direkt İstek**: Kullanıcı frontend'den direkt MCP server'ı çalıştırabilir
+- **Real-time Analysis**: Canlı veri akış analizi ve geriye dönük izleme
+- **Process Management**: Aktif MCP işlemlerini görüntüleme ve yönetme
+- **Comprehensive Reports**: Detaylı analiz raporları ve JSON export
 
-* [Versions](#versions)
-* [CoreUI PRO](#coreui-pro)
-* [CoreUI PRO React Admin Templates](#coreui-pro-react-admin-templates)
-* [Quick Start](#quick-start)
-* [Installation](#installation)
-* [Basic usage](#basic-usage)
-* [What's included](#whats-included)
-* [Documentation](#documentation)
-* [Versioning](#versioning)
-* [Creators](#creators)
-* [Community](#community)
-* [Support CoreUI Development](#support-coreui-development)
-* [Copyright and License](#copyright-and-license)
+### 🛠 MCP Kurulumu
 
-## Versions
-
-* [CoreUI Free Bootstrap Admin Template](https://github.com/coreui/coreui-free-bootstrap-admin-template)
-* [CoreUI Free Angular Admin Template](https://github.com/coreui/coreui-free-angular-admin-template)
-* [CoreUI Free React.js Admin Template (Vite)](https://github.com/coreui/coreui-free-react-admin-template)
-* [CoreUI Free React.js Admin Template (Create React App)](https://github.com/coreui/coreui-free-react-admin-template-cra)
-* [CoreUI Free Vue.js Admin Template](https://github.com/coreui/coreui-free-vue-admin-template)
-
-## CoreUI PRO
-
-* 💪  [CoreUI PRO Angular Admin Template](https://coreui.io/product/angular-dashboard-template/)
-* 💪  [CoreUI PRO Bootstrap Admin Template](https://coreui.io/product/bootstrap-dashboard-template/)
-* 💪  [CoreUI PRO Next.js Admin Template](https://coreui.io/product/next-js-dashboard-template/)
-* 💪  [CoreUI PRO React Admin Template](https://coreui.io/product/react-dashboard-template/)
-* 💪  [CoreUI PRO Vue Admin Template](https://coreui.io/product/vue-dashboard-template/)
-
-## CoreUI PRO React Admin Templates
-
-| Default Theme | Light Theme |
-| --- | --- |
-| [![CoreUI PRO React Admin Template](https://coreui.io/images/templates/coreui_pro_default_light_dark.webp)](https://coreui.io/product/react-dashboard-template/?theme=default) | [![CoreUI PRO React Admin Template](https://coreui.io/images/templates/coreui_pro_light_light_dark.webp)](https://coreui.io/product/react-dashboard-template/?theme=light)|
-
-| Modern Theme | Bright Theme |
-| --- | --- |
-| [![CoreUI PRO React Admin Template](https://coreui.io/images/templates/coreui_pro_default_v3_light_dark.webp)](https://coreui.io/product/react-dashboard-template/?theme=modern) | [![CoreUI PRO React Admin Template](https://coreui.io/images/templates/coreui_pro_light_v3_light_dark.webp)](https://coreui.io/product/react-dashboard-template/?theme=bright)|
-
-## Quick Start
-
-- [Download the latest release](https://github.com/coreui/coreui-free-react-admin-template/archive/refs/heads/main.zip)
-- Clone the repo: `git clone https://github.com/coreui/coreui-free-react-admin-template.git`
-
-### Installation
-
-``` bash
-$ npm install
+1. **Backend'i başlatın:**
+```bash
+cd backend
+npm install
+npm start
 ```
 
-or
-
-``` bash
-$ yarn install
+2. **Frontend'i başlatın:**
+```bash
+npm install
+npm start
 ```
 
-### Basic usage
+3. **MCP Analysis sayfasını açın:**
+   - Sidebar'dan "MCP Analysis" seçin
+   - Schema, table, column bilgilerini girin
+   - "Start Analysis" butonuna tıklayın
 
-``` bash
-# dev server with hot reload at http://localhost:3000
-$ npm start 
+### 📡 MCP API Endpoints
+
+- `GET /api/health` - Server durumu
+- `POST /api/analyze-data-flow` - Veri akış analizi
+- `POST /api/analyze-backward-tracing` - Geriye dönük izleme
+- `GET /api/schema-packages/{schema}` - Schema paketleri
+
+Detaylı API dokümantasyonu için: [`backend/README.md`](backend/README.md)
+
+---
+
+## 🎯 Ana Özellikler
+
+- **📊 Dashboard**: Sistem genel durumu ve metrikleri
+- **🔍 Data Lineage**: İnteraktif veri köken analizi
+- **📈 Performance Analytics**: Detaylı performans izleme
+- **🚨 Anomaly Detection**: Otomatik anomali tespiti
+- **📋 Package Management**: Paket ve prosedür yönetimi
+- **🔄 Real-time Monitoring**: Canlı sistem izleme
+- **📊 Interactive Visualizations**: D3.js tabanlı görselleştirmeler
+- **🎛️ Advanced Filtering**: Çoklu kriter filtreleme
+
+## 📁 Proje Yapısı
+
+```
+flowlytics/
+├── src/
+│   ├── components/         # Ortak bileşenler
+│   ├── pages/             # Ana sayfalar
+│   │   ├── dashboard/     # Dashboard bileşenleri
+│   │   ├── data-lineage/  # Veri köken analizi
+│   │   ├── performance/   # Performans analizi
+│   │   ├── anomaly/       # Anomali tespiti
+│   │   └── packages/      # Paket yönetimi
+│   ├── services/          # API servisleri
+│   ├── utils/            # Yardımcı fonksiyonlar
+│   └── styles/           # CSS stilleri
+├── backend/              # MCP Backend Server
+├── docs/                 # Dokümantasyon ve örnek veriler
+└── public/              # Statik dosyalar
 ```
 
-or 
+## 🚀 Kurulum
 
-``` bash
-# dev server with hot reload at http://localhost:3000
-$ yarn start
+### Gereksinimler
+- Node.js 18+
+- npm veya yarn
+
+### Adımlar
+
+1. **Projeyi klonlayın:**
+```bash
+git clone https://github.com/flowlytics/flowlytics.git
+cd flowlytics
 ```
 
-Navigate to [http://localhost:3000](http://localhost:3000). The app will automatically reload if you change any of the source files.
+2. **Bağımlılıkları yükleyin:**
+```bash
+npm install
+```
 
-#### Build
+3. **Geliştirme sunucusunu başlatın:**
+```bash
+npm start
+```
 
-Run `build` to build the project. The build artifacts will be stored in the `build/` directory.
+4. **Tarayıcıda açın:**
+```
+http://localhost:3000
+```
+
+## 🛠 Teknolojiler
+
+### Frontend
+- **React 19** - Modern UI framework
+- **CoreUI 5.x** - Profesyonel admin template
+- **D3.js 7.x** - Veri görselleştirme
+- **ReactFlow** - İnteraktif akış diyagramları
+- **Chart.js** - Grafik ve metrikler
+- **React Router 7** - Sayfa yönlendirme
+- **Axios** - HTTP istekleri
+
+### Backend
+- **Node.js** - Runtime environment
+- **Express.js** - Web framework
+- **MCP Protocol** - Model Context Protocol
+- **Winston** - Logging
+
+### Geliştirme
+- **Vite** - Build tool
+- **ESLint** - Code linting
+- **Prettier** - Code formatting
+
+## 📊 Özellik Detayları
+
+### Dashboard
+- Sistem genel durumu
+- Performans metrikleri
+- Son aktiviteler
+- Hızlı erişim linkleri
+
+### Data Lineage
+- İnteraktif veri köken haritası
+- Tablo ve kolon bazlı izleme
+- Dependency grafiği
+- Impact analizi
+
+### Performance Analytics
+- Execution time analizi
+- Resource usage metrikleri
+- Trend analizi
+- Bottleneck tespiti
+
+### Anomaly Detection
+- Otomatik anomali tespiti
+- Threshold bazlı uyarılar
+- Pattern recognition
+- Alert management
+
+### Package Management
+- Paket listesi ve detayları
+- Procedure hierarchy
+- Step execution tracking
+- Error monitoring
+
+## 🔧 Konfigürasyon
+
+### Environment Variables
+```bash
+# Backend API URL
+REACT_APP_API_URL=http://localhost:8080
+
+# MCP Server Configuration
+MCP_SERVER_PATH=/path/to/mcp/server
+MCP_LOG_LEVEL=info
+```
+
+### Build Configuration
+```bash
+# Production build
+npm run build
+
+# Serve production build
+npm run serve
+```
+
+## 📝 API Dokümantasyonu
+
+### Temel Endpoints
+- `GET /api/packages` - Tüm paketleri listele
+- `GET /api/packages/:id` - Paket detayları
+- `GET /api/procedures/:id` - Prosedür detayları
+- `GET /api/analytics/performance` - Performans verileri
+- `GET /api/analytics/anomalies` - Anomali verileri
+
+Detaylı API dokümantasyonu için `backend/README.md` dosyasına bakın.
+
+## 🧪 Test
 
 ```bash
-# build for production with minification
-$ npm run build
+# Unit testleri çalıştır
+npm test
+
+# Test coverage raporu
+npm run test:coverage
+
+# E2E testler
+npm run test:e2e
 ```
 
-or
+## 📦 Build
 
 ```bash
-# build for production with minification
-$ yarn build
+# Production build
+npm run build
+
+# Build analizi
+npm run analyze
+
+# Build optimizasyonu kontrolü
+npm run build:check
 ```
 
-## What's included
+## 🚀 Deployment
 
-Within the download you'll find the following directories and files, logically grouping common assets and providing both compiled and minified variations. You'll see something like this:
+### Docker ile Deploy
+```bash
+# Docker image oluştur
+docker build -t flowlytics .
 
-```
-coreui-free-react-admin-template
-├── public/          # static files
-│   ├── favicon.ico
-│   └── manifest.json
-│
-├── src/             # project root
-│   ├── assets/      # images, icons, etc.
-│   ├── components/  # common components - header, footer, sidebar, etc.
-│   ├── layouts/     # layout containers
-│   ├── scss/        # scss styles
-│   ├── views/       # application views
-│   ├── _nav.js      # sidebar navigation config
-│   ├── App.js
-│   ├── index.js
-│   ├── routes.js    # routes config
-│   └── store.js     # template state example 
-│
-├── index.html       # html template
-├── ...
-├── package.json
-├── ...
-└── vite.config.mjs  # vite config
+# Container çalıştır
+docker run -p 3000:3000 flowlytics
 ```
 
-## Documentation
+### Manual Deploy
+```bash
+# Build al
+npm run build
 
-The documentation for the CoreUI Admin Template is hosted at our website [CoreUI for React](https://coreui.io/react/docs/templates/installation/)
+# Build dosyalarını web sunucusuna kopyala
+cp -r build/* /var/www/html/
+```
 
-## Versioning
+## 🤝 Katkıda Bulunma
 
-For transparency into our release cycle and in striving to maintain backward compatibility, CoreUI Free Admin Template is maintained under [the Semantic Versioning guidelines](http://semver.org/).
+1. Fork edin
+2. Feature branch oluşturun (`git checkout -b feature/AmazingFeature`)
+3. Değişiklikleri commit edin (`git commit -m 'Add some AmazingFeature'`)
+4. Branch'i push edin (`git push origin feature/AmazingFeature`)
+5. Pull Request açın
 
-See [the Releases section of our project](https://github.com/coreui/coreui-free-react-admin-template/releases) for changelogs for each release version.
+## 📄 Lisans
 
-## Creators
+Bu proje MIT lisansı altında lisanslanmıştır. Detaylar için `LICENSE` dosyasına bakın.
 
-**Łukasz Holeczek**
+## 🙏 Teşekkürler
 
-* <https://twitter.com/lukaszholeczek>
-* <https://github.com/mrholek>
+- **CoreUI Team** - Harika admin template için
+- **D3.js Community** - Güçlü veri görselleştirme kütüphanesi için
+- **React Community** - Sürekli gelişen ekosistem için
 
-**Andrzej Kopański**
+## 📞 İletişim
 
-* <https://github.com/xidedix>
+- **Proje Sahibi**: Flowlytics Team
+- **Email**: contact@flowlytics.com
+- **GitHub**: https://github.com/flowlytics/flowlytics
 
-**CoreUI Team**
+---
 
-* <https://twitter.com/core_ui>
-* <https://github.com/coreui>
-* <https://github.com/orgs/coreui/people>
-
-## Community
-
-Get updates on CoreUI's development and chat with the project maintainers and community members.
-
-- Follow [@core_ui on Twitter](https://twitter.com/core_ui).
-- Read and subscribe to [CoreUI Blog](https://coreui.ui/blog/).
-
-## Support CoreUI Development
-
-CoreUI is an MIT-licensed open source project and is completely free to use. However, the amount of effort needed to maintain and develop new features for the project is not sustainable without proper financial backing. You can support development by buying the [CoreUI PRO](https://coreui.io/pricing/?framework=react&src=github-coreui-free-react-admin-template) or by becoming a sponsor via [Open Collective](https://opencollective.com/coreui/).
-
-## Copyright and License
-
-copyright 2025 creativeLabs Łukasz Holeczek.   
-
-Code released under [the MIT license](https://github.com/coreui/coreui-free-react-admin-template/blob/main/LICENSE).
+⭐ Bu projeyi beğendiyseniz star vermeyi unutmayın!

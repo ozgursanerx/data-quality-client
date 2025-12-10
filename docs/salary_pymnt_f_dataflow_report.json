@@ -1,0 +1,559 @@
+{
+  "timestamp": "2025-07-10T07:38:11.842Z",
+  "target": {
+    "schema": "SNPADM",
+    "table": "EDW.DA_ACTION_DATA_HIST",
+    "column": "SALARY_PYMNT_F"
+  },
+  "summary": {
+    "totalPackages": 54,
+    "impactedPackages": 5,
+    "directReferences": 17,
+    "indirectReferences": 0,
+    "totalImpact": 17
+  },
+  "packageAnalysis": [
+    {
+      "packageName": "SNPADM.PKG_DA_CORP_KFT_PATTERN_DATA",
+      "directReferences": [
+        {
+          "stepId": "P_DA_CORP_PATTERN_KFT-900",
+          "stepLine": 656,
+          "procedure": "P_DA_CORP_PATTERN_KFT",
+          "occurrences": 2,
+          "references": [
+            {
+              "line": 699,
+              "stepId": "P_DA_CORP_PATTERN_KFT-900",
+              "stepLine": 656,
+              "procedure": "P_DA_CORP_PATTERN_KFT",
+              "type": "DIRECT_REFERENCE",
+              "text": ", 0  SALARY_PYMNT_F"
+            },
+            {
+              "line": 701,
+              "stepId": "P_DA_CORP_PATTERN_KFT-900",
+              "stepLine": 656,
+              "procedure": "P_DA_CORP_PATTERN_KFT",
+              "type": "DIRECT_REFERENCE",
+              "text": ", CAST(null AS VARCHAR2(20)) SALARY_PYMNT_F_SRC --QT-2450 // DUZENLENDI!!"
+            }
+          ]
+        }
+      ],
+      "indirectReferences": []
+    },
+    {
+      "packageName": "SNPADM.PKG_DA_CORP_PATTERN_DATA",
+      "directReferences": [
+        {
+          "stepId": "P_DA_CORP_MNY_TRNSFR_PATTERN-901",
+          "stepLine": 3030,
+          "procedure": "P_DA_CORP_MNY_TRNSFR_PATTERN",
+          "occurrences": 1,
+          "references": [
+            {
+              "line": 3041,
+              "stepId": "P_DA_CORP_MNY_TRNSFR_PATTERN-901",
+              "stepLine": 3030,
+              "procedure": "P_DA_CORP_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": "AND A.FIELD_NAME = ''SALARY_PYMNT_F''"
+            }
+          ]
+        },
+        {
+          "stepId": "P_DA_CORP_MNY_TRNSFR_PATTERN-1000",
+          "stepLine": 3162,
+          "procedure": "P_DA_CORP_MNY_TRNSFR_PATTERN",
+          "occurrences": 2,
+          "references": [
+            {
+              "line": 3271,
+              "stepId": "P_DA_CORP_MNY_TRNSFR_PATTERN-1000",
+              "stepLine": 3162,
+              "procedure": "P_DA_CORP_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": "ELSE 0 END SALARY_PYMNT_F"
+            },
+            {
+              "line": 3273,
+              "stepId": "P_DA_CORP_MNY_TRNSFR_PATTERN-1000",
+              "stepLine": 3162,
+              "procedure": "P_DA_CORP_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": "WHEN SS.UNQ_KEY IS NOT NULL OR EE.UNQ_KEY IS NOT NULL THEN ''S'' END SALARY_PYMNT_F_SRC"
+            }
+          ]
+        },
+        {
+          "stepId": "P_DA_CORP_MNY_TRNSFR_PATTERN-1200",
+          "stepLine": 3490,
+          "procedure": "P_DA_CORP_MNY_TRNSFR_PATTERN",
+          "occurrences": 4,
+          "references": [
+            {
+              "line": 3499,
+              "stepId": "P_DA_CORP_MNY_TRNSFR_PATTERN-1200",
+              "stepLine": 3490,
+              "procedure": "P_DA_CORP_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": ", EXP_DT_DUE, EXP_DT_CHR,SALARY_PYMNT_F"
+            },
+            {
+              "line": 3507,
+              "stepId": "P_DA_CORP_MNY_TRNSFR_PATTERN-1200",
+              "stepLine": 3490,
+              "procedure": "P_DA_CORP_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": ", SALARY_PYMNT_F_SRC)"
+            },
+            {
+              "line": 3523,
+              "stepId": "P_DA_CORP_MNY_TRNSFR_PATTERN-1200",
+              "stepLine": 3490,
+              "procedure": "P_DA_CORP_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": ", EXP_DT_DUE, EXP_DT_CHR,SALARY_PYMNT_F"
+            },
+            {
+              "line": 3531,
+              "stepId": "P_DA_CORP_MNY_TRNSFR_PATTERN-1200",
+              "stepLine": 3490,
+              "procedure": "P_DA_CORP_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": ", SALARY_PYMNT_F_SRC"
+            }
+          ]
+        }
+      ],
+      "indirectReferences": []
+    },
+    {
+      "packageName": "SNPADM.PKG_DA_CP_PATTERN_DATA",
+      "directReferences": [
+        {
+          "stepId": "P_DA_CP_PATTERN-352",
+          "stepLine": 260,
+          "procedure": "P_DA_CP_ACTION_HIST",
+          "occurrences": 3,
+          "references": [
+            {
+              "line": 264,
+              "stepId": "P_DA_CP_PATTERN-352",
+              "stepLine": 260,
+              "procedure": "P_DA_CP_ACTION_HIST",
+              "type": "DIRECT_REFERENCE",
+              "text": "SELECT A.UNQ_KEY, A.CREATE_DT, A.SALARY_PYMNT_F FROM"
+            },
+            {
+              "line": 267,
+              "stepId": "P_DA_CP_PATTERN-352",
+              "stepLine": 260,
+              "procedure": "P_DA_CP_ACTION_HIST",
+              "type": "DIRECT_REFERENCE",
+              "text": "MAX(CASE WHEN FIELD_NAME = ''SALARY_PYMNT_F'' THEN TO_NUMBER(FIELD_VALUE) END) SALARY_PYMNT_F ,--QT-5850 // 20231122 @DA"
+            },
+            {
+              "line": 273,
+              "stepId": "P_DA_CP_PATTERN-352",
+              "stepLine": 260,
+              "procedure": "P_DA_CP_ACTION_HIST",
+              "type": "DIRECT_REFERENCE",
+              "text": "AND A.FIELD_NAME =''SALARY_PYMNT_F''"
+            }
+          ]
+        },
+        {
+          "stepId": "P_DA_CP_PATTERN-1190",
+          "stepLine": 1506,
+          "procedure": "P_DA_CP_POST_PROCESS",
+          "occurrences": 2,
+          "references": [
+            {
+              "line": 1508,
+              "stepId": "P_DA_CP_PATTERN-1190",
+              "stepLine": 1506,
+              "procedure": "P_DA_CP_POST_PROCESS",
+              "type": "DIRECT_REFERENCE",
+              "text": "UPDATE /*+PARALLEL(16)*/ DA_CP_PATTERN_TMP1'||V_USER||' T SET T.SALARY_PYMNT_F=0"
+            },
+            {
+              "line": 1510,
+              "stepId": "P_DA_CP_PATTERN-1190",
+              "stepLine": 1506,
+              "procedure": "P_DA_CP_POST_PROCESS",
+              "type": "DIRECT_REFERENCE",
+              "text": "AND T.SALARY_PYMNT_F=1"
+            }
+          ]
+        },
+        {
+          "stepId": "P_DA_CP_PATTERN-1191",
+          "stepLine": 1516,
+          "procedure": "P_DA_CP_POST_PROCESS",
+          "occurrences": 1,
+          "references": [
+            {
+              "line": 1524,
+              "stepId": "P_DA_CP_PATTERN-1191",
+              "stepLine": 1516,
+              "procedure": "P_DA_CP_POST_PROCESS",
+              "type": "DIRECT_REFERENCE",
+              "text": "AND T.SALARY_PYMNT_F IN (0,1)"
+            }
+          ]
+        },
+        {
+          "stepId": "P_DA_CP_PATTERN-1100",
+          "stepLine": 2228,
+          "procedure": "P_DA_CP_PATTERN",
+          "occurrences": 3,
+          "references": [
+            {
+              "line": 2411,
+              "stepId": "P_DA_CP_PATTERN-1100",
+              "stepLine": 2228,
+              "procedure": "P_DA_CP_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": "WHEN EE.UNQ_KEY IS NOT NULL THEN NVL(EE.SALARY_PYMNT_F,0)  --QT-5850 // 20231122 @DA"
+            },
+            {
+              "line": 2414,
+              "stepId": "P_DA_CP_PATTERN-1100",
+              "stepLine": 2228,
+              "procedure": "P_DA_CP_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": "END SALARY_PYMNT_F"
+            },
+            {
+              "line": 2444,
+              "stepId": "P_DA_CP_PATTERN-1100",
+              "stepLine": 2228,
+              "procedure": "P_DA_CP_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": "END SALARY_PYMNT_F_SRC"
+            }
+          ]
+        },
+        {
+          "stepId": "P_DA_CP_PATTERN-2100",
+          "stepLine": 2561,
+          "procedure": "P_DA_CP_PATTERN",
+          "occurrences": 4,
+          "references": [
+            {
+              "line": 2571,
+              "stepId": "P_DA_CP_PATTERN-2100",
+              "stepLine": 2561,
+              "procedure": "P_DA_CP_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": ", Q_ORDR_ID, Q_ORDR_TRX_ID, EXP_AMT ,VERSION_ID, NEXT_STMT_DT, EXP_DT_DUE, EXP_DT_CHR, SALARY_PYMNT_F, ITERATED_EXP_DT,PTTRN_SRC,PTTRN_CRT_DT,PTTRN_CRT_TM"
+            },
+            {
+              "line": 2572,
+              "stepId": "P_DA_CP_PATTERN-2100",
+              "stepLine": 2561,
+              "procedure": "P_DA_CP_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": ", LAST_TRX_DT,SENDER_BRNCH,CUST_EXP_DT_CALC_F,RMD_LAST_PYMNT_F, SALARY_PYMNT_F_SRC,REFUND_AMT, OPN_SRV /*QT-8015 Seçil*/, CARD_TP /*QT-8552 Secil*/)"
+            },
+            {
+              "line": 2594,
+              "stepId": "P_DA_CP_PATTERN-2100",
+              "stepLine": 2561,
+              "procedure": "P_DA_CP_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": ", SALARY_PYMNT_F"
+            },
+            {
+              "line": 2603,
+              "stepId": "P_DA_CP_PATTERN-2100",
+              "stepLine": 2561,
+              "procedure": "P_DA_CP_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": ", SALARY_PYMNT_F_SRC"
+            }
+          ]
+        }
+      ],
+      "indirectReferences": []
+    },
+    {
+      "packageName": "SNPADM.PKG_DA_KFT_PATTERN_DATA",
+      "directReferences": [
+        {
+          "stepId": "P_DA_PATTERN_KFT-555",
+          "stepLine": 464,
+          "procedure": "P_DA_KFT_ACTION_DATA_HIST",
+          "occurrences": 3,
+          "references": [
+            {
+              "line": 468,
+              "stepId": "P_DA_PATTERN_KFT-555",
+              "stepLine": 464,
+              "procedure": "P_DA_KFT_ACTION_DATA_HIST",
+              "type": "DIRECT_REFERENCE",
+              "text": "SELECT A.UNQ_KEY, A.CREATE_DT, A.SALARY_PYMNT_F FROM"
+            },
+            {
+              "line": 471,
+              "stepId": "P_DA_PATTERN_KFT-555",
+              "stepLine": 464,
+              "procedure": "P_DA_KFT_ACTION_DATA_HIST",
+              "type": "DIRECT_REFERENCE",
+              "text": "MAX(CASE WHEN FIELD_NAME = ''SALARY_PYMNT_F'' THEN TO_NUMBER(FIELD_VALUE) END) SALARY_PYMNT_F, --QT-5842 // 20231122 @DA"
+            },
+            {
+              "line": 477,
+              "stepId": "P_DA_PATTERN_KFT-555",
+              "stepLine": 464,
+              "procedure": "P_DA_KFT_ACTION_DATA_HIST",
+              "type": "DIRECT_REFERENCE",
+              "text": "AND A.FIELD_NAME =''SALARY_PYMNT_F''"
+            }
+          ]
+        },
+        {
+          "stepId": "P_DA_PATTERN_KFT-900",
+          "stepLine": 1040,
+          "procedure": "P_DA_PATTERN_KFT",
+          "occurrences": 3,
+          "references": [
+            {
+              "line": 1104,
+              "stepId": "P_DA_PATTERN_KFT-900",
+              "stepLine": 1040,
+              "procedure": "P_DA_PATTERN_KFT",
+              "type": "DIRECT_REFERENCE",
+              "text": "WHEN EE.UNQ_KEY IS NOT NULL THEN NVL(EE.SALARY_PYMNT_F,0) --QT-5842 // 20231122 @DA"
+            },
+            {
+              "line": 1107,
+              "stepId": "P_DA_PATTERN_KFT-900",
+              "stepLine": 1040,
+              "procedure": "P_DA_PATTERN_KFT",
+              "type": "DIRECT_REFERENCE",
+              "text": "END SALARY_PYMNT_F --PAYMENTBYSALARY  MTS-18231 @meral"
+            },
+            {
+              "line": 1114,
+              "stepId": "P_DA_PATTERN_KFT-900",
+              "stepLine": 1040,
+              "procedure": "P_DA_PATTERN_KFT",
+              "type": "DIRECT_REFERENCE",
+              "text": "END SALARY_PYMNT_F_SRC"
+            }
+          ]
+        },
+        {
+          "stepId": "P_DA_PATTERN_KFT-1000",
+          "stepLine": 1168,
+          "procedure": "P_DA_PATTERN_KFT",
+          "occurrences": 3,
+          "references": [
+            {
+              "line": 1178,
+              "stepId": "P_DA_PATTERN_KFT-1000",
+              "stepLine": 1168,
+              "procedure": "P_DA_PATTERN_KFT",
+              "type": "DIRECT_REFERENCE",
+              "text": ", PD_OPER_CODE,SALARY_PYMNT_F,VALID_F_CHG, SALARY_PYMNT_F_SRC, OPN_SRV/*QT-8226 Seçil*/)"
+            },
+            {
+              "line": 1185,
+              "stepId": "P_DA_PATTERN_KFT-1000",
+              "stepLine": 1168,
+              "procedure": "P_DA_PATTERN_KFT",
+              "type": "DIRECT_REFERENCE",
+              "text": ", ACCT_ID_SRC,EXP_DT,'||P_VERSION_ID ||',CUST_TITLE, PD_CODE, PD_OPER_CODE,SALARY_PYMNT_F"
+            },
+            {
+              "line": 1187,
+              "stepId": "P_DA_PATTERN_KFT-1000",
+              "stepLine": 1168,
+              "procedure": "P_DA_PATTERN_KFT",
+              "type": "DIRECT_REFERENCE",
+              "text": ", SALARY_PYMNT_F_SRC"
+            }
+          ]
+        }
+      ],
+      "indirectReferences": []
+    },
+    {
+      "packageName": "SNPADM.PKG_DA_PATTERN_DATA",
+      "directReferences": [
+        {
+          "stepId": "P_DA_MNY_TRNSFR_PATTERN-210-||P_MONEY_TRANSFER_TP",
+          "stepLine": 5005,
+          "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+          "occurrences": 3,
+          "references": [
+            {
+              "line": 5072,
+              "stepId": "P_DA_MNY_TRNSFR_PATTERN-210-||P_MONEY_TRANSFER_TP",
+              "stepLine": 5005,
+              "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": ", TO_NUMBER(MAX(DECODE(FIELD_NAME, ''SALARY_PYMNT_F'', FIELD_VALUE))) SALARY_PYMNT_F"
+            },
+            {
+              "line": 5076,
+              "stepId": "P_DA_MNY_TRNSFR_PATTERN-210-||P_MONEY_TRANSFER_TP",
+              "stepLine": 5005,
+              "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": "AND A.FIELD_NAME IN (''EXP_DT'', ''NEXT_EXP_DT'', ''EXP_DT_SRC'',''SALARY_PYMNT_F'')"
+            },
+            {
+              "line": 5103,
+              "stepId": "P_DA_MNY_TRNSFR_PATTERN-210-||P_MONEY_TRANSFER_TP",
+              "stepLine": 5005,
+              "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": ", SALARY_PYMNT_F"
+            }
+          ]
+        },
+        {
+          "stepId": "P_DA_MNY_TRNSFR_PATTERN-902-||P_MONEY_TRANSFER_TP",
+          "stepLine": 5807,
+          "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+          "occurrences": 3,
+          "references": [
+            {
+              "line": 5811,
+              "stepId": "P_DA_MNY_TRNSFR_PATTERN-902-||P_MONEY_TRANSFER_TP",
+              "stepLine": 5807,
+              "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": "SELECT B.UNQ_KEY, B.BUCKET_DT, B.SALARY_PYMNT_F FROM ("
+            },
+            {
+              "line": 5812,
+              "stepId": "P_DA_MNY_TRNSFR_PATTERN-902-||P_MONEY_TRANSFER_TP",
+              "stepLine": 5807,
+              "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": "SELECT A.UNQ_KEY , MAX(A.BUCKET_DT) BUCKET_DT ,MAX(CASE WHEN FIELD_NAME = ''SALARY_PYMNT_F'' THEN TO_NUMBER(FIELD_VALUE) END)  SALARY_PYMNT_F"
+            },
+            {
+              "line": 5820,
+              "stepId": "P_DA_MNY_TRNSFR_PATTERN-902-||P_MONEY_TRANSFER_TP",
+              "stepLine": 5807,
+              "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": "AND A.FIELD_NAME = ''SALARY_PYMNT_F''"
+            }
+          ]
+        },
+        {
+          "stepId": "P_DA_MNY_TRNSFR_PATTERN-1000-||P_MONEY_TRANSFER_TP",
+          "stepLine": 5971,
+          "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+          "occurrences": 3,
+          "references": [
+            {
+              "line": 6072,
+              "stepId": "P_DA_MNY_TRNSFR_PATTERN-1000-||P_MONEY_TRANSFER_TP",
+              "stepLine": 5971,
+              "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": "WHEN EE.UNQ_KEY IS NOT NULL THEN NVL(EE.SALARY_PYMNT_F,0)"
+            },
+            {
+              "line": 6074,
+              "stepId": "P_DA_MNY_TRNSFR_PATTERN-1000-||P_MONEY_TRANSFER_TP",
+              "stepLine": 5971,
+              "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": "ELSE NVL(E.SALARY_PYMNT_F,0) END SALARY_PYMNT_F"
+            },
+            {
+              "line": 6077,
+              "stepId": "P_DA_MNY_TRNSFR_PATTERN-1000-||P_MONEY_TRANSFER_TP",
+              "stepLine": 5971,
+              "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": "WHEN SS.UNQ_KEY IS NOT NULL OR EE.UNQ_KEY IS NOT NULL THEN ''S'' END SALARY_PYMNT_F_SRC"
+            }
+          ]
+        },
+        {
+          "stepId": "P_DA_MNY_TRNSFR_PATTERN-1400-||P_MONEY_TRANSFER_TP",
+          "stepLine": 6370,
+          "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+          "occurrences": 4,
+          "references": [
+            {
+              "line": 6379,
+              "stepId": "P_DA_MNY_TRNSFR_PATTERN-1400-||P_MONEY_TRANSFER_TP",
+              "stepLine": 6370,
+              "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": ", EXP_DT_DUE, EXP_DT_CHR,SALARY_PYMNT_F"
+            },
+            {
+              "line": 6387,
+              "stepId": "P_DA_MNY_TRNSFR_PATTERN-1400-||P_MONEY_TRANSFER_TP",
+              "stepLine": 6370,
+              "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": ", SALARY_PYMNT_F_SRC"
+            },
+            {
+              "line": 6406,
+              "stepId": "P_DA_MNY_TRNSFR_PATTERN-1400-||P_MONEY_TRANSFER_TP",
+              "stepLine": 6370,
+              "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": ", EXP_DT_DUE, EXP_DT_CHR,SALARY_PYMNT_F"
+            },
+            {
+              "line": 6414,
+              "stepId": "P_DA_MNY_TRNSFR_PATTERN-1400-||P_MONEY_TRANSFER_TP",
+              "stepLine": 6370,
+              "procedure": "P_DA_MNY_TRNSFR_PATTERN",
+              "type": "DIRECT_REFERENCE",
+              "text": ", SALARY_PYMNT_F_SRC"
+            }
+          ]
+        },
+        {
+          "stepId": "P_DA_MNY_TRNSFR_PATTERN_POST-370",
+          "stepLine": 6636,
+          "procedure": "P_DA_MNY_TRNSFR_PATTERN_POST",
+          "occurrences": 3,
+          "references": [
+            {
+              "line": 6641,
+              "stepId": "P_DA_MNY_TRNSFR_PATTERN_POST-370",
+              "stepLine": 6636,
+              "procedure": "P_DA_MNY_TRNSFR_PATTERN_POST",
+              "type": "DIRECT_REFERENCE",
+              "text": "ORDR_PERIOD_TP, EXP_DT_CHR, SALARY_PYMNT_F, EXP_AMT_ORG, PTTRN_SRC, PTTRN_CRT_DT, PTTRN_CRT_TM, LAST_TRX_DT, SALARY_DAYS, SALARY_PYMNT_F_SRC)"
+            },
+            {
+              "line": 6645,
+              "stepId": "P_DA_MNY_TRNSFR_PATTERN_POST-370",
+              "stepLine": 6636,
+              "procedure": "P_DA_MNY_TRNSFR_PATTERN_POST",
+              "type": "DIRECT_REFERENCE",
+              "text": "NULL AS EXP_DT_QUERY_DT, SIMILAR_REJECTED_F, NULL AS AMT_UPD_F, NULL AS DT_UPD_F, EXP_DT_DUE, ''A'' AS ORDR_PERIOD_TP, EXP_DT_CHR, 0 AS SALARY_PYMNT_F,  EXP_AMT_ORG,"
+            },
+            {
+              "line": 6646,
+              "stepId": "P_DA_MNY_TRNSFR_PATTERN_POST-370",
+              "stepLine": 6636,
+              "procedure": "P_DA_MNY_TRNSFR_PATTERN_POST",
+              "type": "DIRECT_REFERENCE",
+              "text": "''T'' AS PTTRN_SRC, PTTRN_CRT_DT, PTTRN_CRT_TM, NULL AS LAST_TRX_DT, NULL AS SALARY_DAYS, NULL AS SALARY_PYMNT_F_SRC"
+            }
+          ]
+        }
+      ],
+      "indirectReferences": []
+    }
+  ]
+}

@@ -1,5 +1,6 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
 import {
   CCloseButton,
@@ -21,6 +22,7 @@ import navigation from '../_nav'
 
 const AppSidebar = () => {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const unfoldable = useSelector((state) => state.sidebarUnfoldable)
   const sidebarShow = useSelector((state) => state.sidebarShow)
 
@@ -36,10 +38,25 @@ const AppSidebar = () => {
       }}
     >
       <CSidebarHeader className="border-bottom">
-        <CSidebarBrand to="/">
-        <img src={logo} width={150} style={{ display: 'block', margin: '0 auto', textAlign: 'center',
-  }}
-/>
+        <CSidebarBrand 
+          style={{ 
+            display: 'flex', 
+            justifyContent: 'center', 
+            alignItems: 'center',
+            padding: '1rem',
+            cursor: 'pointer'
+          }}
+          onClick={() => navigate('/')}
+        >
+          <img 
+            src={logo} 
+            width={150} 
+            style={{ 
+              display: 'block', 
+              margin: '0 auto'
+            }}
+            alt="DataDecisions Logo"
+          />
           <CIcon customClassName="sidebar-brand-narrow" icon={sygnet} height={32} />
         </CSidebarBrand>
         <CCloseButton

@@ -5,7 +5,7 @@ export const API_ENDPOINTS = {
   PROC_LOG: '/edwapi/getProcLogService',
   EDW_PROC_LOG: '/edwapi/getEdwProcLogService',
   EDW_PROC_LOG_ANOMALY: '/edwapi/getEdwProcLogAnomalyService',
-  ENHANCED_EDW_PROC_LOG_ANOMALY: '/edwapi/getEnhancedEdwProcLogAnomalyService',
+  // ENHANCED endpoint removed - use EDW_PROC_LOG_ANOMALY instead
   STEP_ID_LIST: '/edwapi/getStepIdListService',
   PACKAGE_LIST: '/edwapi/getPackageListService',
 };

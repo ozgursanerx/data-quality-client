@@ -11,7 +11,7 @@ import ReactFlow, {
 } from 'reactflow'
 import 'reactflow/dist/style.css'
 import CustomNode from './CustomNode'
-import { CAlert, CBadge, CButton, CButtonGroup } from '@coreui/react'
+import { CAlert, CBadge, CButton } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import { cilFullscreen, cilFullscreenExit } from '@coreui/icons'
 
@@ -20,9 +20,8 @@ const nodeTypes = {
 }
 
 const DataLineageVisualization = ({ data, onNodeClick }) => {
-  // State for view mode and expanded nodes
-  const [viewMode, setViewMode] = useState('detailed') // 'simplified' or 'detailed'
-  const [showOnlyHighRisk, setShowOnlyHighRisk] = useState(false)
+  // State for expanded nodes
+  const viewMode = 'detailed' // Always detailed view
   const [expandedPackages, setExpandedPackages] = useState(new Set())
   const [expandedProcedures, setExpandedProcedures] = useState(new Set())
   
@@ -34,6 +33,86 @@ const DataLineageVisualization = ({ data, onNodeClick }) => {
   
   // State for fullscreen mode
   const [isFullscreen, setIsFullscreen] = useState(false)
+
+  // Extract packageAnalysis from data for use in both useMemo and control buttons
+  const packageAnalysis = useMemo(() => {
+    if (!data) return []
+    
+    // Support different data structures
+    if (data.packageAnalysis && Array.isArray(data.packageAnalysis)) {
+      // Standard format - check if it has basicAnalysis (STMT_GRP_ID format)
+      return data.packageAnalysis.map(pkg => {
+        if (pkg.basicAnalysis) {
+          // STMT_GRP_ID format - convert to standard format
+          const directRefs = pkg.basicAnalysis.directReferences || []
+          const indirectRefs = pkg.basicAnalysis.indirectReferences || []
+          const backwardFlow = pkg.basicAnalysis.backwardFlow || []
+          
+          // Convert backwardFlow to directReferences format
+          const backwardFlowAsRefs = backwardFlow.map(flow => ({
+            stepId: flow.stepId,
+            stepLine: null,
+            procedure: flow.stepId?.replace(/-\d+$/, '') || 'Unknown', // Extract procedure name (remove -XX suffix)
+            occurrences: flow.occurrences,
+            references: flow.references || [],
+            type: 'BACKWARD_FLOW'
+          }))
+          
+          return {
+            packageName: pkg.packageName,
+            riskScore: pkg.riskScore || 0,
+            directReferences: [...directRefs, ...backwardFlowAsRefs],
+            indirectReferences: indirectRefs
+          }
+        }
+        // Standard format
+        return pkg
+      })
+    } else if (data.result && data.result.packageAnalyses && Array.isArray(data.result.packageAnalyses)) {
+      // MCP format
+      return data.result.packageAnalyses
+    } else if (data.result && data.result.statements && Array.isArray(data.result.statements)) {
+      // Pure STMT_GRP_ID format - convert to package format
+      return [{
+        packageName: `STMT_GRP_${data.result.summary?.stmtGrpId || 'Unknown'}`,
+        riskScore: data.result.summary?.failedStatements || 0,
+        directReferences: data.result.statements.map(stmt => ({
+          stepId: stmt.stepId,
+          text: stmt.sqlText,
+          status: stmt.status,
+          rowCount: stmt.rowCount,
+          duration: stmt.duration,
+          procedure: 'STMT_GROUP_PROCEDURE'
+        })),
+        indirectReferences: []
+      }]
+    }
+    return []
+  }, [data])
+
+  // Extract targetInfo from data
+  const targetInfo = useMemo(() => {
+    if (!data) return null
+    
+    if (data.packageAnalysis && Array.isArray(data.packageAnalysis)) {
+      return data.target
+    } else if (data.result && data.result.packageAnalyses && Array.isArray(data.result.packageAnalyses)) {
+      // MCP format
+      return {
+        schema: data.result.summary?.targetTable?.split('.')[0] || 'Unknown',
+        table: data.result.summary?.targetTable?.split('.')[1] || 'Unknown', 
+        column: data.result.summary?.targetColumn || 'Unknown'
+      }
+    } else if (data.result && data.result.statements && Array.isArray(data.result.statements)) {
+      // STMT_GRP_ID format
+      return {
+        schema: data.result.summary?.schema || 'Unknown',
+        table: 'STMT_GRP_ID',
+        column: data.result.summary?.stmtGrpId || 'Unknown'
+      }
+    }
+    return null
+  }, [data])
 
   // Fullscreen functionality
   const toggleFullscreen = useCallback(() => {
@@ -92,9 +171,10 @@ const DataLineageVisualization = ({ data, onNodeClick }) => {
 
   // Transform JSON data to ReactFlow nodes and edges
   const { nodes: initialNodes, edges: initialEdges } = useMemo(() => {
-    if (!data || !data.packageAnalysis || data.packageAnalysis.length === 0) {
+    if (!data || packageAnalysis.length === 0) {
       return { nodes: [], edges: [] }
     }
+
 
     // Calculate circular positions
     const getCircularPosition = (index, total, radius, centerX, centerY) => {
@@ -145,10 +225,8 @@ const DataLineageVisualization = ({ data, onNodeClick }) => {
     const nodes = []
     const edges = []
 
-    // Filter packages based on risk if needed
-    const filteredPackages = data.packageAnalysis.filter(pkg => 
-      !showOnlyHighRisk || (pkg.riskScore || 0) >= 50
-    )
+    // Use all packages (no filtering)
+    const filteredPackages = packageAnalysis
 
     // Center position for source
     const centerX = 400
@@ -162,8 +240,8 @@ const DataLineageVisualization = ({ data, onNodeClick }) => {
       position: sourcePosition,
       data: {
         id: 'source',
-        label: `${data.target.schema}.${data.target.table}`,
-        column: data.target.column,
+        label: `${targetInfo?.schema}.${targetInfo?.table}`,
+        column: targetInfo?.column,
         type: 'source',
         riskScore: 0,
         directRefs: 0,
@@ -197,8 +275,8 @@ const DataLineageVisualization = ({ data, onNodeClick }) => {
           fullName: pkg.packageName,
           type: 'package',
           riskScore: packageRiskScore,
-          directRefs: pkg.directReferences.length,
-          indirectRefs: pkg.indirectReferences.length,
+          directRefs: (pkg.directReferences || []).length,
+          indirectRefs: (pkg.indirectReferences || []).length,
           viewMode,
           isExpanded: expandedPackages.has(packageNodeId),
           onNodeClick: handleNodeExpansion,
@@ -217,7 +295,7 @@ const DataLineageVisualization = ({ data, onNodeClick }) => {
           strokeWidth: packageRiskScore > 100 ? 3 : 2, 
           stroke: packageRiskScore > 100 ? '#f44336' : '#ff9800' 
         },
-        label: viewMode === 'detailed' ? `${pkg.directReferences.length + pkg.indirectReferences.length}` : '',
+        label: viewMode === 'detailed' ? `${(pkg.directReferences || []).length + (pkg.indirectReferences || []).length}` : '',
       })
 
       // Show procedures only if package is expanded
@@ -226,7 +304,10 @@ const DataLineageVisualization = ({ data, onNodeClick }) => {
         const procedureGroups = {}
         
         // Process direct references
-        pkg.directReferences.forEach((ref) => {
+        const directRefs = pkg.directReferences || []
+        const indirectRefs = pkg.indirectReferences || []
+        
+        directRefs.forEach((ref) => {
           const procedureName = ref.procedure || 'Unknown'
           if (!procedureGroups[procedureName]) {
             procedureGroups[procedureName] = {}
@@ -252,7 +333,7 @@ const DataLineageVisualization = ({ data, onNodeClick }) => {
         })
 
         // Process indirect references
-        pkg.indirectReferences.forEach((ref) => {
+        indirectRefs.forEach((ref) => {
           const procedureName = ref.procedure || 'Unknown'
           if (!procedureGroups[procedureName]) {
             procedureGroups[procedureName] = {}
@@ -432,7 +513,7 @@ const DataLineageVisualization = ({ data, onNodeClick }) => {
     })
 
     return { nodes, edges }
-  }, [data, viewMode, showOnlyHighRisk, expandedPackages, expandedProcedures, onNodeClick, nodePositions, isFullscreen])
+  }, [data, packageAnalysis, targetInfo, expandedPackages, expandedProcedures, onNodeClick, nodePositions, isFullscreen])
 
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes)
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges)
@@ -490,7 +571,7 @@ const DataLineageVisualization = ({ data, onNodeClick }) => {
         top: isFullscreen ? '0' : 'auto',
         left: isFullscreen ? '0' : 'auto',
         zIndex: isFullscreen ? '9999' : 'auto',
-        backgroundColor: isFullscreen ? 'white' : 'transparent'
+        backgroundColor: isFullscreen ? 'var(--cui-body-bg)' : 'transparent'
       }}
     >
       <ReactFlow
@@ -526,17 +607,27 @@ const DataLineageVisualization = ({ data, onNodeClick }) => {
         
         {/* Control Panel */}
         <Panel position="top-left">
-          <div className="bg-white rounded shadow-sm" style={{ minWidth: controlPanelOpen ? '280px' : '40px' }}>
+          <div 
+            className="rounded shadow-sm" 
+            style={{ 
+              minWidth: controlPanelOpen ? '280px' : '40px',
+              backgroundColor: 'var(--cui-card-bg)',
+              border: '1px solid var(--cui-border-color)'
+            }}
+          >
             {/* Panel Header with Toggle Button */}
             <div 
               className="d-flex align-items-center justify-content-between p-2 border-bottom"
-              style={{ cursor: 'pointer' }}
+              style={{ 
+                cursor: 'pointer',
+                borderColor: 'var(--cui-border-color) !important'
+              }}
               onClick={() => setControlPanelOpen(!controlPanelOpen)}
             >
-              <h6 className="mb-0" style={{ fontSize: '14px' }}>
+              <h6 className="mb-0" style={{ fontSize: '14px', color: 'var(--cui-body-color)' }}>
                 {controlPanelOpen ? 'Kontroller' : '⚙️'}
               </h6>
-              <span style={{ fontSize: '12px' }}>
+              <span style={{ fontSize: '12px', color: 'var(--cui-body-color)' }}>
                 {controlPanelOpen ? '◀' : '▶'}
               </span>
             </div>
@@ -556,58 +647,21 @@ const DataLineageVisualization = ({ data, onNodeClick }) => {
                     {isFullscreen ? 'Tam Ekrandan Çık' : 'Tam Ekran'}
                   </CButton>
                   {isFullscreen && (
-                    <small className="text-muted d-block mt-1">
+                    <small className="d-block mt-1" style={{ color: 'var(--cui-body-color-secondary)' }}>
                       💡 ESC tuşu ile de çıkabilirsiniz
                     </small>
                   )}
                 </div>
 
-                {/* View Mode Toggle */}
-                <div className="mb-3">
-                  <small className="text-muted d-block mb-1">Görünüm Modu</small>
-                  <CButtonGroup size="sm">
-                    <CButton 
-                      color={viewMode === 'simplified' ? 'primary' : 'outline-primary'}
-                      onClick={() => setViewMode('simplified')}
-                    >
-                      Basit
-                    </CButton>
-                    <CButton 
-                      color={viewMode === 'detailed' ? 'primary' : 'outline-primary'}
-                      onClick={() => setViewMode('detailed')}
-                    >
-                      Detaylı
-                    </CButton>
-                  </CButtonGroup>
-                </div>
-
-                {/* Filters */}
-                <div className="mb-3">
-                  <small className="text-muted d-block mb-2">Filtreler</small>
-                  <div className="form-check">
-                    <input 
-                      className="form-check-input" 
-                      type="checkbox" 
-                      id="highRiskFilter"
-                      checked={showOnlyHighRisk}
-                      onChange={(e) => setShowOnlyHighRisk(e.target.checked)}
-                    />
-                    <label className="form-check-label" htmlFor="highRiskFilter">
-                      <small>Sadece Yüksek Risk Paketler</small>
-                    </label>
-                  </div>
-                </div>
-
                 {/* Expand/Collapse Controls */}
                 <div className="mb-3">
-                  <small className="text-muted d-block mb-2">Hızlı Kontroller</small>
+                  <small className="d-block mb-2" style={{ color: 'var(--cui-body-color-secondary)' }}>Hızlı Kontroller</small>
                   <div className="d-flex gap-2 flex-wrap">
                     <CButton 
                       size="sm" 
                       color="outline-success"
                       onClick={() => {
-                        const allPackageIds = data.packageAnalysis
-                          .filter(pkg => !showOnlyHighRisk || (pkg.riskScore || 0) >= 50)
+                        const allPackageIds = packageAnalysis
                           .map((_, index) => `package-${index}`)
                         setExpandedPackages(new Set(allPackageIds))
                       }}
@@ -636,21 +690,9 @@ const DataLineageVisualization = ({ data, onNodeClick }) => {
                   </div>
                 </div>
 
-                {/* Instructions */}
-                <div className="mb-3">
-                  <small className="text-muted d-block mb-2">Nasıl Kullanılır</small>
-                  <div className="small text-muted">
-                    <div>📦 Pakete tıkla → Prosedürler görünür</div>
-                    <div>⚙️ Prosedüre tıkla → Adımlar görünür</div>
-                    <div>🔍 Adıma tıkla → Detaylar açılır</div>
-                    <div>🖱️ Node'ları sürükleyebilirsiniz</div>
-                    <div>🖥️ Tam ekran modunda çalışabilirsiniz</div>
-                  </div>
-                </div>
-
                 {/* Legend */}
                 <div>
-                  <small className="text-muted d-block mb-2">Gösterge</small>
+                  <small className="d-block mb-2" style={{ color: 'var(--cui-body-color-secondary)' }}>Gösterge</small>
                   <div className="d-flex flex-column gap-1">
                     <div className="d-flex align-items-center">
                       <div 
@@ -663,7 +705,7 @@ const DataLineageVisualization = ({ data, onNodeClick }) => {
                           borderRadius: '3px' 
                         }}
                       ></div>
-                      <small>Kaynak (Merkez)</small>
+                      <small style={{ color: 'var(--cui-body-color)' }}>Kaynak (Merkez)</small>
                     </div>
                     <div className="d-flex align-items-center">
                       <div 
@@ -676,7 +718,7 @@ const DataLineageVisualization = ({ data, onNodeClick }) => {
                           borderRadius: '3px' 
                         }}
                       ></div>
-                      <small>Paket (Çevre)</small>
+                      <small style={{ color: 'var(--cui-body-color)' }}>Paket (Çevre)</small>
                     </div>
                     <div className="d-flex align-items-center">
                       <div 
@@ -689,7 +731,7 @@ const DataLineageVisualization = ({ data, onNodeClick }) => {
                           borderRadius: '3px' 
                         }}
                       ></div>
-                      <small>Prosedür</small>
+                      <small style={{ color: 'var(--cui-body-color)' }}>Prosedür</small>
                     </div>
                     <div className="d-flex align-items-center">
                       <div 
@@ -702,7 +744,7 @@ const DataLineageVisualization = ({ data, onNodeClick }) => {
                           borderRadius: '3px' 
                         }}
                       ></div>
-                      <small>Adım</small>
+                      <small style={{ color: 'var(--cui-body-color)' }}>Adım</small>
                     </div>
                   </div>
                 </div>

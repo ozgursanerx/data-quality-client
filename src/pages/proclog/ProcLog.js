@@ -91,25 +91,9 @@ const ProcLog = () => {
             </CCardBody>
           </CCard>
         </CCol>
-        <CCol xs={12}>
-          <CCard className="mb-4 shadow-sm" style={{ 
-            backgroundColor: 'var(--cui-card-bg)',
-            borderColor: 'var(--cui-border-color)',
-            borderRadius: '8px'
-          }}>
-            <CCardHeader style={{ 
-              backgroundColor: 'var(--cui-card-cap-bg)',
-              borderBottom: '1px solid var(--cui-border-color)',
-              borderRadius: '8px 8px 0 0'
-            }}>
-              <h4 className="mb-0" style={{ color: 'var(--cui-body-color)' }}>Process Log Data</h4>
-            </CCardHeader>
-            <CCardBody>
-              <ProcLogTable />
-            </CCardBody>
-          </CCard>
-        </CCol>
       </CRow>
+
+      <ProcLogTable />
     </>
   )
 }

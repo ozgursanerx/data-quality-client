@@ -1,19 +1,21 @@
 {
-  "name": "@coreui/coreui-free-react-admin-template",
-  "version": "5.4.0",
-  "description": "CoreUI Free React Admin Template",
+  "name": "flowlytics",
+  "version": "1.0.0",
+  "description": "Flowlytics - Advanced Data Flow Analytics Platform",
   "homepage": ".",
   "bugs": {
-    "url": "https://github.com/coreui/coreui-free-react-admin-template/issues"
+    "url": "https://github.com/flowlytics/flowlytics/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:coreui/coreui-free-react-admin-template.git"
+    "url": "git@github.com:flowlytics/flowlytics.git"
   },
   "license": "MIT",
-  "author": "The CoreUI Team (https://github.com/orgs/coreui/people)",
+  "author": "Flowlytics Team",
   "scripts": {
+    "dev": "vite",
     "build": "vite build",
+    "build:prod": "vite build --mode production",
     "lint": "eslint",
     "serve": "vite preview",
     "start": "vite"
@@ -29,6 +31,7 @@
     "@coreui/utils": "^2.0.2",
     "@popperjs/core": "^2.11.8",
     "axios": "^1.9.0",
+    "caniuse-lite": "^1.0.30001753",
     "chart.js": "^4.4.9",
     "chartjs-adapter-date-fns": "^3.0.0",
     "classnames": "^2.5.1",
@@ -44,8 +47,6 @@
     "react-dom": "^19.0.0",
     "react-redux": "^9.2.0",
     "react-router-dom": "^7.1.5",
-    "react-slider": "^2.0.6",
-    "react-table": "^7.8.0",
     "reactflow": "^11.11.4",
     "redux": "5.0.1",
     "simplebar-react": "^3.3.0"

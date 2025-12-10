@@ -1,9 +1,8 @@
 import React from 'react'
 
-const Dashboard = React.lazy(() => import('./pages/dashboard/Dashboard'))
+const Welcome = React.lazy(() => import('./pages/welcome/Welcome'))
 const Monitoring = React.lazy(() => import('./pages/monitoring/Monitoring'))
 const PackageAnalysis = React.lazy(() => import('./pages/package-analysis/PackageAnalysis'))
-const AnomalyDetection = React.lazy(() => import('./pages/anomaly-detection/AnomalyDetection'))
 const DataLineage = React.lazy(() => import('./pages/data-lineage/DataLineage'))
 const Colors = React.lazy(() => import('./views/theme/colors/Colors'))
 const Typography = React.lazy(() => import('./views/theme/typography/Typography'))
@@ -57,12 +56,10 @@ const Toasts = React.lazy(() => import('./views/notifications/toasts/Toasts'))
 const Widgets = React.lazy(() => import('./views/widgets/Widgets'))
 
 const routes = [
-  { path: '/', exact: true, name: 'Home' },
+  { path: '/', exact: true, name: 'Home', element: Welcome },
   { path: '/monitoring', name: 'Monitoring', element: Monitoring },
   { path: '/package-analysis', name: 'Package Analysis', element: PackageAnalysis },
-  { path: '/anomaly-detection', name: 'Anomaly Detection', element: AnomalyDetection },
   { path: '/data-lineage', name: 'Data Lineage', element: DataLineage },
-  { path: '/dashboard', name: 'Dashboard', element: Dashboard },
   { path: '/theme', name: 'Theme', element: Colors, exact: true },
   { path: '/theme/colors', name: 'Colors', element: Colors },
   { path: '/theme/typography', name: 'Typography', element: Typography },

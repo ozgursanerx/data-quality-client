@@ -37,15 +37,18 @@ const StepIdList = () => {
   };
 
   useEffect(() => {
+    const searchTerm = searchText.trim().toLowerCase();
     const filtered = stepIds
       .map((stepId, index) => ({
         index: index + 1,
         stepId: stepId,
         actions: 'copy'
       }))
-      .filter(item => 
-        item.stepId.toString().toLowerCase().includes(searchText.toLowerCase())
-      );
+      .filter(item => {
+        if (!searchTerm) return true;
+        const stepIdStr = String(item.stepId || '').toLowerCase();
+        return stepIdStr.includes(searchTerm);
+      });
     setFilteredStepIds(filtered);
   }, [stepIds, searchText]);
 
@@ -86,16 +89,13 @@ const StepIdList = () => {
             showError('No step IDs found for this Program ID');
           }
         } catch (parseError) {
-          console.error('Parse error:', parseError);
           showError('Error parsing response data');
         }
       } else {
-        console.error('Error:', response.statusText);
         showError('Error fetching step IDs');
         setStepIds([]);
       }
     } catch (error) {
-      console.error('Error:', error);
       showError('Error connecting to server');
       setStepIds([]);
     } finally {
@@ -171,36 +171,40 @@ const StepIdList = () => {
           </div>
         )}
 
-        <div style={{ display: 'flex', flexDirection: 'column', height: '300px' }}>
-          <div style={{ flex: 1, minHeight: 0, position: 'relative' }}>
-            <div style={{ position: 'absolute', inset: 0, overflowY: 'auto' }}>
-              <CustomTable
-                data={filteredStepIds}
-                columns={columns}
-                currentPage={currentPage}
-                itemsPerPage={itemsPerPage}
-                totalPages={Math.ceil(filteredStepIds.length / itemsPerPage)}
-                onPageChange={setCurrentPage}
-                truncateText={truncateText}
-                customRowRender={(item) => ({
-                  ...item,
-                  actions: (
-                    <button
-                      className="btn btn-sm btn-info"
-                      onClick={() => handleCopyStepId(item.stepId)}
-                    >
-                      <CIcon icon={cilCopy} /> Copy
-                    </button>
-                  )
-                })}
-              />
+        {/* Tablo - Sadece veri geldiğinde göster */}
+        {stepIds.length > 0 && (
+          <div style={{ display: 'flex', flexDirection: 'column', minHeight: '300px', maxHeight: '600px' }}>
+            <div style={{ flex: 1, minHeight: 0, position: 'relative' }}>
+              <div style={{ position: 'absolute', inset: 0, overflowY: 'auto' }}>
+                <CustomTable
+                  data={filteredStepIds}
+                  columns={columns}
+                  currentPage={currentPage}
+                  itemsPerPage={itemsPerPage}
+                  totalPages={Math.ceil(filteredStepIds.length / itemsPerPage)}
+                  onPageChange={setCurrentPage}
+                  truncateText={truncateText}
+                  customRowRender={(item) => ({
+                    ...item,
+                    actions: (
+                      <button
+                        className="btn btn-sm btn-info"
+                        onClick={() => handleCopyStepId(item.stepId)}
+                      >
+                        <CIcon icon={cilCopy} /> Copy
+                      </button>
+                    )
+                  })}
+                />
+              </div>
             </div>
           </div>
-        </div>
+        )}
 
+        {/* Veri yoksa bilgilendirme */}
         {!isLoading && stepIds.length === 0 && !error && (
-          <div className="text-center text-muted mt-3">
-            Enter a Program ID to see Step IDs
+          <div className="text-center text-muted mt-3" style={{ minHeight: 'auto' }}>
+            Program ID girip "Get Step IDs" butonuna tıklayın
           </div>
         )}
       </CCardBody>

@@ -1,0 +1,803 @@
+{
+  "timestamp": "2025-07-10T05:35:31.325Z",
+  "target": {
+    "schema": "SNPADM",
+    "table": "EDW.TRF",
+    "column": "TRF_SUB_TP"
+  },
+  "summary": {
+    "totalPackages": 54,
+    "impactedPackages": 7,
+    "directReferences": 27,
+    "indirectReferences": 0,
+    "totalImpact": 27
+  },
+  "packageAnalysis": [
+    {
+      "packageName": "SNPADM.PKG_DA_CORP_CP_PATTERN_DATA",
+      "directReferences": [
+        {
+          "stepId": "P_DA_CORP_CP_PATTERN-200",
+          "stepLine": 269,
+          "procedure": "P_DA_CORP_CP_TRX",
+          "occurrences": 1,
+          "references": [
+            {
+              "line": 292,
+              "stepId": "P_DA_CORP_CP_PATTERN-200",
+              "stepLine": 269,
+              "procedure": "P_DA_CORP_CP_TRX",
+              "type": "DIRECT_REFERENCE",
+              "text": "AND A.TRF_SUB_TP = ''GIDEFT''"
+            }
+          ]
+        }
+      ],
+      "indirectReferences": []
+    },
+    {
+      "packageName": "SNPADM.PKG_DA_CORP_PATTERN_DATA",
+      "directReferences": [
+        {
+          "stepId": "P_DA_CORP_MONEY_TRANSFER-1",
+          "stepLine": 34,
+          "procedure": "P_DA_CORP_MONEY_TRANSFER",
+          "occurrences": 13,
+          "references": [
+            {
+              "line": 40,
+              "stepId": "P_DA_CORP_MONEY_TRANSFER-1",
+              "stepLine": 34,
+              "procedure": "P_DA_CORP_MONEY_TRANSFER",
+              "type": "DIRECT_REFERENCE",
+              "text": "A.TRF_ID ID, A.TRF_TP_ID, A.TRF_SUB_TP"
+            },
+            {
+              "line": 46,
+              "stepId": "P_DA_CORP_MONEY_TRANSFER-1",
+              "stepLine": 34,
+              "procedure": "P_DA_CORP_MONEY_TRANSFER",
+              "type": "DIRECT_REFERENCE",
+              "text": ", DECODE(TRF_SUB_TP,''DHGID'',A.SENDER_BRNCH, NVL(A.SENDER_ACCT_OU_ID, A.SENDER_BRNCH)) SENDER_BRNCH"
+            },
+            {
+              "line": 60,
+              "stepId": "P_DA_CORP_MONEY_TRANSFER-1",
+              "stepLine": 34,
+              "procedure": "P_DA_CORP_MONEY_TRANSFER",
+              "type": "DIRECT_REFERENCE",
+              "text": "CASE WHEN TRF_SUB_TP = ''HH'' THEN 100005038"
+            },
+            {
+              "line": 61,
+              "stepId": "P_DA_CORP_MONEY_TRANSFER-1",
+              "stepLine": 34,
+              "procedure": "P_DA_CORP_MONEY_TRANSFER",
+              "type": "DIRECT_REFERENCE",
+              "text": "WHEN TRF_SUB_TP = ''HI'' THEN 100005034"
+            },
+            {
+              "line": 62,
+              "stepId": "P_DA_CORP_MONEY_TRANSFER-1",
+              "stepLine": 34,
+              "procedure": "P_DA_CORP_MONEY_TRANSFER",
+              "type": "DIRECT_REFERENCE",
+              "text": "WHEN TRF_SUB_TP = ''GIDEFT'' THEN 600020000"
+            },
+            {
+              "line": 84,
+              "stepId": "P_DA_CORP_MONEY_TRANSFER-1",
+              "stepLine": 34,
+              "procedure": "P_DA_CORP_MONEY_TRANSFER",
+              "type": "DIRECT_REFERENCE",
+              "text": "AND A.TRF_SUB_TP != ''VR''"
+            },
+            {
+              "line": 85,
+              "stepId": "P_DA_CORP_MONEY_TRANSFER-1",
+              "stepLine": 34,
+              "procedure": "P_DA_CORP_MONEY_TRANSFER",
+              "type": "DIRECT_REFERENCE",
+              "text": "AND A.TRF_SUB_TP IN (''HH'',''HI'',''GIDEFT'') --,''DHGID'')"
+            },
+            {
+              "line": 86,
+              "stepId": "P_DA_CORP_MONEY_TRANSFER-1",
+              "stepLine": 34,
+              "procedure": "P_DA_CORP_MONEY_TRANSFER",
+              "type": "DIRECT_REFERENCE",
+              "text": "AND (       (A.TRF_SUB_TP = ''GIDEFT'' AND MSG_ST = 99 AND NVL(RELATED_PD_REF_NO, 0) = 0)"
+            },
+            {
+              "line": 87,
+              "stepId": "P_DA_CORP_MONEY_TRANSFER-1",
+              "stepLine": 34,
+              "procedure": "P_DA_CORP_MONEY_TRANSFER",
+              "type": "DIRECT_REFERENCE",
+              "text": "OR (A.TRF_SUB_TP IN (''HH'', ''HI'') AND A.ST IN (''01'',''03''))"
+            },
+            {
+              "line": 106,
+              "stepId": "P_DA_CORP_MONEY_TRANSFER-1",
+              "stepLine": 34,
+              "procedure": "P_DA_CORP_MONEY_TRANSFER",
+              "type": "DIRECT_REFERENCE",
+              "text": "A.ID, A.TRF_TP_ID, A.TRF_SUB_TP"
+            },
+            {
+              "line": 112,
+              "stepId": "P_DA_CORP_MONEY_TRANSFER-1",
+              "stepLine": 34,
+              "procedure": "P_DA_CORP_MONEY_TRANSFER",
+              "type": "DIRECT_REFERENCE",
+              "text": "WHEN TRF_SUB_TP IN (''HH'', ''HI'', ''GIDEFT'') THEN TRIM(SENDER_BANK_CODE) || ''-'' || TRIM(SENDER_BRNCH) || ''-'' ||  SENDER_ACCT_NO"
+            },
+            {
+              "line": 119,
+              "stepId": "P_DA_CORP_MONEY_TRANSFER-1",
+              "stepLine": 34,
+              "procedure": "P_DA_CORP_MONEY_TRANSFER",
+              "type": "DIRECT_REFERENCE",
+              "text": ", CASE WHEN TRF_SUB_TP = ''HH'' THEN I.FULL_NM"
+            },
+            {
+              "line": 125,
+              "stepId": "P_DA_CORP_MONEY_TRANSFER-1",
+              "stepLine": 34,
+              "procedure": "P_DA_CORP_MONEY_TRANSFER",
+              "type": "DIRECT_REFERENCE",
+              "text": ", CASE WHEN TRF_SUB_TP = ''HH'' THEN TRIM(RCPNT_BANK_CODE) || ''-'' || TRIM(RCPNT_BRNCH) || ''-'' ||  RCPNT_ACCT_NO_CLN"
+            }
+          ]
+        },
+        {
+          "stepId": "P_DA_CORP_MONEY_TRANSFER-4",
+          "stepLine": 166,
+          "procedure": "P_DA_CORP_MONEY_TRANSFER",
+          "occurrences": 1,
+          "references": [
+            {
+              "line": 170,
+              "stepId": "P_DA_CORP_MONEY_TRANSFER-4",
+              "stepLine": 166,
+              "procedure": "P_DA_CORP_MONEY_TRANSFER",
+              "type": "DIRECT_REFERENCE",
+              "text": "SELECT A.ID, A.TRF_TP_ID, A.TRF_SUB_TP, A.TRX_DT, A.TRX_TM, A.AMT, A.CCY_CODE,  A.CUST_ID"
+            }
+          ]
+        },
+        {
+          "stepId": "P_DA_CORP_MONEY_TRANSFER-5",
+          "stepLine": 202,
+          "procedure": "P_DA_CORP_MONEY_TRANSFER",
+          "occurrences": 2,
+          "references": [
+            {
+              "line": 209,
+              "stepId": "P_DA_CORP_MONEY_TRANSFER-5",
+              "stepLine": 202,
+              "procedure": "P_DA_CORP_MONEY_TRANSFER",
+              "type": "DIRECT_REFERENCE",
+              "text": "(ID, TRF_TP_ID, TRF_SUB_TP, TRX_DT, TRX_TM, AMT, CCY_CODE, CUST_ID"
+            },
+            {
+              "line": 212,
+              "stepId": "P_DA_CORP_MONEY_TRANSFER-5",
+              "stepLine": 202,
+              "procedure": "P_DA_CORP_MONEY_TRANSFER",
+              "type": "DIRECT_REFERENCE",
+              "text": "SELECT /*+ PARALLEL(16)*/  ID, TRF_TP_ID, TRF_SUB_TP, TRX_DT, TRX_TM, AMT, CCY_CODE, CUST_ID"
+            }
+          ]
+        },
+        {
+          "stepId": "P_DA_CORP_MONEY_TRANSFER-6",
+          "stepLine": 219,
+          "procedure": "P_DA_CORP_MONEY_TRANSFER",
+          "occurrences": 1,
+          "references": [
+            {
+              "line": 227,
+              "stepId": "P_DA_CORP_MONEY_TRANSFER-6",
+              "stepLine": 219,
+              "procedure": "P_DA_CORP_MONEY_TRANSFER",
+              "type": "DIRECT_REFERENCE",
+              "text": "AND A.TRF_SUB_TP IN (''GELEFT'')"
+            }
+          ]
+        }
+      ],
+      "indirectReferences": []
+    },
+    {
+      "packageName": "SNPADM.PKG_DA_CP_PATTERN_DATA",
+      "directReferences": [
+        {
+          "stepId": "P_DA_CP_PATTERN-200",
+          "stepLine": 316,
+          "procedure": "P_DA_CP_TRX",
+          "occurrences": 1,
+          "references": [
+            {
+              "line": 339,
+              "stepId": "P_DA_CP_PATTERN-200",
+              "stepLine": 316,
+              "procedure": "P_DA_CP_TRX",
+              "type": "DIRECT_REFERENCE",
+              "text": "AND A.TRF_SUB_TP = ''GIDEFT''"
+            }
+          ]
+        }
+      ],
+      "indirectReferences": []
+    },
+    {
+      "packageName": "SNPADM.PKG_DA_CUST_OPEN_BANKING",
+      "directReferences": [
+        {
+          "stepId": "P_DA_QPI_CUST-5",
+          "stepLine": 25,
+          "procedure": "P_DA_QPI_CUST",
+          "occurrences": 1,
+          "references": [
+            {
+              "line": 31,
+              "stepId": "P_DA_QPI_CUST-5",
+              "stepLine": 25,
+              "procedure": "P_DA_QPI_CUST",
+              "type": "DIRECT_REFERENCE",
+              "text": "WHERE T.TRF_SUB_TP = ''GIDEFT''"
+            }
+          ]
+        },
+        {
+          "stepId": "P_DA_QPI_CUST-6",
+          "stepLine": 45,
+          "procedure": "P_DA_QPI_CUST",
+          "occurrences": 1,
+          "references": [
+            {
+              "line": 51,
+              "stepId": "P_DA_QPI_CUST-6",
+              "stepLine": 45,
+              "procedure": "P_DA_QPI_CUST",
+              "type": "DIRECT_REFERENCE",
+              "text": "WHERE T.TRF_SUB_TP = ''GELEFT''"
+            }
+          ]
+        },
+        {
+          "stepId": "P_DA_QPI_CUST-8",
+          "stepLine": 91,
+          "procedure": "P_DA_QPI_CUST",
+          "occurrences": 1,
+          "references": [
+            {
+              "line": 102,
+              "stepId": "P_DA_QPI_CUST-8",
+              "stepLine": 91,
+              "procedure": "P_DA_QPI_CUST",
+              "type": "DIRECT_REFERENCE",
+              "text": "AND T.TRF_SUB_TP = ''GELEFT''"
+            }
+          ]
+        }
+      ],
+      "indirectReferences": []
+    },
+    {
+      "packageName": "SNPADM.PKG_DA_INCOMING_PATTERN_DATA",
+      "directReferences": [
+        {
+          "stepId": "P_INC_DA_MONEY_TRNSFR-100",
+          "stepLine": 30,
+          "procedure": "P_DA_MONEY_TRANSFER",
+          "occurrences": 8,
+          "references": [
+            {
+              "line": 37,
+              "stepId": "P_INC_DA_MONEY_TRNSFR-100",
+              "stepLine": 30,
+              "procedure": "P_DA_MONEY_TRANSFER",
+              "type": "DIRECT_REFERENCE",
+              "text": ", A.TRF_SUB_TP"
+            },
+            {
+              "line": 44,
+              "stepId": "P_INC_DA_MONEY_TRNSFR-100",
+              "stepLine": 30,
+              "procedure": "P_DA_MONEY_TRANSFER",
+              "type": "DIRECT_REFERENCE",
+              "text": ",(CASE WHEN A.TRF_SUB_TP = ''GELEFT'' AND A.RCPNT_BRNCH = ''90001'' THEN A.RCPNT_ACCT_OU_ID"
+            },
+            {
+              "line": 63,
+              "stepId": "P_INC_DA_MONEY_TRNSFR-100",
+              "stepLine": 30,
+              "procedure": "P_DA_MONEY_TRANSFER",
+              "type": "DIRECT_REFERENCE",
+              "text": "CASE WHEN TRF_SUB_TP = ''HH'' THEN 100005038"
+            },
+            {
+              "line": 64,
+              "stepId": "P_INC_DA_MONEY_TRNSFR-100",
+              "stepLine": 30,
+              "procedure": "P_DA_MONEY_TRANSFER",
+              "type": "DIRECT_REFERENCE",
+              "text": "WHEN TRF_SUB_TP = ''HI'' THEN 100005034"
+            },
+            {
+              "line": 65,
+              "stepId": "P_INC_DA_MONEY_TRNSFR-100",
+              "stepLine": 30,
+              "procedure": "P_DA_MONEY_TRANSFER",
+              "type": "DIRECT_REFERENCE",
+              "text": "WHEN TRF_SUB_TP = ''GELEFT'' THEN 600021007"
+            },
+            {
+              "line": 86,
+              "stepId": "P_INC_DA_MONEY_TRNSFR-100",
+              "stepLine": 30,
+              "procedure": "P_DA_MONEY_TRANSFER",
+              "type": "DIRECT_REFERENCE",
+              "text": "AND A.TRF_SUB_TP IN (''HH'',''IH'',''GELEFT'',''KH'')"
+            },
+            {
+              "line": 87,
+              "stepId": "P_INC_DA_MONEY_TRNSFR-100",
+              "stepLine": 30,
+              "procedure": "P_DA_MONEY_TRANSFER",
+              "type": "DIRECT_REFERENCE",
+              "text": "AND ((A.TRF_SUB_TP = ''GELEFT'' AND MSG_ST = 99 AND NVL(RELATED_PD_REF_NO, 0) = 0) --GELEN EFT IÇIN BAŞARıLı OLMA KOŞULU"
+            },
+            {
+              "line": 88,
+              "stepId": "P_INC_DA_MONEY_TRNSFR-100",
+              "stepLine": 30,
+              "procedure": "P_DA_MONEY_TRANSFER",
+              "type": "DIRECT_REFERENCE",
+              "text": "OR (A.TRF_SUB_TP IN (''HH'', ''IH'',''KH'') AND A.ST IN (''01'',''03''))) ----GELEN HAVALE IÇIN BAŞARıLı OLMA KOŞULU"
+            }
+          ]
+        },
+        {
+          "stepId": "P_INC_DA_MONEY_TRNSFR-105",
+          "stepLine": 109,
+          "procedure": "P_DA_MONEY_TRANSFER",
+          "occurrences": 3,
+          "references": [
+            {
+              "line": 116,
+              "stepId": "P_INC_DA_MONEY_TRNSFR-105",
+              "stepLine": 109,
+              "procedure": "P_DA_MONEY_TRANSFER",
+              "type": "DIRECT_REFERENCE",
+              "text": ", A.TRF_SUB_TP"
+            },
+            {
+              "line": 133,
+              "stepId": "P_INC_DA_MONEY_TRNSFR-105",
+              "stepLine": 109,
+              "procedure": "P_DA_MONEY_TRANSFER",
+              "type": "DIRECT_REFERENCE",
+              "text": ", CASE WHEN TRF_SUB_TP IN (''HH'') THEN A.SENDER_ACCT_NO"
+            },
+            {
+              "line": 142,
+              "stepId": "P_INC_DA_MONEY_TRNSFR-105",
+              "stepLine": 109,
+              "procedure": "P_DA_MONEY_TRANSFER",
+              "type": "DIRECT_REFERENCE",
+              "text": ", TO_NUMBER(CASE WHEN A.TRF_SUB_TP = ''HH'' THEN TO_CHAR(B.CUST_ID) --HH işlemler için ACCT ve DIM_CUSTOMER ile SENDER_CUST_ID ye ulaşılmıştır."
+            }
+          ]
+        },
+        {
+          "stepId": "P_INC_DA_MONEY_TRNSFR-110",
+          "stepLine": 184,
+          "procedure": "P_DA_MONEY_TRANSFER",
+          "occurrences": 1,
+          "references": [
+            {
+              "line": 209,
+              "stepId": "P_INC_DA_MONEY_TRNSFR-110",
+              "stepLine": 184,
+              "procedure": "P_DA_MONEY_TRANSFER",
+              "type": "DIRECT_REFERENCE",
+              "text": "DISTINCT ID, TRF_TP_ID, TRF_SUB_TP, TRX_DT, AMT, CCY_CODE, AMT_TL, N.CUST_ID, RCPNT_BANK_CODE, RCPNT_BRNCH, RCPNT_ACCT_NO, RCPNT_CUST_ID, RCPNT_NM, SENDER_BANK_CODE, SENDER_BRNCH, SENDER_ACCT_NO, SENDER_ACCT_TP, SENDER_IDENTITY_NO, RCPNT_TAX_NO"
+            }
+          ]
+        },
+        {
+          "stepId": "P_INC_DA_MONEY_TRNSFR-300",
+          "stepLine": 237,
+          "procedure": "P_DA_MONEY_TRANSFER",
+          "occurrences": 1,
+          "references": [
+            {
+              "line": 244,
+              "stepId": "P_INC_DA_MONEY_TRNSFR-300",
+              "stepLine": 237,
+              "procedure": "P_DA_MONEY_TRANSFER",
+              "type": "DIRECT_REFERENCE",
+              "text": ", A.TRF_SUB_TP"
+            }
+          ]
+        },
+        {
+          "stepId": "P_INC_DA_MONEY_TRNSFR-400",
+          "stepLine": 298,
+          "procedure": "P_DA_MONEY_TRANSFER",
+          "occurrences": 2,
+          "references": [
+            {
+              "line": 305,
+              "stepId": "P_INC_DA_MONEY_TRNSFR-400",
+              "stepLine": 298,
+              "procedure": "P_DA_MONEY_TRANSFER",
+              "type": "DIRECT_REFERENCE",
+              "text": ", TRF_SUB_TP"
+            },
+            {
+              "line": 338,
+              "stepId": "P_INC_DA_MONEY_TRNSFR-400",
+              "stepLine": 298,
+              "procedure": "P_DA_MONEY_TRANSFER",
+              "type": "DIRECT_REFERENCE",
+              "text": ", ''ATMKARTSIZ'' TRF_SUB_TP"
+            }
+          ]
+        },
+        {
+          "stepId": "P_INC_DA_MONEY_TRNSFR-450",
+          "stepLine": 395,
+          "procedure": "P_DA_MONEY_TRANSFER",
+          "occurrences": 2,
+          "references": [
+            {
+              "line": 398,
+              "stepId": "P_INC_DA_MONEY_TRNSFR-450",
+              "stepLine": 395,
+              "procedure": "P_DA_MONEY_TRANSFER",
+              "type": "DIRECT_REFERENCE",
+              "text": "(ID, TRF_TP_ID, TRF_SUB_TP, TRX_DT, AMT, CCY_CODE,"
+            },
+            {
+              "line": 404,
+              "stepId": "P_INC_DA_MONEY_TRNSFR-450",
+              "stepLine": 395,
+              "procedure": "P_DA_MONEY_TRANSFER",
+              "type": "DIRECT_REFERENCE",
+              "text": "ID, TRF_TP_ID, TRF_SUB_TP, TRX_DT, AMT, CCY_CODE"
+            }
+          ]
+        },
+        {
+          "stepId": "P_INC_DA_MONEY_TRNSFR-470",
+          "stepLine": 415,
+          "procedure": "P_DA_MONEY_TRANSFER",
+          "occurrences": 1,
+          "references": [
+            {
+              "line": 422,
+              "stepId": "P_INC_DA_MONEY_TRNSFR-470",
+              "stepLine": 415,
+              "procedure": "P_DA_MONEY_TRANSFER",
+              "type": "DIRECT_REFERENCE",
+              "text": ", ''PARAYATIRMA'' TRF_SUB_TP"
+            }
+          ]
+        },
+        {
+          "stepId": "P_INC_DA_MONEY_TRNSFR-475",
+          "stepLine": 472,
+          "procedure": "P_DA_MONEY_TRANSFER",
+          "occurrences": 2,
+          "references": [
+            {
+              "line": 475,
+              "stepId": "P_INC_DA_MONEY_TRNSFR-475",
+              "stepLine": 472,
+              "procedure": "P_DA_MONEY_TRANSFER",
+              "type": "DIRECT_REFERENCE",
+              "text": "(ID, TRF_TP_ID, TRF_SUB_TP, TRX_DT, AMT, CCY_CODE,"
+            },
+            {
+              "line": 481,
+              "stepId": "P_INC_DA_MONEY_TRNSFR-475",
+              "stepLine": 472,
+              "procedure": "P_DA_MONEY_TRANSFER",
+              "type": "DIRECT_REFERENCE",
+              "text": "ID, TRF_TP_ID, TRF_SUB_TP, TRX_DT, AMT, CCY_CODE"
+            }
+          ]
+        },
+        {
+          "stepId": "P_INC_DA_MONEY_TRNSFR-480",
+          "stepLine": 492,
+          "procedure": "P_DA_MONEY_TRANSFER",
+          "occurrences": 1,
+          "references": [
+            {
+              "line": 499,
+              "stepId": "P_INC_DA_MONEY_TRNSFR-480",
+              "stepLine": 492,
+              "procedure": "P_DA_MONEY_TRANSFER",
+              "type": "DIRECT_REFERENCE",
+              "text": ", ''TALIMATHH'' TRF_SUB_TP"
+            }
+          ]
+        },
+        {
+          "stepId": "P_INC_DA_MONEY_TRNSFR-481",
+          "stepLine": 569,
+          "procedure": "P_DA_MONEY_TRANSFER",
+          "occurrences": 2,
+          "references": [
+            {
+              "line": 572,
+              "stepId": "P_INC_DA_MONEY_TRNSFR-481",
+              "stepLine": 569,
+              "procedure": "P_DA_MONEY_TRANSFER",
+              "type": "DIRECT_REFERENCE",
+              "text": "(ID, TRF_TP_ID, TRF_SUB_TP, TRX_DT, AMT, CCY_CODE,"
+            },
+            {
+              "line": 578,
+              "stepId": "P_INC_DA_MONEY_TRNSFR-481",
+              "stepLine": 569,
+              "procedure": "P_DA_MONEY_TRANSFER",
+              "type": "DIRECT_REFERENCE",
+              "text": "ID, TRF_TP_ID, TRF_SUB_TP, TRX_DT, AMT, CCY_CODE"
+            }
+          ]
+        },
+        {
+          "stepId": "P_INC_DA_MONEY_TRNSFR-500",
+          "stepLine": 588,
+          "procedure": "P_DA_MONEY_TRANSFER",
+          "occurrences": 2,
+          "references": [
+            {
+              "line": 595,
+              "stepId": "P_INC_DA_MONEY_TRNSFR-500",
+              "stepLine": 588,
+              "procedure": "P_DA_MONEY_TRANSFER",
+              "type": "DIRECT_REFERENCE",
+              "text": "(ID, TRF_TP_ID, TRF_SUB_TP, TRX_DT, TRX_TM, AMT, CCY_CODE, CUST_ID"
+            },
+            {
+              "line": 599,
+              "stepId": "P_INC_DA_MONEY_TRNSFR-500",
+              "stepLine": 588,
+              "procedure": "P_DA_MONEY_TRANSFER",
+              "type": "DIRECT_REFERENCE",
+              "text": "SELECT /*+ PARALLEL(16) */  ID, TRF_TP_ID, TRF_SUB_TP, TRX_DT, TRX_TM, AMT, CCY_CODE, CUST_ID"
+            }
+          ]
+        },
+        {
+          "stepId": "P_INC_DA_MONEY_TRNSFR-800",
+          "stepLine": 637,
+          "procedure": "P_DA_MONEY_TRANSFER",
+          "occurrences": 1,
+          "references": [
+            {
+              "line": 650,
+              "stepId": "P_INC_DA_MONEY_TRNSFR-800",
+              "stepLine": 637,
+              "procedure": "P_DA_MONEY_TRANSFER",
+              "type": "DIRECT_REFERENCE",
+              "text": "AND A.TRF_SUB_TP IN (''HH'', ''IH'',''KH'')"
+            }
+          ]
+        }
+      ],
+      "indirectReferences": []
+    },
+    {
+      "packageName": "SNPADM.PKG_DA_MONITORING",
+      "directReferences": [
+        {
+          "stepId": "P_DA_NO42_CTRL-100",
+          "stepLine": 474,
+          "procedure": "P_DA_NO42_CTRL",
+          "occurrences": 1,
+          "references": [
+            {
+              "line": 491,
+              "stepId": "P_DA_NO42_CTRL-100",
+              "stepLine": 474,
+              "procedure": "P_DA_NO42_CTRL",
+              "type": "DIRECT_REFERENCE",
+              "text": "AND TRF_SUB_TP = ''HT''"
+            }
+          ]
+        }
+      ],
+      "indirectReferences": []
+    },
+    {
+      "packageName": "SNPADM.PKG_DA_PATTERN_DATA",
+      "directReferences": [
+        {
+          "stepId": "P_DA_MONEY_TRANSFER-100",
+          "stepLine": 265,
+          "procedure": "P_DA_MONEY_TRANSFER",
+          "occurrences": 11,
+          "references": [
+            {
+              "line": 271,
+              "stepId": "P_DA_MONEY_TRANSFER-100",
+              "stepLine": 265,
+              "procedure": "P_DA_MONEY_TRANSFER",
+              "type": "DIRECT_REFERENCE",
+              "text": "A.TRF_ID ID, A.TRF_TP_ID, A.TRF_SUB_TP"
+            },
+            {
+              "line": 294,
+              "stepId": "P_DA_MONEY_TRANSFER-100",
+              "stepLine": 265,
+              "procedure": "P_DA_MONEY_TRANSFER",
+              "type": "DIRECT_REFERENCE",
+              "text": "CASE WHEN TRF_SUB_TP = ''HH'' THEN 100005038"
+            },
+            {
+              "line": 295,
+              "stepId": "P_DA_MONEY_TRANSFER-100",
+              "stepLine": 265,
+              "procedure": "P_DA_MONEY_TRANSFER",
+              "type": "DIRECT_REFERENCE",
+              "text": "WHEN TRF_SUB_TP = ''HI'' THEN 100005034"
+            },
+            {
+              "line": 296,
+              "stepId": "P_DA_MONEY_TRANSFER-100",
+              "stepLine": 265,
+              "procedure": "P_DA_MONEY_TRANSFER",
+              "type": "DIRECT_REFERENCE",
+              "text": "WHEN TRF_SUB_TP = ''GIDEFT'' THEN 600020000"
+            },
+            {
+              "line": 320,
+              "stepId": "P_DA_MONEY_TRANSFER-100",
+              "stepLine": 265,
+              "procedure": "P_DA_MONEY_TRANSFER",
+              "type": "DIRECT_REFERENCE",
+              "text": "AND A.TRF_SUB_TP IN (''HH'', ''HI'', ''GIDEFT'',''KH'')  --II, IH olanların cust_id si 0, bunları çıkardık HT leri de çıkardık"
+            },
+            {
+              "line": 321,
+              "stepId": "P_DA_MONEY_TRANSFER-100",
+              "stepLine": 265,
+              "procedure": "P_DA_MONEY_TRANSFER",
+              "type": "DIRECT_REFERENCE",
+              "text": "AND ((A.TRF_SUB_TP = ''GIDEFT'' AND MSG_ST = 99 AND NVL(RELATED_PD_REF_NO, 0) = 0)"
+            },
+            {
+              "line": 322,
+              "stepId": "P_DA_MONEY_TRANSFER-100",
+              "stepLine": 265,
+              "procedure": "P_DA_MONEY_TRANSFER",
+              "type": "DIRECT_REFERENCE",
+              "text": "OR (A.TRF_SUB_TP IN (''HH'', ''HI'', ''KH'') AND A.ST IN (''01'',''03'')))"
+            },
+            {
+              "line": 333,
+              "stepId": "P_DA_MONEY_TRANSFER-100",
+              "stepLine": 265,
+              "procedure": "P_DA_MONEY_TRANSFER",
+              "type": "DIRECT_REFERENCE",
+              "text": "A.ID, A.TRF_TP_ID, A.TRF_SUB_TP"
+            },
+            {
+              "line": 339,
+              "stepId": "P_DA_MONEY_TRANSFER-100",
+              "stepLine": 265,
+              "procedure": "P_DA_MONEY_TRANSFER",
+              "type": "DIRECT_REFERENCE",
+              "text": "WHEN TRF_SUB_TP IN (''HH'', ''HI'', ''GIDEFT'') THEN TRIM(SENDER_BANK_CODE) || ''-'' || TRIM(SENDER_BRNCH) || ''-'' ||  SENDER_ACCT_NO"
+            },
+            {
+              "line": 345,
+              "stepId": "P_DA_MONEY_TRANSFER-100",
+              "stepLine": 265,
+              "procedure": "P_DA_MONEY_TRANSFER",
+              "type": "DIRECT_REFERENCE",
+              "text": ", CASE WHEN TRF_SUB_TP = ''HH'' THEN I.FULL_NM"
+            },
+            {
+              "line": 351,
+              "stepId": "P_DA_MONEY_TRANSFER-100",
+              "stepLine": 265,
+              "procedure": "P_DA_MONEY_TRANSFER",
+              "type": "DIRECT_REFERENCE",
+              "text": ", CASE WHEN TRF_SUB_TP = ''HH'' THEN TRIM(RCPNT_BANK_CODE) || ''-'' || TRIM(RCPNT_BRNCH) || ''-'' ||  RCPNT_ACCT_NO_CLN"
+            }
+          ]
+        },
+        {
+          "stepId": "P_DA_MONEY_TRANSFER-300",
+          "stepLine": 399,
+          "procedure": "P_DA_MONEY_TRANSFER",
+          "occurrences": 1,
+          "references": [
+            {
+              "line": 403,
+              "stepId": "P_DA_MONEY_TRANSFER-300",
+              "stepLine": 399,
+              "procedure": "P_DA_MONEY_TRANSFER",
+              "type": "DIRECT_REFERENCE",
+              "text": "SELECT A.ID, A.TRF_TP_ID, A.TRF_SUB_TP, A.TRX_DT, A.TRX_TM, A.AMT, A.CCY_CODE,  A.CUST_ID"
+            }
+          ]
+        },
+        {
+          "stepId": "P_DA_MONEY_TRANSFER-400",
+          "stepLine": 441,
+          "procedure": "P_DA_MONEY_TRANSFER",
+          "occurrences": 2,
+          "references": [
+            {
+              "line": 445,
+              "stepId": "P_DA_MONEY_TRANSFER-400",
+              "stepLine": 441,
+              "procedure": "P_DA_MONEY_TRANSFER",
+              "type": "DIRECT_REFERENCE",
+              "text": "SELECT ID, TRF_TP_ID, TRF_SUB_TP, TRX_DT, TRX_TM, AMT, CCY_CODE, CUST_ID, SENDER_BANK_CODE, SENDER_BRNCH, SENDER_ACCT_NO, SENDER_ACCT_TP"
+            },
+            {
+              "line": 452,
+              "stepId": "P_DA_MONEY_TRANSFER-400",
+              "stepLine": 441,
+              "procedure": "P_DA_MONEY_TRANSFER",
+              "type": "DIRECT_REFERENCE",
+              "text": ", ''ATMKARTSIZ'' TRF_SUB_TP"
+            }
+          ]
+        },
+        {
+          "stepId": "P_DA_MONEY_TRANSFER-500",
+          "stepLine": 500,
+          "procedure": "P_DA_MONEY_TRANSFER",
+          "occurrences": 2,
+          "references": [
+            {
+              "line": 507,
+              "stepId": "P_DA_MONEY_TRANSFER-500",
+              "stepLine": 500,
+              "procedure": "P_DA_MONEY_TRANSFER",
+              "type": "DIRECT_REFERENCE",
+              "text": "(ID, TRF_TP_ID, TRF_SUB_TP, TRX_DT, TRX_TM, AMT, CCY_CODE, CUST_ID"
+            },
+            {
+              "line": 510,
+              "stepId": "P_DA_MONEY_TRANSFER-500",
+              "stepLine": 500,
+              "procedure": "P_DA_MONEY_TRANSFER",
+              "type": "DIRECT_REFERENCE",
+              "text": "SELECT /*+ PARALLEL(16)*/  ID, TRF_TP_ID, TRF_SUB_TP, TRX_DT, TRX_TM, AMT, CCY_CODE, CUST_ID"
+            }
+          ]
+        },
+        {
+          "stepId": "P_DA_MONEY_TRANSFER-600",
+          "stepLine": 517,
+          "procedure": "P_DA_MONEY_TRANSFER",
+          "occurrences": 1,
+          "references": [
+            {
+              "line": 525,
+              "stepId": "P_DA_MONEY_TRANSFER-600",
+              "stepLine": 517,
+              "procedure": "P_DA_MONEY_TRANSFER",
+              "type": "DIRECT_REFERENCE",
+              "text": "AND A.TRF_SUB_TP IN (''GELEFT'')"
+            }
+          ]
+        }
+      ],
+      "indirectReferences": []
+    }
+  ]
+}

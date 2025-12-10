@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { CCard, CCardBody, CCardHeader, CRow, CCol } from '@coreui/react';
 import CustomTable from '../../../components/common/CustomTable';
 import './ProcLogTable.css';
@@ -152,7 +152,7 @@ const ProcLogTable = () => {
     };
 
     try {
-      const response = await fetch(API_ENDPOINTS.ENHANCED_EDW_PROC_LOG_ANOMALY, {
+      const response = await fetch(API_ENDPOINTS.EDW_PROC_LOG_ANOMALY, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -164,6 +164,7 @@ const ProcLogTable = () => {
         const rawData = await response.json();
         const parsedData = JSON.parse(rawData[0]);
         setProcLogData(parsedData);
+        setCurrentPage(1); // Yeni veri geldiğinde sayfa numarasını sıfırla
         
         if (parsedData.length === 0) {
           showAlert('Belirtilen kriterlere uygun anomali bulunamadı.', 'info');
@@ -180,13 +181,13 @@ const ProcLogTable = () => {
           }
         }
       } else {
-        console.error('Error:', response.statusText);
         setProcLogData([]);
+        setCurrentPage(1); // Hata durumunda da sayfa numarasını sıfırla
         showAlert('Veri çekme hatası oluştu.', 'danger');
       }
     } catch (error) {
-      console.error('Error:', error);
       setProcLogData([]);
+      setCurrentPage(1); // Hata durumunda da sayfa numarasını sıfırla
       showAlert('Bağlantı hatası oluştu.', 'danger');
     } finally {
       setIsLoading(false);
@@ -257,6 +258,13 @@ const ProcLogTable = () => {
 
   const totalPages = Math.ceil(procLogData.length / itemsPerPage);
 
+  // Sayfa numarasını veri değiştiğinde kontrol et ve düzelt
+  useEffect(() => {
+    if (totalPages > 0 && currentPage > totalPages) {
+      setCurrentPage(1);
+    }
+  }, [procLogData, totalPages, currentPage]);
+
   const columns = [
     { header: 'Analiz Dönemi', accessor: 'analysisPeriod', truncate: false, tooltip: 'Analiz edilen zaman dilimi' },
     { header: 'Grup', accessor: 'groupKey', truncate: true, maxLength: 20, tooltip: 'Step/Procedure/Package grubu' },
@@ -297,9 +305,9 @@ const ProcLogTable = () => {
       )}
 
       {/* Temel Parametreler */}
-      <CRow className="align-items-center mb-4">
+      <CRow className="align-items-center mb-3">
         <CCol xs={12}>
-          <h5 className="mb-3">Temel Parametreler</h5>
+          <h5 className="mb-2" style={{ fontSize: '1rem', fontWeight: 600 }}>Temel Parametreler</h5>
         </CCol>
         
         <CCol xs={12} md={2}>
@@ -384,14 +392,26 @@ const ProcLogTable = () => {
         </CCol>
       </CRow>
 
-      {/* Gelişmiş Parametreler */}
-      <CRow className="align-items-center mb-4">
-        <CCol xs={12}>
-          <h5 className="mb-3">Gelişmiş İstatistik Parametreleri</h5>
-        </CCol>
-
-        <CCol xs={12} md={2}>
-          <CFormLabel htmlFor="zScoreThreshold">Z-Score Eşiği</CFormLabel>
+      {/* Gelişmiş Parametreler - Collapsible */}
+      <details className="mb-3" style={{ cursor: 'pointer' }}>
+        <summary style={{ 
+          fontSize: '1rem', 
+          fontWeight: 600, 
+          color: 'var(--cui-body-color)', 
+          listStyle: 'none',
+          marginBottom: '0.75rem',
+          padding: '0.5rem',
+          borderRadius: '4px',
+          backgroundColor: 'var(--cui-gray-100, rgba(0,0,0,0.05))'
+        }}>
+          <span style={{ userSelect: 'none' }}>
+            Gelişmiş İstatistik Parametreleri
+            <span style={{ fontSize: '0.875rem', marginLeft: '0.5rem', opacity: 0.7 }}>▼</span>
+          </span>
+        </summary>
+        <CRow className="align-items-center mt-2">
+          <CCol xs={12} md={2}>
+            <CFormLabel htmlFor="zScoreThreshold">Z-Score Eşiği</CFormLabel>
           <CTooltip content="Z-Score anomali tespit eşiği (önerilen: 2.0)" placement="top">
             <CFormInput
               id="zScoreThreshold"
@@ -443,29 +463,77 @@ const ProcLogTable = () => {
           </CTooltip>
         </CCol>
 
-        <CCol xs={12} md={2} className="mt-4">
-          <CTooltip content="Anomali analizi başlat" placement="top">
-            <LoadingButton isLoading={isLoading} onClick={fetchProcLogData}>
-              Analiz Et
-            </LoadingButton>
-          </CTooltip>
+        </CRow>
+      </details>
+
+      {/* Analiz Butonu - Ana Konum */}
+      <CRow className="mb-3">
+        <CCol xs={12} className="text-end">
+          <LoadingButton isLoading={isLoading} onClick={fetchProcLogData} size="lg">
+            Analiz Et
+          </LoadingButton>
         </CCol>
       </CRow>
 
-      <CustomTable
-        data={procLogData}
-        columns={columns}
-        currentPage={currentPage}
-        itemsPerPage={itemsPerPage}
-        totalPages={totalPages}
-        onPageChange={setCurrentPage}
-        truncateText={truncateText}
-        modalContent={modalContent}
-        isModalVisible={isModalVisible}
-        onShowFullText={handleShowFullText}
-        onCloseModal={() => setIsModalVisible(false)}
-        customRowRender={customRowRender}
-      />
+      {/* Tablo - Sadece veri geldiğinde göster */}
+      {procLogData.length > 0 && (
+        <CRow className="mt-4">
+          <CCol xs={12}>
+            <CCard className="shadow-sm" style={{ 
+              backgroundColor: 'var(--cui-card-bg)',
+              borderColor: 'var(--cui-border-color)',
+              borderRadius: '8px'
+            }}>
+              <CCardHeader style={{ 
+                backgroundColor: 'var(--cui-card-cap-bg)',
+                borderBottom: '1px solid var(--cui-border-color)',
+                borderRadius: '8px 8px 0 0'
+              }}>
+                <h5 className="mb-0" style={{ color: 'var(--cui-body-color)' }}>
+                  Analiz Sonuçları ({procLogData.length} kayıt)
+                </h5>
+              </CCardHeader>
+              <CCardBody>
+                          <CustomTable
+                  data={procLogData}
+                  columns={columns}
+                  currentPage={currentPage}
+                  itemsPerPage={itemsPerPage}
+                  totalPages={totalPages}
+                  onPageChange={setCurrentPage}
+                  truncateText={truncateText}
+                  modalContent={modalContent}
+                  isModalVisible={isModalVisible}
+                  onShowFullText={handleShowFullText}
+                  onCloseModal={() => setIsModalVisible(false)}
+                  customRowRender={customRowRender}
+                />
+              </CCardBody>
+            </CCard>
+          </CCol>
+        </CRow>
+      )}
+
+      {/* Veri yoksa bilgilendirme */}
+      {procLogData.length === 0 && !isLoading && (
+        <CRow className="mt-4">
+          <CCol xs={12}>
+            <CCard className="shadow-sm" style={{ 
+              backgroundColor: 'var(--cui-card-bg)',
+              borderColor: 'var(--cui-border-color)',
+              borderRadius: '8px'
+            }}>
+              <CCardBody className="text-center py-5">
+                <div style={{ fontSize: '3rem', marginBottom: '1rem', opacity: 0.3 }}>📊</div>
+                <h5 className="text-muted mb-2">Analiz Sonuçları Burada Görünecek</h5>
+                <p className="text-muted mb-0">
+                  Yukarıdaki parametreleri doldurup "Analiz Et" butonuna tıklayın.
+                </p>
+              </CCardBody>
+            </CCard>
+          </CCol>
+        </CRow>
+      )}
     </>
   );
 };
